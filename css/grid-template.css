@@ -1,0 +1,6 @@
+
+.grid-template img {
+    width: 49%;
+    max-width: 500px;
+    min-width: 150px;
+}
