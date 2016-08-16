@@ -5,3 +5,10 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+.starter-template h1 {
+  font-family: 黑体
+}
+.starter-template p {
+  color: rgba(69, 72, 70, 0.79);
+}

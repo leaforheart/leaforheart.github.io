@@ -1,0 +1,11 @@
+.footer-template {
+    padding: 5px 0px;
+    text-align: center;
+    margin:7% 0px 0px 0px;
+}
+
+.footer-template p {
+    color: rgba(141, 141, 148, 0.79);
+    font-family: 宋体;
+    font-size: 12px;
+}
