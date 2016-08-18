@@ -2,12 +2,12 @@ body {
   padding-top: 50px;
 }
 #header-bar {
-  background-color:rgba(28, 141, 217, 0.79);
+  background-color:rgb(28, 141, 217);
 }
 
-#header-bar.container {
+#header-font {
   color: rgba(255, 255, 255, 0);
-  font-family:Consolas;
+  font-family: Tahoma;
 }
 
 .starter-template {
