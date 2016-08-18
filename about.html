@@ -37,14 +37,14 @@
                 $('#contact-bar').removeClass('active');
             })
             $('#about-bar').bind('click',function () {
-                $('#home-bar').removeClass('active');
                 $('#about-bar').addClass('active');
+                $('#home-bar').removeClass('active');
                 $('#contact-bar').removeClass('active');
             })
             $('#contact-bar').bind('click',function () {
+                $('#contact-bar').addClass('active');
                 $('#home-bar').removeClass('active');
                 $('#about-bar').removeClass('active');
-                $('#contact-bar').addClass('active');
             })
         })
     </script>
@@ -60,7 +60,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://leaforbook.com">LeaforBook</a>
+            <a class="navbar-brand" href="http://leaforbook.com">leaforbook</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
