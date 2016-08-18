@@ -1,0 +1,11 @@
+.table-template {
+    padding-top: 20px;
+    color: rgba(28, 175, 255, 0.79);
+}
+
+.table-template .caption {
+    margin-left: 0.5rem;
+    color: rgb(28, 141, 217);
+    font-family: 楷体;
+    font-size:18px;
+}
