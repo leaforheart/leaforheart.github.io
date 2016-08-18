@@ -4,8 +4,8 @@
 
 .grid-template img {
     width: 100%;
-    max-width: 400px;
-    min-width: 250px;
+    max-width: 350px;
+    min-width: 200px;
 }
 
 .grid-template h3{font-size: 3rem; margin: 5% 0 5%;  color: rgba(34, 144, 148, 0.79);font-family: 黑体}
