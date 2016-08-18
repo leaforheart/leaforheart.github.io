@@ -1,6 +1,9 @@
 body {
   padding-top: 50px;
 }
+#header-bar {
+  background-color:rgba(28, 141, 217, 0.79);
+}
 .starter-template {
   padding: 40px 15px;
   text-align: center;
@@ -8,7 +11,7 @@ body {
 
 .starter-template h1 {
   font-family: 黑体;
-  color: rgba(28, 141, 217, 0.79);
+  color: rgb(28, 141, 217);
 }
 .starter-template p {
   color: rgba(28, 175, 255, 0.79);
