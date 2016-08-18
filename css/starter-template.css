@@ -5,11 +5,6 @@ body {
   background-color:rgb(28, 141, 217);
 }
 
-#header-font {
-  color: rgba(255, 255, 255, 0);
-  font-family: Tahoma;
-}
-
 .starter-template {
   padding: 40px 15px;
   text-align: center;
