@@ -1,6 +1,5 @@
 var ctx1 = document.getElementById("clientChart");
 var clientChart = new Chart(ctx1, {
-
     type: "radar",
     data: {
         labels: ["基准线","jQuery", "CSS/CSS3", "Html5", "Bootstrap", "Javascript"],
