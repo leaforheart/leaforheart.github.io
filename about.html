@@ -17,11 +17,15 @@
     <!-- Custom styles for this template -->
     <link href="../../leaforheart.github.io/css/starter-template.css" rel="stylesheet">
 
+    <link href="../../leaforheart.github.io/css/carousel-template.css" rel="stylesheet">
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
 
     <script src="../../leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <script src="//cdn.bootcss.com/Chart.js/2.2.1/Chart.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -71,6 +75,60 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+
+<div >
+    我的技能图谱
+</div>
+
+<div id="myCarousel" class="carousel slide">
+    <!-- 轮播（Carousel）指标 -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
+    </ol>
+    <!-- 轮播（Carousel）项目 -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="mychart">
+                <canvas id="clientChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="serverChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="dbChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="toolChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="otherChart" ></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- 轮播（Carousel）导航 -->
+    <a class="carousel-control left" href="#myCarousel"
+       data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel"
+       data-slide="next">&rsaquo;</a>
+</div>
+
+<div >
+    wo
+</div>
+
+<script src="../../leaforheart.github.io/js/radar-chart.js"></script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
