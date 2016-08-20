@@ -3,6 +3,7 @@
 }
 
 .contact-border{width:100%;  margin:5rem auto 0 auto; border:1px solid #d3d3d3; background:#fff; -moz-border-radius:5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px; border-radius:5px;}
+#timeline-main {min-height:50rem}
 #timeline-main ol,ul{list-style:none}
 
 .sec-title {
@@ -23,10 +24,6 @@
     #timeline-main{width:100%; margin:10px auto;  -moz-border-radius:0px;-khtml-border-radius: 0px;-webkit-border-radius: 0px; border-radius:0px;}
 
 }
-
-
-
-
 
 body {
     background-color: #f8f8f8;
