@@ -1,6 +1,11 @@
+body {
+    background-color: #f8f8f8;
+}
+
 .table-template {
     padding-top: 20px;
     color: rgba(28, 175, 255, 0.79);
+    width:90%;  margin:5rem auto 0 auto; border:1px solid #d3d3d3; background:#fff; -moz-border-radius:5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px; border-radius:5px;
 }
 
 .table-template .caption {
@@ -8,4 +13,11 @@
     color: rgb(28, 141, 217);
     font-family: 楷体;
     font-size:18px;
+}
+
+@media screen and (min-width: 320px) and (max-width : 480px) {
+    html{-webkit-text-size-adjust: none;}
+    #header{width:100%}
+    .table-template{width:100%; margin:10px auto;  -moz-border-radius:0px;-khtml-border-radius: 0px;-webkit-border-radius: 0px; border-radius:0px;}
+
 }
