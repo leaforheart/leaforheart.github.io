@@ -18,7 +18,8 @@
     <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
 
     <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
@@ -37,17 +38,17 @@
 
     <script>
         $(document).ready(function () {
-            $('#home-bar').bind('click',function () {
+            $('#home-bar').bind('click', function () {
                 $('#home-bar').addClass('active');
                 $('#about-bar').removeClass('active');
                 $('#contact-bar').removeClass('active');
             })
-            $('#about-bar').bind('click',function () {
+            $('#about-bar').bind('click', function () {
                 $('#home-bar').removeClass('active');
                 $('#about-bar').addClass('active');
                 $('#contact-bar').removeClass('active');
             })
-            $('#contact-bar').bind('click',function () {
+            $('#contact-bar').bind('click', function () {
                 $('#home-bar').removeClass('active');
                 $('#about-bar').removeClass('active');
                 $('#contact-bar').addClass('active');
@@ -61,7 +62,8 @@
 <nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -81,28 +83,23 @@
 <ol class="breadcrumb">
     <li><a href="/leaforheart.github.io/index.html">Home</a></li>
     <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
-    <li class="active">Shiro</li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：1 Shiro简介</li>
 </ol>
-<h1>Shiro</h1>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 col-md-4">
 
-        </div>
-        <div class="col-sm-12 col-md-4">
-            <div id="tree"></div>
-        </div>
-        <div class="col-sm-12 col-md-4">
+<h1>1 Shiro简介</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年08月21日</p></div>
 
-        </div>
+<div class="article-text">
 
-    </div>
 </div>
 
+<div class="article-next-back">
+    <div class="article-back">上一篇：没有了</div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/shiro/translate/terminology.html">2 Shiro术语</a></div>
+</div>
 
-<link href="/leaforheart.github.io/blog/css/index.css" rel="stylesheet">
-<link href="/leaforheart.github.io/css/jqtree.css" rel="stylesheet">
-<script src="/leaforheart.github.io/js/tree.jquery.js"></script>
-<script src="/leaforheart.github.io/blog/js/shiro.js"></script>
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
 </body>
 </html>

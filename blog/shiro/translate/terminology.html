@@ -1,10 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
 </head>
+
 <body>
+
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html">leaforbook</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：2 Shiro术语</li>
+</ol>
+
+<h1>2 Shiro术语</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年08月21日</p></div>
+
+<div class="article-text">
+    <span><div><div style="white-space: pre-wrap; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; font-size: 14px;"><span style="font-weight:bold">Apache Shiro术语</span></div><div
+            style="white-space: pre-wrap; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">请花两分钟时间去阅读并理解它——它真的非常重要。这里包含的术语和概念将会出现在所有文档中，它们将大大地简化你对Shiro的认知甚至对通用安全问题的认知。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">通过应用各种各样的术语使安全问题变得复杂起来，我们通过明确一些核心概念来使问题变得简单些，你将从Shiro API中感受到它们对这些核心概念的优雅映射。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">认证（Authentication）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">认证是一个验证主体（Subject）的身份的过程——本质上就是证明某人是否是他自称的那个人。当一次认证尝试成功，应用就能信任这个主体确实是它所期望的主体。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">授权（Authorization）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">授权，也就是通常所说的访问控制，是一个判定某个主体是否被允许做某事的过程。它通常首先依靠检查主体的角色（Roles）和权限（Permissions），然后判定是否允许这个主体请求某个资源或功能。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">密码（Cipher）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">密码是一种执行加密或解密的算法。这种算法通常将一小段信息称为秘钥（key）。因为加密过程是根据不同的秘钥进行的，所以如果没有秘钥的话解密过程将十分困难。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">密码有各种各样的变化。分组密码通常生成固定长度的符号块，而流密码生成一串连续的符号流。对称密码使用相同的秘钥进行加密解密，而非对称密码使用不同的秘钥进行加密解密。如果不能根据非对称密码的其中一个密钥推导出另一个密钥，那么其中一个密钥就可以作为私钥，另一个密钥作为公钥，成为一组公/私密钥对。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">凭证（Credential）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">凭证是用来验证主体身份的一小段信息。在认证身份的过程中，凭证被当事人（Principal）提交给系统。凭证通常是非常秘密的东西，只有特定的主体才应该知道，如密码（password）、PGP密钥、生物属性或其他类似机制。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">建议只有一个人（Person）知道对应于当事人的唯一凭证。如果当前主体提供的凭证和系统中存储的该主体的凭证一致，那么系统就会认为当前主体确实是该主体所自称的那个“人”。可信度按照安全凭证的类型可以划为多个层级（比如：生物属性&gt;密码）。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">密码技术（Cryptography）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">密码技术用来保护信息免受非法访问，通过隐藏信息或将其转成无意义的信息，使得只有一个人可以读取它。Shiro着重于密码技术的两个重点技术：一是密码（Cipher），就像电子邮件使用公钥或私钥加密数据（加密之后可以解密）；一是哈希（又名消息摘要），就像通行证（passwords）一样不可逆地加密数据。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">哈希（Hash）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">哈希函数是对输入源进行单向不可逆的转换操作。函数的结果是一个哈希值，它有时候被称作被编码进哈希值的消息，有时候被称为消息摘要。它经常被用于通行证（passwords），数字指纹或者字节数组里的数据。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">权限（Permission）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">一个权限，至少在Shiro里面的定义，是用来描述应用里面最原始的功能，而没有其他更多的作用。权限是安全策略中最低级别的组成部分。它们定义了应用能做什么。它们没有描述谁能执行这些动作。一个权限只陈述行为，而没有其他。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">下面是一些权限的例子：</div><ol><li
+            style="list-style-type: decimal; list-style-position: inside; white-space: pre-wrap; text-indent: 56px; font-size: 14px;">打开一个文件</li><li
+            style="list-style-type: decimal; list-style-position: inside; white-space: pre-wrap; text-indent: 56px; font-size: 14px;">查看web页面</li><li
+            style="list-style-type: decimal; list-style-position: inside; white-space: pre-wrap; text-indent: 56px; font-size: 14px;">打印文档</li><li
+            style="list-style-type: decimal; list-style-position: inside; white-space: pre-wrap; text-indent: 56px; font-size: 14px;">删除一个用户</li></ol><div
+            style="white-space: pre-wrap; text-indent: 84px; font-size: 14px;">……</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; font-size: 14px;">Principal（不好翻译，有些地方就暂且叫当事人）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">在应用中，任何可以识别主体身份的属性都可以是Principal。一个“识别属性”可以是任何在你应用中合理的东西——用户名（username），姓氏（surname），大名（given name），社会安全号码（social security number），或者用户ID（user ID）等等。是的，没啥好大惊小怪。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">Shiro还定义了主体的primary principal。任何的principal都可以作为primary principal，因为它们都能在整个应用中唯一地标识主体。理想的primary principal应该是关系型数据库中用户表的主键，如用户名或用户ID。应用中主体只有一个primary principal。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; text-align: left; font-size: 14px;">Realm（可以看做是封装好了的数据源“视图”）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">Realm是可以访问特定应用的安全数据（如用户、角色、权限）的组件。可以看成是安全领域特有的DAO（数据访问对象）。Realm把特定应用的安全数据翻译成Shiro可以理解的数据格式，这样就不管存在多少数据源，也不管数据源的格式是什么，Shiro都可以相应地提供一套简单易懂的针对主体编程的API。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">Realm和数据源通常是一对一的，比如可能对应一个关系型数据库，LDAP 目录，文件系统或其他相似的资源。因此，Realm接口的实现是通过特定数据源的API访问认证数据（角色、权限等等），比如JDBC, File IO, Hibernate or JPA, 或者其他数据访问API.</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; text-align: left; font-size: 14px;">角色（Role）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">角色的定义取决于你的应用是什么。在很多应用中，角色都是一种模糊的概念，人们通常把角色用来隐式地定义安全策略。Shiro喜欢把角色简单地看做是权限的集合。也就是一个组合了一个或多个权限集合的名称。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">比起那些隐式地定义安全策略的应用，这种定义显得更具体。如果你的数据模型符合Shiro的定义方式，你就会发现你能更有力地控制安全策略。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; text-align: left; font-size: 14px;">会话（Session）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">Session是一段时间内主体和系统之间交互产生的上下文相关的有状态数据。当主体和应用交互时Session数据可能被添加、读取、删除，数据产生后应用在必要的时候还可以使用它们。当主体退出应用或长时间没有操作会导致Session失效。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; text-align: left; font-size: 14px;">和HttpSession类似，Shiro session实现了同样的目标，除此之外Shiro session还能用在任何环境中，即使没有Servlet容器或EJB容器。</div><ul><li
+            style="list-style-type: disc; list-style-position: inside; white-space: pre-wrap; text-indent: 28px; text-align: left; font-size: 14px;">主体（Subject）</li></ul><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;">主体只是一个花哨的安全术语，大体上是指应用用户在安全领域的“视图”。一个主体并不一定代表一个人——它也能代表一个调用你的程序的外部进程，或者是一个定时执行的后台系统账户（比如job）。它可以是任何和应用交互的实体。</div><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;"><br/></div><hr style="clear: both;"/><div
+            style="white-space: pre-wrap; text-indent: 56px; font-size: 14px;"><br/></div><div style="font-size: 14px;"><a
+            href="http://shiro.apache.org/terminology.html"><span
+            style="color:#0000ff;font-weight:bold;text-decoration:underline">原文地址</span></a></div></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/introduction.html">1 Shiro简介</a></div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/shiro/translate/tutorial.html">3 Shiro简短教程</a>
+    </div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
 
 </body>
 </html>
