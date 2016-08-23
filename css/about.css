@@ -2,9 +2,24 @@
     margin: 1rem 1rem 5rem 1rem;
 }
 
-.contact-border{width:100%;  margin:5rem auto 0 auto; border:1px solid #d3d3d3; background:#fff; -moz-border-radius:5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px; border-radius:5px;}
-#timeline-main {min-height:50rem}
-#timeline-main ol,ul{list-style:none}
+.contact-border {
+    width: 100%;
+    margin: 5rem auto 0 auto;
+    border: 1px solid #d3d3d3;
+    background: #fff;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#timeline-main {
+    min-height: 50rem
+}
+
+#timeline-main ol, ul {
+    list-style: none
+}
 
 .sec-title {
     color: rgb(28, 141, 217);
@@ -12,19 +27,60 @@
     margin-top: 5rem;
     font-family: 黑体;
 }
+
 .sec-desc {
-    color: rgba(28, 141, 217,0.9);
+    color: rgba(28, 141, 217, 0.9);
     text-align: center;
     font-family: 楷体;
 }
 
-@media screen and (min-width: 320px) and (max-width : 480px) {
-    html{-webkit-text-size-adjust: none;}
-    #header{width:100%}
-    #timeline-main{width:100%; margin:10px auto;  -moz-border-radius:0px;-khtml-border-radius: 0px;-webkit-border-radius: 0px; border-radius:0px;}
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    html {
+        -webkit-text-size-adjust: none;
+    }
+
+    #header {
+        width: 100%
+    }
+
+    #timeline-main {
+        width: 100%;
+        margin: 10px auto;
+        -moz-border-radius: 0px;
+        -khtml-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
 
 }
 
 body {
     background-color: #f8f8f8;
+}
+
+.self-introduction {
+    width: 100%;
+    margin: 5rem auto 0 auto;
+    border: 1px solid #d3d3d3;
+    background: #fff;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding:1rem 5rem 1rem 5rem ;
+    text-align: center;
+    color: rgb(28, 141, 217);
+    font-family: 楷体;
+    font-size:2rem;
+}
+
+.self-introduction .LeadIn {
+    font-size: 3rem;
+    font-family: Tahoma;
+}
+
+footer {
+    text-align: center;
+    font-family: Tahoma;
+    margin: 5rem auto 2rem auto;
 }
