@@ -22,7 +22,8 @@
     <link href="/leaforheart.github.io/css/timeline.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
 
     <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
@@ -37,31 +38,34 @@
 
     <script>
         $(document).ready(function () {
-            $('#home-bar').bind('click',function () {
+            $('#home-bar').bind('click', function () {
                 $('#home-bar').addClass('active');
                 $('#about-bar').removeClass('active');
                 $('#contact-bar').removeClass('active');
             })
-            $('#about-bar').bind('click',function () {
+            $('#about-bar').bind('click', function () {
                 $('#about-bar').addClass('active');
                 $('#home-bar').removeClass('active');
                 $('#contact-bar').removeClass('active');
             })
-            $('#contact-bar').bind('click',function () {
+            $('#contact-bar').bind('click', function () {
                 $('#contact-bar').addClass('active');
                 $('#home-bar').removeClass('active');
                 $('#about-bar').removeClass('active');
             })
+
+
         })
     </script>
 </head>
 <body>
 <img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
 
-<nav class="navbar navbar-default navbar-fixed-top"  id="header-bar">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -80,11 +84,12 @@
 </nav>
 
 <audio controls>
-    <source src="/leaforheart.github.io/audio/summer.mp3"  type="audio/mpeg">
+    <source src="/leaforheart.github.io/audio/summer.mp3" type="audio/mpeg">
 </audio>
 
 <div class="self-introduction">
-    <p class="self-desc-content"><span class="LeadIn">Hello</span>，我是肖一林，目前是一名Java服务端程序员。江西赣州人，长期在深圳工作。上面的音乐是久石让的Summer，不妨点开轻松一夏吧。继续往下了解我的时间轴和技能图谱，都是及时更新的哦……</p>
+    <p class="self-desc-content"><span class="LeadIn">Hello</span>，我是肖一林，目前是一名Java服务端程序员。江西赣州人，长期在深圳工作。上面的音乐是久石让的Summer，不妨点开轻松一夏吧。继续往下了解我的时间轴和技能图谱，都是及时更新的哦……
+    </p>
 </div>
 
 <h2 class="sec-title">我的时间轴</h2>
@@ -198,48 +203,41 @@
 <h2 class="sec-title">我的技能图谱</h2>
 <p class="sec-desc">不同级别的分数代表不同的掌握程度 1.x表示了解过理论 2.x表示了解过理论并且运行过DEMO 3.x表示有项目实践 4.x表示项目实践很丰富 5.x表示很精通</p>
 
-<div id="myCarousel" class="carousel slide  contact-border">
-    <!-- 轮播（Carousel）指标 -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-        <li data-target="#myCarousel" data-slide-to="4"></li>
-    </ol>
-    <!-- 轮播（Carousel）项目 -->
-    <div class="carousel-inner">
-        <div class="item active">
-            <div class="mychart">
-                <canvas id="clientChart" ></canvas>
-            </div>
-        </div>
-        <div class="item">
-            <div  class="mychart">
-                <canvas id="serverChart" ></canvas>
-            </div>
-        </div>
-        <div class="item">
-            <div  class="mychart">
-                <canvas id="dbChart" ></canvas>
-            </div>
-        </div>
-        <div class="item">
-            <div  class="mychart">
-                <canvas id="toolChart" ></canvas>
-            </div>
-        </div>
-        <div class="item">
-            <div  class="mychart">
-                <canvas id="otherChart" ></canvas>
-            </div>
-        </div>
+<div class="jcarousel-wrapper">
+    <div class="jcarousel">
+        <ul>
+            <li>
+                <div class="mychart">
+                    <canvas id="clientChart" ></canvas>
+                </div>
+            </li>
+            <li>
+                <div  class="mychart">
+                    <canvas id="serverChart" ></canvas>
+                </div>
+            </li>
+            <li>
+                <div  class="mychart">
+                    <canvas id="dbChart" ></canvas>
+                </div>
+            </li>
+            <li>
+                <div  class="mychart">
+                    <canvas id="toolChart" ></canvas>
+                </div>
+            </li>
+            <li>
+                <div  class="mychart">
+                    <canvas id="otherChart" ></canvas>
+                </div>
+            </li>
+        </ul>
     </div>
-    <!-- 轮播（Carousel）导航 -->
-    <a class="carousel-control left" href="#myCarousel"
-       data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#myCarousel"
-       data-slide="next">&rsaquo;</a>
+
+    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+    <p class="jcarousel-pagination"></p>
 </div>
 
 <footer><a href="/leaforheart.github.io/contact.html">Contact me</a></footer>
@@ -252,6 +250,9 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="/leaforheart.github.io/js/jquery.jcarousel.min.js"></script>
+<script src="/leaforheart.github.io/js/jcarousel.responsive.js"></script>
+<link href="/leaforheart.github.io/css/jcarousel.responsive.css" rel="stylesheet">
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
 </body>
