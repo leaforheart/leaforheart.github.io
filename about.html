@@ -30,6 +30,8 @@
 
     <script src="//cdn.bootcss.com/Chart.js/2.2.1/Chart.min.js"></script>
 
+    <script src="/leaforheart.github.io/js/jquery.touchSwipe.min.js"></script>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -54,13 +56,14 @@
                 $('#about-bar').removeClass('active');
             })
 
-            $("#owl-example").owlCarousel({
-                navigation : true, // Show next and prev buttons
-                slideSpeed : 300,
-                paginationSpeed : 400,
-                singleItem:true
+            $("#myCarousel").swipe({
+                swipeLeft: function() { $(this).carousel('next'); },
+                swipeRight: function() { $(this).carousel('prev'); },
             });
+
         })
+
+
     </script>
 </head>
 <body>
@@ -208,56 +211,63 @@
 <h2 class="sec-title">我的技能图谱</h2>
 <p class="sec-desc">不同级别的分数代表不同的掌握程度 1.x表示了解过理论 2.x表示了解过理论并且运行过DEMO 3.x表示有项目实践 4.x表示项目实践很丰富 5.x表示很精通</p>
 
-<div class="jcarousel-wrapper">
-    <div class="jcarousel">
-        <ul>
-            <li>
-                <div class="mychart">
-                    <canvas id="clientChart" ></canvas>
-                </div>
-            </li>
-            <li>
-                <div  class="mychart">
-                    <canvas id="serverChart" ></canvas>
-                </div>
-            </li>
-            <li>
-                <div  class="mychart">
-                    <canvas id="dbChart" ></canvas>
-                </div>
-            </li>
-            <li>
-                <div  class="mychart">
-                    <canvas id="toolChart" ></canvas>
-                </div>
-            </li>
-            <li>
-                <div  class="mychart">
-                    <canvas id="otherChart" ></canvas>
-                </div>
-            </li>
-        </ul>
+<div id="myCarousel" class="carousel slide  contact-border">
+    <!-- 轮播（Carousel）指标 -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
+    </ol>
+    <!-- 轮播（Carousel）项目 -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="mychart">
+                <canvas id="clientChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="serverChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="dbChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="toolChart" ></canvas>
+            </div>
+        </div>
+        <div class="item">
+            <div  class="mychart">
+                <canvas id="otherChart" ></canvas>
+            </div>
+        </div>
     </div>
-
-    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-
-    <p class="jcarousel-pagination"></p>
+    <!-- 轮播（Carousel）导航 -->
+    <a class="carousel-control left" href="#myCarousel"
+       data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel"
+       data-slide="next">&rsaquo;</a>
 </div>
 
 <footer><a href="/leaforheart.github.io/contact.html">Contact me</a></footer>
 
 <script src="/leaforheart.github.io/js/radar-chart.js"></script>
-<script src="/leaforheart.github.io/js/jquery.mobile.custom.min.js"></script>
+
 <script src="/leaforheart.github.io/js/timeline.main.js"></script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="/leaforheart.github.io/js/jquery.jcarousel.min.js"></script>
+<!--<script src="/leaforheart.github.io/js/jquery.jcarousel.min.js"></script>
 <script src="/leaforheart.github.io/js/jcarousel.responsive.js"></script>
-<link href="/leaforheart.github.io/css/jcarousel.responsive.css" rel="stylesheet">
+<link href="/leaforheart.github.io/css/jcarousel.responsive.css" rel="stylesheet"> -->
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
 </body>
