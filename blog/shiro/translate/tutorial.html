@@ -70,7 +70,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -92,11 +93,228 @@
 <div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年08月21日</p></div>
 
 <div class="article-text">
-    待更新...
+    <span><div style="font-size: 14px;">     <span style="font-size: 21px;"><b>你的第一个Apache Shiro应用</b></span></div><div
+            style="font-size: 14px;"><br/></div><div><span style="font-size: 15px;">     如果你是刚开始接触Apache Shiro，这个简短的教程将会展示怎么构建一个被Apache Shiro保护的简单应用。我们将讨论Shiro的核心概念来帮助你熟悉Shiro的设计和它的API。</span></div><div><span
+            style="font-size: 15px;">     如果你不想编辑教程中涉及到的文件。你可以从下列两个应用程序获取到一个差不多一样的应用，作为参考：</span></div><div><ul><li
+            style="list-style: disc inside; white-space: pre-wrap; margin-left: 28px;"><span style="font-size: 15px;">在Apache Shiro的git库：<a
+            href="https://github.com/apache/shiro/tree/master/samples/quickstart"><span
+            style="font-family: 'Helvetica Neue'; color: rgb(64, 104, 195); text-decoration: underline;">https://github.com/apache/shiro/tree/master/samples/quickstart</span></a></span></li><li
+            style="list-style: disc inside; white-space: pre-wrap; margin-left: 28px;"><span style="font-size: 15px;">在Apache Shiro的源码发布目录<span
+            style="font-family: monospace;">samples/quickstart，</span>源码发布页是<a
+            href="http://shiro.apache.org/download.html"><span
+            style="font-family: 'Helvetica Neue'; color: rgb(50, 84, 160);">Download</span></a></span></li></ul></div><div
+            style="font-size: 14px;"><br/></div><div style="font-size: 14px;">     <span
+            style="font-size: 19px;"><b>构建</b></span></div><div style="font-size: 14px;"><br/></div><div
+            style="font-size: 14px;">     <span style="font-size: 15px;">在这个简单的例子中，我们将会创建一个简单的命令行应用，它能跑起来并且很快结束。它能让你对Shiro的API有个感性的认识。</span></div><div
+            style="font-size: 14px;"><br/></div><div style="font-size: 14px;">     </div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.92836676217765%;"><div>  <i><span
+            style="font-size: 15px;">Apache Shiro从一开始就被设计成支持所有的应用-从最简单的命令行应用到最庞大的web集群应用。尽管在本教程中我们只创建了一个简单的应用，但是无论在那种应用以及该应用部署在哪，用法都是一样的。</span></i></div></td></tr></table><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;"><br/></span></div><div><span
+            style="font-size: 15px;">     本教程要求Java1.5或更高版本。我们也采用了Apache Maven作为构建工具，当然这不是必须的。你可以获取Shiro的jar包，以任何你喜欢的方式包含进你的应用，比如可能用Apache Ant和Ivy。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">     本教程中，请确保使用Maven2.2.1或更高版本。你可以通过在命令行窗口执行mvn --version命令，得到类似以下信息：</span></div><div
+            style="text-indent: 28px;"><div><span style="font-size: 14px;"><br/></span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div
+            style="text-align: center">Testing Maven Installation</div></div></div><hr/><div style="text-indent: 28px;"><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div><br/></div><div>hazlewood:~/shiro-tutorial$ mvn --version</div><div>Apache Maven 2.2.1 (r801777; 2009-08-06 12:16:01-0700)</div><div>Java version: 1.6.0_24</div><div>Java home: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home</div><div>Default locale: en_US, platform encoding: MacRoman</div><div>OS name: &quot;mac os x&quot; version: &quot;10.6.7&quot; arch: &quot;x86_64&quot; Family: &quot;mac&quot;</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div style="text-indent: 28px;"><div><span
+            style="font-size: 15px;">现在你可以在你的文件系统新建一个目录，比如叫做shiro-tutorial，并且保存下面的pom.xml文件：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div
+            style="text-align: center">pom.xml</div></div></div></div><hr/><div style="text-indent: 28px;"><div
+            style="text-indent: 28px;"><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div><br/></div><div>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;<br/>
+        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<br/>
+        xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;<br/><br/>
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;<br/>
+    &lt;groupId&gt;org.apache.shiro.tutorials&lt;/groupId&gt;<br/>
+    &lt;artifactId&gt;shiro-tutorial&lt;/artifactId&gt;<br/>
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;<br/>
+    &lt;name&gt;First Apache Shiro Application&lt;/name&gt;<br/>
+    &lt;packaging&gt;jar&lt;/packaging&gt;<br/><br/>
+    &lt;properties&gt;<br/>
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;<br/>
+    &lt;/properties&gt;<br/><br/>
+    &lt;build&gt;<br/>
+        &lt;plugins&gt;<br/>
+            &lt;plugin&gt;<br/>
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;<br/>
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;<br/>
+                &lt;version&gt;2.0.2&lt;/version&gt;<br/>
+                &lt;configuration&gt;<br/>
+                    &lt;source&gt;1.5&lt;/source&gt;<br/>
+                    &lt;target&gt;1.5&lt;/target&gt;<br/>
+                    &lt;encoding&gt;${project.build.sourceEncoding}&lt;/encoding&gt;<br/>
+                &lt;/configuration&gt;<br/>
+            &lt;/plugin&gt;<br/><br/>
+            &lt;!-- This plugin is only to test run our little application.  It is not<br/>
+                needed in most Shiro-enabled applications: --&gt;<br/>
+            &lt;plugin&gt;<br/>
+                &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;<br/>
+                &lt;artifactId&gt;exec-maven-plugin&lt;/artifactId&gt;<br/>
+                &lt;version&gt;1.1&lt;/version&gt;<br/>
+                &lt;executions&gt;<br/>
+                    &lt;execution&gt;<br/>
+                        &lt;goals&gt;<br/>
+                            &lt;goal&gt;java&lt;/goal&gt;<br/>
+                        &lt;/goals&gt;<br/>
+                    &lt;/execution&gt;<br/>
+                &lt;/executions&gt;<br/>
+                &lt;configuration&gt;<br/>
+                    &lt;classpathScope&gt;test&lt;/classpathScope&gt;<br/>
+                    &lt;mainClass&gt;Tutorial&lt;/mainClass&gt;<br/>
+                &lt;/configuration&gt;<br/>
+            &lt;/plugin&gt;<br/>
+        &lt;/plugins&gt;<br/>
+    &lt;/build&gt;<br/><br/>
+    &lt;dependencies&gt;<br/>
+        &lt;dependency&gt;<br/>
+            &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;<br/>
+            &lt;artifactId&gt;shiro-core&lt;/artifactId&gt;<br/>
+            &lt;version&gt;1.1.0&lt;/version&gt;<br/>
+        &lt;/dependency&gt;<br/>
+        &lt;!-- Shiro uses SLF4J for logging.  We'll use the 'simple' binding<br/>
+            in this example app.  See http://www.slf4j.org for more info. --&gt;<br/>
+        &lt;dependency&gt;<br/>
+            &lt;groupId&gt;org.slf4j&lt;/groupId&gt;<br/>
+            &lt;artifactId&gt;slf4j-simple&lt;/artifactId&gt;<br/>
+            &lt;version&gt;1.6.1&lt;/version&gt;<br/>
+            &lt;scope&gt;test&lt;/scope&gt;<br/>
+        &lt;/dependency&gt;<br/>
+    &lt;/dependencies&gt;<br/><br/>
+&lt;/project&gt;</div></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="white-space: pre-wrap; text-indent: 28px;"><span style="font-size: 16px;"><b>教程中的类</b></span></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px;"><span style="font-size: 15px;">我们将运行一个命令行程序，所以我们需要创建一个带有main方法的Java类。</span></div><div
+            style="text-indent: 28px;"><div><span style="font-size: 15px;">和pom.xml文件同一个目录下，创建一个src/main/java子目录，在这个子目录下创建一个Tutorial.java文件并包含以下内容：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>src/main/java/Tutorial.java</div></div></div></div></div><hr/><div
+            style="text-indent: 28px;"><div style="text-indent: 28px;"><div style="text-indent: 28px;"><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div><br/></div><div>import org.apache.shiro.SecurityUtils;</div><div>import org.apache.shiro.authc.*;</div><div>import org.apache.shiro.config.IniSecurityManagerFactory;</div><div>import org.apache.shiro.mgt.SecurityManager;</div><div>import org.apache.shiro.session.Session;</div><div>import org.apache.shiro.subject.Subject;</div><div>import org.apache.shiro.util.Factory;</div><div>import org.slf4j.Logger;</div><div>import org.slf4j.LoggerFactory;</div><div><br/></div><div>public class Tutorial {</div><div><br/></div><div>    private static final transient Logger log = LoggerFactory.getLogger(Tutorial.class);</div><div><br/></div><div>    public static void main(String[] args) {</div><div>        log.info(&quot;My First Apache Shiro Application&quot;);</div><div>        System.exit(0);</div><div>    }</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="text-indent: 28px; text-align: left; font-size: 14px;"><div><span style="font-size: 15px;">不用管那些还没用到的import语句，我们很快就会用到它们。现在我们得到了一个典型的命令行应用‘shell’，这个程序的所有功能就是打印“My First Apache Shiro Application”这条文本然后退出。</span></div><div><b><span
+            style="font-size: 19px;"><br/></span></b></div><div><span style="font-size: 19px;"><b>测试运行</b></span></div></div><div
+            style="white-space: pre-wrap; text-indent: 28px; text-align: left; font-size: 14px;"><br/></div><div
+            style="text-indent: 28px; text-align: left;"><div><span style="font-size: 15px;">试试教程中的应用，在教程工程的根目录下（例如 shiro-tutorial）打开命令窗口，执行如下命令：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>mvn compile exec:java</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div style="text-indent: 28px; text-align: left;"><div><span
+            style="font-size: 15px;">然后你就会看到我们教程中的小应用运行起来并且退出。你将看到类似下面的输出：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>1 [Tutorial.main()] INFO Tutorial - My First Apache Shiro Application</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div style="text-indent: 28px; text-align: left;"><span
+            style="font-size: 15px;">我们已经验证了这个应用能运行成功，接下来在这个应用中提供Apache Shiro的功能。随着教程的深入，你可以在每次加入代码后，都执行一下“<span
+            style="font-style:italic">mvn compile exec:java</span>”，看看结果有什么变化。</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 19px;"><b>加入Shiro功能</b></span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">首先要明白的事情是，在一个加入了Shiro功能的应用中，所有Shiro的功能都关联到一个叫做SecurityManager的核心组件。对于熟悉Java security概念的人得解释一句，这和java.lang.SecurityManager不一样。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">我们将在架构章节介绍Shiro的详细设计，现在我们只要知道SecurityManager是Shiro环境的应用的核心，并且每个Shiro环境的应用必须有一个SecurityManager。所以在本教程应用中，我们要做的第一件事就是构建SecurityManager实例。</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 16px;"><b><span
+            style="line-height: 20px;">配置</span></b></span></div><div><br/></div><div><span style="font-size: 15px;">虽然我们可以直接初始化一个SecurityManager类，但是SecurityManager有很多配置项和内部组件，让我们很难用java源码直接初始化——而利用一个可伸缩的文本格式配置文件去初始化它会容易很多。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">为此，Shiro提供了一个默认通用的基于 <a
+            href="http://en.wikipedia.org/wiki/INI_file" rel="nofollow"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">INI</a>文本配置的解决方案。现在大家都厌倦了使用笨重的xml文件，相对而言，INI易读易用而且依赖少。稍后你会看到一个简单易懂的对象图导航（object graph navigation），INI能有效地配置像SecurityManager一样的简单对象图（object graph ）。</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 14px;"><br/></span></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.92836676217765%;"><div><span
+            style="font-size: 15px;"><i>很多配置项</i></span></div><div><span
+            style="font-size: 15px;"><i><br/></i></span></div><div><span style="font-size: 15px;"><i>Shiro的SecurityManager组件及其支持组件都是JavaBeans兼容的，这就使Shiro能够被任何具体的配置格式配置，比如xml, YAML, JSON, Groovy Builder markup等等。INI只是Shiro的通用配置格式，防止其他配置格式在某种环境下不可用。</i></span></div></td></tr></table><div><span
+            style="font-size: 14px;"><br/></span></div><div><b><span style="font-size: 14px;">shiro.ini</span></b></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">我们在这个简单的教程应用中将用INI文件配置SecurityManager组件，首先，在pom.xml同级目录下创建一个src/main/resources目录。然后，在这个目录下创建shiro.ini文件，内容如下：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div
+            style="text-align: center">src/main/resources/shiro.ini</div></div></div></div></div></div></div><hr/><div
+            style="text-indent: 28px;"><div style="text-indent: 28px;"><div style="text-indent: 28px;"><div
+            style="text-indent: 28px; text-align: left;"><div style="text-indent: 28px; text-align: left;"><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div><br/></div><div># =============================================================================</div><div># Tutorial INI configuration</div><div>#</div><div># Usernames/passwords are based on the classic Mel Brooks' film &quot;Spaceballs&quot; :)</div><div># =============================================================================</div><div><br/></div><div># -----------------------------------------------------------------------------</div><div># Users and their (optional) assigned roles</div><div># username = password, role1, role2, ..., roleN</div><div># -----------------------------------------------------------------------------</div><div>[users]</div><div>root = secret, admin</div><div>guest = guest, guest</div><div>presidentskroob = 12345, president</div><div>darkhelmet = ludicrousspeed, darklord, schwartz</div><div>lonestarr = vespa, goodguy, schwartz</div><div><br/></div><div># -----------------------------------------------------------------------------</div><div># Roles with assigned permissions</div><div># roleName = perm1, perm2, ..., permN</div><div># -----------------------------------------------------------------------------</div><div>[roles]</div><div>admin = *</div><div>schwartz = lightsaber:*</div><div>goodguy = winnebago:drive:eagle5</div><div><br/></div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">正如你看到的，这个配置由一组静态用户账户组成，对于本教程应用已经足够了。在后面的章节中，你将会看到复杂的多的用户数据源，比如关系型数据库、目录服务LDAP等等。</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><b><span style="font-size: 16px;"><span
+            style="line-height: 20px;">引用这个配置</span></span></b></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">现在我们有了一个INI文件定义，我们可以在教程应用的类中创建一个SecurityManager实例了。把main方法改成如下内容：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public static void main(String[] args) {<br/><br/></div><div>    log.info(&quot;My First Apache Shiro Application&quot;);</div><div><br/></div><div>    //1.</div><div>    Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);</div><div><br/></div><div>    //2.</div><div>    SecurityManager securityManager = factory.getInstance();</div><div><br/></div><div>    //3.</div><div>    SecurityUtils.setSecurityManager(securityManager);</div><div><br/></div><div>    System.exit(0);</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">你看——只用了三行代码就把Shiro加进教程应用了！多简单！</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">执行一下mvn compile exec:java命令看运行是否正确（由于Shiro的默认日志级别是debug或者更低，所以如果没有error，你将看不到任何日志信息，如果没有信息就说明运行是正确的）。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">上面添加的代码做了如下的事情：</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">1.我们用Shiro的 <span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">IniSecurityManagerFactory</span><span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 获取解析classpath根目录下的shiro.ini文件。它使用了工厂方法模式。classpath:前缀是资源指示器，告诉Shiro从哪里下载ini文件（其他前缀，如url:和file: Shiro也支持）</span></span></div><div><span
+            style="font-size: 15px;">2.调用了factory.getInstance()的时候，解析ini文件并且返回一个反射了这个配置文件的SecurityManager实例。</span></div><div><span
+            style="font-size: 15px;">3.在这个简单例子中，我们把SecurityManager设置成静态单例，通过JVM直接访问。如果在一个JVM中含有多个加了Shiro功能的应用，这种做法就不可取了。在这个简单的例子中，这样做没问题，但是在更多的复杂应用环境中，我们通常把SecurityManager实例放在具体应用的memory中（比如放在web应用的ServletContext或者一个Spring、Guice或者JBoss DI容器实例中）。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 19px;"><b>使用Shiro</b></span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">现在我们的SecurityManager已经构建完成并且可以使用了，现在可以用它做我们真正关心的事情——执行安全操作。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">当保护我们的应用，也许我们问的最相关的问题就是“当前的用户是谁？”或“当前的用户允许做X事吗？”。我们编写或设计用户接口来回答这些问题的方式是有共性的：应用通常是建立在用户行为基础之上的，你希望基于每个用户来实现功能（包括安全功能）。所以，在应用中添加安全功能的最自然的方式就是基于当前用户。Shiro的API用用它的“主体（Subject）”概念代表当前用户。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">在几乎所有的环境中，你可以通过下面的调用方法获取当前执行用户：</span></div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();</div></div><div><br/></div><div><span
+            style="font-size: 15px;">使用 <span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/SecurityUtils.html"
+            style="color: rgb(50, 84, 160); text-decoration: none;">SecurityUtils</a>.<a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/SecurityUtils.html#getSubject()"
+            style="color: rgb(50, 84, 160); text-decoration: none;">getSubject()</a></span><span
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">, 我们可以获取当前执行</span> <span
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html"
+            style="color: rgb(50, 84, 160); text-decoration: none;">Subject</a></span><span
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">. 主体是一个安全术语，它的基本意思是“一个当前执行用户的安全特性视图”</span> 。它不被称为“用户”，是因为“用户”通常用来表示人类。在安全世界里，“主体”这个术语可以表示是一个人，但也可以是一个第三方进程、定时job、守护进程账户或者任何其他相似的东西。它简单地表示“当前和这个软件交互的东西”。但是在大多数情况下，你可以把“主体”概念看成“用户”。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;"><span>在一个独立应用的getSubject()调用，可能返回包含用户数据的主体，用户数据保存在应用特定的地方。在服务器环境（例如Web应用程序）中，它获取基于与当前线程或传入请求相关联的用户数据的主体（Subject）。</span></span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span
+            style="font-size: 15px;">现在你有了一个主体，你能用它做什么呢？</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">如果你想在应用的用户当前会话期间做一些事情，你可以通过下面的代码获取用户的会话：</span></div><div><br/></div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Session session = currentUser.getSession();</div><div>session.setAttribute( &quot;someKey&quot;, &quot;aValue&quot; );</div></div><div><br/></div><div><span
+            style="font-size: 15px;">Session是Shiro特有的东西，提供了大部分你经常用到的HttpSessions的功能，但是有一些额外的好功能，还有一个最大的不同点：它不需要HTTP环境。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">如果部署在给web应用中，默认的Session建立在HttpSession上。但是，在一个非web环境，像这个简单的教程应用，Shiro将默认使用它的企业级Session管理。这意味着你可以在应用中使用同一套API——在任何层级，也不管是在什么部署环境下。这开辟了一个应用的新世界，因为任何应用使用Session都不再强制要求用HttpSession或者EJB的有状态Session Beans。并且，任何客户端技术现在都可以共享Session数据。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">现在你可以获取主体（Subject）和它的Session。那接下来怎么做真正有用的东西呢？比如通过检查角色和权限，判断某用户是否可以做某事？</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">然而，我们只能对已知的用户做这些检查。上面代码的Subject实例代表当前用户，但是谁是当前用户？恩，他们是匿名的——在他们登录过一次之前。所以，首先需要登录：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( !currentUser.isAuthenticated() ) {</div><div>    //collect user principals and credentials in a gui specific manner</div><div>    //such as username/password html form, X509 certificate, OpenID, etc.</div><div>    //We'll use the username/password example here since it is the most common.</div><div>    UsernamePasswordToken token = new UsernamePasswordToken(&quot;lonestarr&quot;, &quot;vespa&quot;);</div><div><br/></div><div>    //this is all you have to do to support 'remember me' (no config - built in!):</div><div>    token.setRememberMe(true);</div><div><br/></div><div>    currentUser.login(token);</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">就这样！不能再简单了！</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">但是如果他们登录尝试失败了会怎样？你可以catch所有种类的异常，并分别处理它们：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>try {</div><div>    currentUser.login( token );</div><div>    //if no exception, that's it, we're done!</div><div>} catch ( UnknownAccountException uae ) {</div><div>    //username wasn't in the system, show them an error message?</div><div>} catch ( IncorrectCredentialsException ice ) {</div><div>    //password didn't match, try again?</div><div>} catch ( LockedAccountException lae ) {</div><div>    //account for that username is locked - can't login.  Show them a message?</div><div>}</div><div>    ... more types exceptions to check if you want ...</div><div>} catch ( AuthenticationException ae ) {</div><div>    //unexpected condition - error?</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">你可以检查到很多种不同的异常，或者抛出你自己定义的异常（Shiro没考虑到的）。参看  <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/AuthenticationException.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">AuthenticationException JavaDoc</a><span
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 获取更多信息。</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.92836676217765%;"><div><i>温馨提示</i></div><div><i><br/></i></div><div><i>安全的最佳实践是给一个通用的登录失败消息给用户，因为你不想被攻击者利用错误消息攻破你的系统</i></div></td></tr></table><div><span
+            style="font-size: 15px;"><br/></span></div><div><span
+            style="font-size: 15px;">OK，现在我们有了一个已登录用户。我们还能做其他什么呢？</span></div><div><span style="font-size: 15px;"><br/></span></div><div><span
+            style="font-size: 15px;">让我们说出他们是谁：</span></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>//print their identifying principal (in this case, a username):</div><div>log.info( &quot;User [&quot; + currentUser.getPrincipal() + &quot;] logged in successfully.&quot; );</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span
+            style="font-size: 14px;">我们也可以测试他们有没有指定的角色：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( currentUser.hasRole( &quot;schwartz&quot; ) ) {</div><div>    log.info(&quot;May the Schwartz be with you!&quot; );</div><div>} else {</div><div>    log.info( &quot;Hello, mere mortal.&quot; );</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 14px;"><br/></span></div><div><span
+            style="font-size: 15px;">我们也能查看他们是否有权限对某一类型的实体进行某种操作：</span></div><div><span style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( currentUser.isPermitted( &quot;lightsaber:weild&quot; ) ) {</div><div>    log.info(&quot;You may use a lightsaber ring.  Use it wisely.&quot;);</div><div>} else {</div><div>    log.info(&quot;Sorry, lightsaber rings are for schwartz masters only.&quot;);</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">当然，我们也可以执行一个极有力量的实例级别的权限检查——检查一个用户是否拥有访问一个实例的特定权限：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( currentUser.isPermitted( &quot;winnebago:drive:eagle5&quot; ) ) {</div><div>    log.info(&quot;You are permitted to 'drive' the 'winnebago' with license plate (id) 'eagle5'.  &quot; +</div><div>                &quot;Here are the keys - have fun!&quot;);</div><div>} else {</div><div>    log.info(&quot;Sorry, you aren't allowed to drive the 'eagle5' winnebago!&quot;);</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 15px;">小意思，对不对？</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span
+            style="font-size: 15px;">最后，当用户使用完了应用，他们能退出：</span></div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>currentUser.logout(); //removes all identifying information and invalidates their session too.</div></div><div><br/></div><div><span
+            style="font-size: 16px;"><b>最终的教程类</b></span></div><div><span style="font-size: 14px;"><br/></span></div><div><span
+            style="font-size: 15px;">当上面所有的示例代码都加进来之后，就成了我们最终的教程类文件。你可以随意编辑它，改变安全检查（甚至改变INI配置），只要你喜欢：</span></div><div><span
+            style="font-size: 14px;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>import org.apache.shiro.SecurityUtils;</div><div>import org.apache.shiro.authc.*;</div><div>import org.apache.shiro.config.IniSecurityManagerFactory;</div><div>import org.apache.shiro.mgt.SecurityManager;</div><div>import org.apache.shiro.session.Session;</div><div>import org.apache.shiro.subject.Subject;</div><div>import org.apache.shiro.util.Factory;</div><div>import org.slf4j.Logger;</div><div>import org.slf4j.LoggerFactory;</div><div><br/></div><div>public class Tutorial {</div><div><br/></div><div>    private static final transient Logger log = LoggerFactory.getLogger(Tutorial.class);</div><div><br/></div><div><br/></div><div>    public static void main(String[] args) {</div><div>        log.info(&quot;My First Apache Shiro Application&quot;);</div><div><br/></div><div>        Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);</div><div>        SecurityManager securityManager = factory.getInstance();</div><div>        SecurityUtils.setSecurityManager(securityManager);</div><div><br/></div><div><br/></div><div>        // get the currently executing user:</div><div>        Subject currentUser = SecurityUtils.getSubject();</div><div><br/></div><div>        // Do some stuff with a Session (no need for a web or EJB container!!!)</div><div>        Session session = currentUser.getSession();</div><div>        session.setAttribute(&quot;someKey&quot;, &quot;aValue&quot;);</div><div>        String value = (String) session.getAttribute(&quot;someKey&quot;);</div><div>        if (value.equals(&quot;aValue&quot;)) {</div><div>            log.info(&quot;Retrieved the correct value! [&quot; + value + &quot;]&quot;);</div><div>        }</div><div><br/></div><div>        // let's login the current user so we can check against roles and permissions:</div><div>        if (!currentUser.isAuthenticated()) {</div><div>            UsernamePasswordToken token = new UsernamePasswordToken(&quot;lonestarr&quot;, &quot;vespa&quot;);</div><div>            token.setRememberMe(true);</div><div>            try {</div><div>                currentUser.login(token);</div><div>            } catch (UnknownAccountException uae) {</div><div>                log.info(&quot;There is no user with username of &quot; + token.getPrincipal());</div><div>            } catch (IncorrectCredentialsException ice) {</div><div>                log.info(&quot;Password for account &quot; + token.getPrincipal() + &quot; was incorrect!&quot;);</div><div>            } catch (LockedAccountException lae) {</div><div>                log.info(&quot;The account for username &quot; + token.getPrincipal() + &quot; is locked.  &quot; +</div><div>                        &quot;Please contact your administrator to unlock it.&quot;);</div><div>            }</div><div>            // ... catch more exceptions here (maybe custom ones specific to your application?</div><div>            catch (AuthenticationException ae) {</div><div>                //unexpected condition?  error?</div><div>            }</div><div>        }</div><div><br/></div><div>        //say who they are:</div><div>        //print their identifying principal (in this case, a username):</div><div>        log.info(&quot;User [&quot; + currentUser.getPrincipal() + &quot;] logged in successfully.&quot;);</div><div><br/></div><div>        //test a role:</div><div>        if (currentUser.hasRole(&quot;schwartz&quot;)) {</div><div>            log.info(&quot;May the Schwartz be with you!&quot;);</div><div>        } else {</div><div>            log.info(&quot;Hello, mere mortal.&quot;);</div><div>        }</div><div><br/></div><div>        //test a typed permission (not instance-level)</div><div>        if (currentUser.isPermitted(&quot;lightsaber:weild&quot;)) {</div><div>            log.info(&quot;You may use a lightsaber ring.  Use it wisely.&quot;);</div><div>        } else {</div><div>            log.info(&quot;Sorry, lightsaber rings are for schwartz masters only.&quot;);</div><div>        }</div><div><br/></div><div>        //a (very powerful) Instance Level permission:</div><div>        if (currentUser.isPermitted(&quot;winnebago:drive:eagle5&quot;)) {</div><div>            log.info(&quot;You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  &quot; +</div><div>                    &quot;Here are the keys - have fun!&quot;);</div><div>        } else {</div><div>            log.info(&quot;Sorry, you aren't allowed to drive the 'eagle5' winnebago!&quot;);</div><div>        }</div><div><br/></div><div>        //all done - log out!</div><div>        currentUser.logout();</div><div><br/></div><div>        System.exit(0);</div><div>    }</div><div>}</div></div><div><span
+            style="font-size: 14px;"><br/></span></div><div><span style="font-size: 19px;"><b><span
+            style="line-height: 20px;">总结</span></b></span></div><div><span style="font-size: 14px;"><br/></span></div><div><span
+            style="font-size: 15px;">希望这个入门教程能帮助你理解怎么在一个基本的应用中通过Shiro的最主要的设计理念（主体和SecurityManager）来构建Shiro。</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">但是，这只是一个相当简单的应用，你应该自问：如果我不想用INI用户账户，而是想连接一个更复杂的用户数据源，我该怎么办？</span></div><div><span
+            style="font-size: 15px;"><br/></span></div><div><span style="font-size: 15px;">要回答这个问题，需要更深入地了解Shiro的架构及其配套的配置机制。我们接下来将介绍Shiro的架构（ <a
+            href="http://shiro.apache.org/architecture.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Architecture">Architecture</a>）。</span></div></div></div></div></div></div></span>
 </div>
 
 <div class="article-next-back">
-    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/terminology.html">2 Shiro术语</a></div>
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/terminology.html">2 Shiro术语</a>
+    </div>
     <div class="article-next">下一篇：暂无</div>
 </div>
 
