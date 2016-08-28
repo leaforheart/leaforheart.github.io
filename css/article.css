@@ -12,6 +12,7 @@ body {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     padding:2rem 2rem 2rem 2rem;
+    word-break: break-all;
 }
 
 .article-text img {
