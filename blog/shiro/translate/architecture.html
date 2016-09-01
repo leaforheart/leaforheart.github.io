@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Shiro架构</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：4 Apache Shiro架构</li>
+</ol>
+
+<h1>4 Apache Shiro架构</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月01日</p></div>
+
+<div class="article-text">
+    <span><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 26px;"><div>Apache Shiro Architecture</div></div><div><br/></div><div>Apache Shiro 的设计目标是让应用的安全功能实现起来更简单，更加直观易用。Shiro的核心设计模拟大多数人思考应用安全的方式——建立在某人或某物与应用交互的上下文里。</div><div><br/></div><div>软件应用通常基于用户行为进行设计。也就是说，你会经常基于用户如何（或应该怎么）和软件交互来设计用户接口或服务API。例如，你可能会说，“如果和应用交互的用户已经登录了，我就会给他们显示一个按钮并且让他们点击后可以看到自己的账户信息，如果他们没有登录，我就给他们显示一个注册按钮”。</div><div><br/></div><div>这个例子说明，写应用很大程度上是为了满足用户的需求。即使这个“用户”不是一个人而是另外一个系统，你写的代码仍然是为了反映和你软件进行交互的某人（或某物）的行为。</div><div><br/></div><div>Shiro在自己的设计中反映了这些理念。通过筛选软件开发者一致认为直观的东西，Apache Shiro几乎在任何应用中都能保持直观易用。</div><div><br/></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>High-Level Overview</div></div><div><br/></div><div>在设计理念的最高层次看，Shiro的架构有三个主要的概念：Subject，SecurityManage和Realms。下图是对这些组件之间如何交互的一个高层次概述，并且紧接着我们将对每一个概念进行阐述：</div><div><br/></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/shiro/images/2.png" type="image/png"
+                                            style="height: auto;"/></div><div style="text-align: center"><br/></div><ul><li><b>Subject</b>： 正如我们在 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><a
+            href="http://shiro.apache.org/tutorial.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Tutorial">Tutorial</a> 中提到的，Subject(主体)本质上是当前执行用户的安全特性“视图”。“User(用户)”这个词通常用来表示人类，而“主体”可以是一个人，但也可以是一个第三方进程、定时job、守护进程账户或者任何其他相似的东西。总而言之就是和这个软件当前交互的东西。</li></ul><div>          </div><div>          所有的Subject实例都绑定到（或者说需要）一个SecurityManager实例。当你和一个Subject交互的时候，这些交互最终都会转化成某个特定的Subject和SecurityManager之间的交互。</div><div><br/></div><ul><li><b>SecurityManager</b>：SecurityManager是Shiro架构的核心，协调各内部安全组件形成一个对象图，从某种意义来说它充当了一种保护伞对象的角色。然而，一旦在应用中配置好了SecurityManager及其内部对象图，它就被晾在一边了，应用开发者将花费他们几乎所有的时间去和Subject API交互。</li></ul><div>          </div><div>          我们稍后再详细讨论SecurityManager，但是你先有这么个认识是很重要的：当你和Subject交互的时候，每一个Subject安全操作的背后，其实都是SecurityManager在幕后做“重活脏活 ”。这反映在上面的基本流程图中。</div><div><br/></div><ul><li><b>Realms</b>：Realms在Shiro和应用安全数据之间起到了一个“桥梁”或“连接”作用。当到了和安全相关数据交互的时候，比如用户账户去执行认证（登录）和授权（访问控制）操作的时候，Shiro会扫描配置在应用中的一个或多个Realms，以获得这些安全相关数据。</li></ul><div><br/></div><div>          在这个意义上，Realm本质上是一个“安全特性 ”的DAO：它封装了数据源的连接细节，并且将相关数据提供给Shiro使用。当配置Shiro的时候，你至少要指定一个Realm用来认证和授权。SecurityManager可能会配置多个Realm，但是               要求必须要有一个。</div><div><br/></div><div>          Shiro提供了现成的Realm，可以连接许多安全数据源（又名目录），比如LDAP，关系型数据库（JDBC），文本配置源（INI或Properties）等等。如果这些默认的Realm不能满足你的需求，你可以插入你自己的Realm实现来表示自定义数据源。</div><div><br/></div><div>          就像其他内部组件一样，由SecurityManager来管理Realm怎么获取安全数据和身份数据，继而用这些数据来表示Subject实例。</div><div><br/></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold; font-size: 20px;">Detailed Architecture</div><div><br/></div><div>下图展示了Shiro的核心概念，每个概念都有一个简短的描述：</div><div><br/></div><div><br/></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/shiro/images/3.png" type="image/png"
+                                            style="height: auto;"/></div><div><br/></div><ul><li><b>Subject</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.subject.Subject</a>)</li></ul><div>          当前和软件交互的实体（用户，第三方服务，定时job，等等）的安全特性“视图”</div><ul><li><b>SecurityManager</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/mgt/SecurityManager.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.mgt.SecurityManager</a>)</li></ul><div>          如上所述，SecurityManager是Shiro架构的核心。它几乎就是一个“保护伞”对象，协调它所管理的组件，保证它们能一起顺畅工作。它还从每个应用用户的角度进行管理，所以它知道怎么去针对每个用户进行安全操作。</div><ul><li><b>Authenticator</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/Authenticator.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authc.Authenticator</a>)</li></ul><div>          Authenticator是负责执行和应对用户进行尝试认证（或者叫登录）的组件。当一个用户视图登录时，背后的逻辑由Authenticator执行。Authenticator知道怎么协调一个或多个存储了相关用户信息的Realm。从这些Realm获取的数据通常被用来验证用户的身份，保证这个用户真的是他们所自称的。</div><ul><li
+            style="list-style: none; display: inline"><ul><li><b>Authentication Strategy</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/AuthenticationStrategy.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authc.pam.AuthenticationStrategy</a>)</li></ul></li></ul><div>                    如果配置了多个Realm，AuthenticationStrategy将协调这些Realm以确定在某种条件下，一个认证尝试是成功的还是失败的。（例如，在其中一个Realm中认证是成功的，但是在其他Realm中却是失败的，这算不算成功？必须所有Realm中都成功才算成功吗？还是只要在第一个Realm中认证？）</div><ul><li><b>Authorizer</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Authorizer.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authz.Authorizer</a>)</li></ul><div>          Authorizer是负责在应用中对用户进行访问控制的组件。它是最终决定某用户是否被允许做某事的规则制定者。跟Authenticator一样，Authorizer也知道怎么协调多个后端数据源，用来访问角色和权限信息。Authorizer使用这些信息来确定某用户是否被允许执行一个给定的动作。</div><ul><li><b>SessionManager</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/session/mgt/SessionManager.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.session.mgt.SessionManager</a>)</li></ul><div>          SessionManager知道怎么去创建和管理用户会话的生命周期，在所有环境下给用户提供一个强大的会话体验。在安全框架的世界里，这是一个特色——Shiro具备在任何环境下原生地管理用户会话的能力，即使在没有web/servlet容器或者EJB容器可用的情况下。默认情况下，Shiro会使用现成可用的会话机制，但是如果没有，比如在一个独立应用或非web环境下，它将会使用其内置的企业级会话管理，以提供相同的编程体验。存在一个叫SessionDAO的东西，使得可以使用任何数据源去持久化会话信息。</div><ul><li
+            style="list-style: none; display: inline"><ul><li><b>SessionDAO</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/session/mgt/eis/SessionDAO.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.session.mgt.eis.SessionDAO</a>)</li></ul></li></ul><div>                    SessionDAO代表SessionManager执行会话信息持久化操作（CRUD），这允许在会话管理基础结构中嵌入任何数据存储方式。</div><ul><li><b>CacheManager</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/cache/CacheManager.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.cache.CacheManager</a>)</li></ul><div>          CacheManager创建和管理由Shiro其他组件所使用的缓存实例的生命周期。因为Shiro可以访问多种后端数据源，用来认证、授权和会话管理，所以框架中缓存通常被当成优先级最高的架构特性，以便在使用这些数据源的时候提高性能。任何现代的开源的或者企业级的缓存产品都可以集成进Shiro，以提供快速高效的用户体验。</div><ul><li><b>Cryptography</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/crypto/package-summary.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.crypto.*</a>)</li></ul><div>          Cryptography很自然地要加进一个企业安全框架。Shiro的密码包包含了对密码、哈希（也叫摘要）以及不同的编解码实现，易用易懂。这个包里面的所有类都被细心地设计成易用易懂。任何使用过Java原生密码支持套件的人都知道，使用它就跟驯服一头猛兽一样难。Shiro的密码API简化了混乱的Java原生机制，让正常人类使用起来更方便。</div><ul><li><b>Realms</b>( <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/realm/Realm.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.realm.Realm</a>)</li></ul><div>          正如上面所提到的，Realms在Shiro和应用安全数据之间起到了一个“桥梁”或“连接”作用。当真的和安全相关的数据进行交互，比如使用用户账户数据进行认证（登录） 和授权（访问控制）的时候，Shiro会从应用里面配置好的一个或多个Realm中查找这些数据。你可以根据需要配置任意多个Realm（通常一个Realm对应一个数据源），在认证和授权这些必要的时候，Shiro都会协调这些Realm。</div><div><br/></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>The <tt>SecurityManager</tt></div></div><div><br/></div><div>因为Shiro的API鼓励大家以Subject为中心的编码方式，所以大部分应用开发者将很少直接和SecurityManager交互（框架开发者有时候可能会发现它有用），即使如此，了解SecurityManager的功能仍然很重要，尤其是当你要配置一个SecurityManager进你的应用的时候。</div><div><br/></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Design</div></div><div><br/></div><div>如前所述，应用的SecurityManager负责对所有的用户执行安全操作和状态管理。在Shiro的默认SecurityManager实现中，包含：</div><div><br/></div><ul><li>Authentication （认证）</li><li>Authorization （授权）</li><li>Session Management （会话管理）</li><li>Cache Management （缓存管理）</li><li>Realm coordination （协调Realm）</li><li>Event propagation （事件传播）</li><li>&quot;Remember Me&quot; Services （“记住我”服务）</li><li>Subject creation （创建主体）</li><li>Logout （退出）</li></ul><div>          等等</div><div><br/></div><div>但这是试图使用单个组件去管理一堆功能。并且，如果一切都集中到单个实现类中，将很难做到灵活可定制。</div><div><br/></div><div>为了简化配置以及使配置灵活，Shiro的所有实现都设计得高度模块化——如此地模块化，以至于SecurityManager（和它的类层级结构）的实现并不需要做太多东西。相反，SecurityManager的实现通常被当成是轻量级的“容器”组件，几乎所有的行为都委派给包装好的组件。这种“包装”设计方式反映在上面的详细架构图中。</div><div><br/></div><div>这些组件真实地执行逻辑，而SecurityManager的实现知道如何以及何时去协调这些组件，以发生正确的行为。</div><div><br/></div><div>SecurityManager的实现也都兼容JavaBeans，这就允许你使用标准的JavaBean的get/set方法，很容易地定制可插拔的组件。这意味着Shiro的模块化架构可以转化成很简单的自定义配置。</div><div><br/></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.92836676217765%;"><div><i><span
+            style="font-size: 16px;">超简单的配置</span></i></div><div><i><br/></i></div><div><i>因为兼容JavaBeans，可以十分简单地给SecurityManager配置第三方组件，只要这些组件支持JavaBean风格的配置，比如Spring、Guice、JBoss等等</i></div></td></tr></table><div><br/></div><div>接下来将介绍 <a
+            href="http://shiro.apache.org/configuration.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Configuration">Configuration</a></div><div><br/></div><div><hr/></div><div><br/></div><div><a
+            href="http://shiro.apache.org/architecture.html">原文地址</a></div><div><br/></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/tutorial.html">3 Apache
+        Shiro教程</a></div>
+    <div class="article-next">下一篇：暂无</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
