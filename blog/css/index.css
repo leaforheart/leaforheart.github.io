@@ -6,6 +6,6 @@ h1 {
     margin-bottom: 2rem;
 }
 
-#tree {
-
+.panel-body {
+    background-color: rgba(223, 240, 216,0.8);
 }
