@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/prose/prose.html">技术散文</a></li>
+    <li class="active">加密技术相关概念浅析</li>
+</ol>
+
+<h1>加密技术相关概念浅析</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月03日</p></div>
+
+<div class="article-text">
+    <span><div style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">本文不是讲述密码学，也不涉及密码算法。旨在阐述总结加密认证相关概念和基本原理，帮助开发者在开发过程中遇到加密认证相关问题时，能有清晰的概念和思路。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">其实信息安全问题来源于生活，人们喜欢传谣，也喜欢了解秘密，所以传输秘密在人类生活中是相当重要的。后来计算机进入了人类生活中，成了人类生活的一部分，这个问题也自然跟着进入了计算机。信息加密通常有两种目的，一种是为了传输秘密，另一种是为了签名认证。传输秘密在生活中很常见，比如耳语、保险箱、医生开出的方子、九阴真经精要部分变成梵文……主要分为两类，一是隐藏信息不让别人知道（计算机处在互联网中，理论上不可能隐藏信息），二是加密处理让别人看成是无用信息。签名认证在生活中也很常见，比如亲笔签名、印章、兵符、玉玺、破镜重圆……主要特点是难以复制，目的是取信于人。在计算机中，为了达到这两种目的，就产生了相应的技术。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">关于传输秘密，主要有对称密码技术和非对称密码技术。特点是只有特定的人能把原来的信息从加密后的信息中提取出来。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">对称密码技术的特点是加密和解密用的密钥是相同的。如果原信息为x，密钥为y，加密后的信息为z。假设存在函数z=f(x,y)，并且存在唯一的函数x=g(z,y)。这样的可逆运算在数学中很常见的，所以在对称密码技术中，加密本身是很简单的。但是怎么让特定的几台计算机都拥有相同的密钥呢？计算机们可不能像人一样可以凑到一块，低声说几句话。计算机之间交换信息必须经过网络，网络之中必然有其他计算机或路由器或其他类似设备，它们都有可能是窃听者。这就形成了一个悖论——相当于既要保密又要大声说话。数学可以解决这个悖论：</div><div
+            style="text-indent: 28px; font-size: 14px;"><div>假设有个函数遵循后面这些规则：x=h(u,v)=h(v,u)，y=h(v,w)=h(w,v)，key=h(x,w)=h(y,u)；h函数没有可逆函数。只有A计算机知道u，只有B计算机知道w，所有计算机都知道v。那么A和B两台计算机最终可以通过h函数得到key，而其他计算机没法得到key。存在这样的函数，共享密钥key的建立也就完成了。</div><div><i>常见的对称加密算法有DES、3DES、Blowfish、IDEA、RC4、RC5、RC6和AES。</i></div></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">非对称密码技术的特点是加密时使用的密钥和解密时使用的密钥不一样，存在公私秘钥对priKey/pubKey。priKey加密过的信息，可以通过pubKey解密出来；相反，pubKey加密过的信息，可以通过priKey解密出来。priKey只有A计算机才知道，pubKey允许所有计算机知道。B计算机有一条信息x，通过pubKey加密后变成y，发送给A计算机。那么A获取加密后的信息y可以用priKey把原信息x提取出来。其他计算机即使截获了加密后的信息y，因为没有priKey，也没有办法获取原信息x。在这种情况下，B计算机可以安全地给A计算机发送信息（或者说任何计算机都可以安全地给A发送信息）。</div><div
+            style="text-indent: 28px; font-size: 14px;"><div>但是还存在两个问题：1，A计算机没法安全地发送信息给B计算机；2，A计算机不知道信息是不是B计算机发过来的（当然有时候A计算机根本没必要知道是谁发过来的）。第一个问题很好解决，就是让B计算机也拥有一对priKeyB/pubKeyB。第二个问题稍后讲述。</div><div><i>常见的非对称加密算法有：RSA、ECC（移动设备用）、Diffie-Hellman、El Gamal、DSA（数字签名用）。</i></div></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">从上文可以看出，对称密码技术比较适合双向交换信息（多对多），非对称密码技术比较适合单向发布和接收信息（一对多）。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">关于签名认证，比较常见的是通行证和CA认证。特点是数字签名是难以复制的。这里也有一个悖论，就是任何数字信息都可以很方便地复制。解决这个悖论的方法是假设有一个绝对可靠的机构，保存这个数字签名，大家都能从这个机构获取到”正版“的数字签名。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">通行证就是俗称的密码登录认证。举个例子，用户在注册的时候，提供一个密码key，服务器通常用哈希算法把密码变成一个哈希值h1存储起来。当用户登录的时候，提供这个密码key，服务器再次用相同的算法把密码变成哈希值h2，再取出服务器中存储的哈希值h1，如果h1=h2，那么服务器就认为登录操作的这个人就是他本人。</div><div
+            style="text-indent: 28px; font-size: 14px;"><div>这里有两个假设：一是加密后的信息不能再还原（或者只能被这个key还原，在通行证应用中最好不要这样做），二是这个服务器绝对可靠，没有猫腻，也不会被黑客攻破。</div><div><i>常见的Hash算法有MD2、MD4、MD5、HAVAL、SHA。</i></div></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">CA认证随处可见，大家安装软件和安装浏览器插件时通常都要CA证书的检查，参考判断这个软件是否是可靠的。CA认证原理和非对称密码技术有关。回到非对称密码的第二个问题：A计算机不知道信息是不是B计算机发过来的。如果B计算机用priKeyB加密y变成z，那么A计算机可以首先用pubKeyB将z还原成y，再用priKey将y还原成最初的信息x。这样A计算机就可以知道这条信息是B计算机发过来的，并且还原了B想要发的原始信息。CA证书就是某机构O用私钥把机构信息加密起来，上传到可信的CA认证机构。大家都可以从CA认证机构下载到机构O的CA证书。当机构O发布软件的时候，用户就可以用公钥把该机构的CA证书里包含的机构信息解析出来，就可以认为这个软件是安全的。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">这里有两个假设：1，公钥绝对是机构O的；2，CA认证机构绝对可靠。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;">从上文可以看出，通行证认证适合机构认证用户身份（一验多），CA认证适合用户认证机构身份（多验一）。</div><div
+            style="white-space: pre-wrap; text-indent: 28px; font-size: 14px;"><br/></div><div
+            style="text-indent: 28px; font-size: 14px;">总结一下，加密技术主要用来传输秘密（同时要确认信息的完整性）和确认发送者的身份。密码源于生活，服务于生活目的。</div></span>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
