@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 系统的知识才有意义</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/note/index.html">恋恋笔记</a></li>
+    <li class="active">系统的知识才有意义</li>
+</ol>
+
+<h1>系统的知识才有意义</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月03日</p></div>
+
+<div class="article-text">
+    <span><div>     整理个站已经有三周了。最初是因为Evernote开始收紧免费空间，考虑到以后可能还会继续收紧。一开始打算转有道云，但是很快发现有道云远远不如Evernote，而且说不定哪天它也要收费。刚好看了一篇博文，作者说自己在Github上写了一本书。然后我就想既然能在上面写书，那么也可以写博客。加深搜索，发现Github有专门的Github Pages服务，免费提供建立个人静态站点服务。这种服务的好处在于，格式内容自己掌控，就算有一天收费了甚至不提供服务了，我还可以把代码转移到自己的服务器中。恰好此前买了一个域名，正好用上。这就是我整理个站的初衷。</div><div><br/></div><div>     虽然在整理个站的时候遇到一些前端问题（如果有人有兴趣帮我改善网站界面，可以联系我，你能很方便地通过Github提交你的修改），但根本目的还是要回归本源：就是把自己的知识系统地整理出来，用以分享备忘积累。因为以前写的东西都是自己一个人看的，所以零零碎碎，杂乱无章。而且以前从来不在博客网站写博文，一是觉得水平不够，二是觉得博客网站的体验太差。现在一切都变得不一样了，写出来的东西要面向所有人，而且因为格式内容都可以自己掌控，因此我下定决心，以后只用个站记录知识。所以，以后加上去的内容都必须是高质量的，拿得出手的。</div><div><br/></div><div>     我从差不多毕业的时候发现了Evernote，从此一直使用它记录问题、做笔记、做收藏……到现在已经四年有余了，积累了近六百条笔记。我试图把这些内容搬到个站，可事实证明这是不可能的。它们有的可能是一条备忘录，有的可能是一段突如其来的感悟，有的可能是没有上下文的读书笔记，有的可能是一段假设，有的可能是一篇完整的文章，有的可能是剪藏他人的网页，有的可能是写了一半没写完……因为杂乱，所以尘封，所以也没有积累的效果。找来找去，只找到两处还算比较系统的。一处是刚毕业去公司的时候，听培训老师讲的Oracle课程的学习笔记；一处是应公司要求做一个技术分享，写了一套关于Tomcat源码解析的系列文章。令人苦笑的是，两处都是因为有外界的压力，所以才让它们变得系统。</div><div><br/></div><div>     现在正好做个比较，系统的知识和零碎的知识有什么区别。我重新看了一遍Tomcat源码解析文章，有一种很奇怪的感觉，就是觉得怎么以前那个时候就那么聪明了？怎么那么聪明过却不记得了？哈哈……然后又看了一篇记录的不怎么完整的笔记，怎么也想不起当初到底是为了什么要写这些东西，觉得这些东西根本不需要记。仔细思考了一会，其实不难理解，系统的知识充满了上下文、因果关联还有一些独创性的想法，这些东西很容易被遗忘，当自己重温的时候，结合新学的知识能激起更深刻的理解，甚至能做一些修正补充。而零碎的知识可能只在当时有用，在以后的情境中，可能都作用不大了，就算有作用也会忘记去找它。对自己如此，对别人差异就更大了。经常看到网上有人贴一大串代码在自己的博客上，可是那有什么意义呢？没人能看出有什么用。</div><div><br/></div><div>     人和知识打交道的时候，无外乎三种方式，一种是学习，一种是分享，一种是应用。刚才讲的其实是分享，讨论了分享系统的知识才有意义。而学习系统的知识就更重要了。经常在技术公众号里面看到各种各样看起来很厉害的架构图，经常看的云里雾里，因为它不是系统的知识。可以这么说，任何流行的技术，应该都是很简单就可以学会的，要不然流行不起来。如果你觉得很难，不是你智商的问题。你应该首先检查你学的知识是不是系统的权威的。如果你只是依靠零散的文章学习新技术，那你十有八九会觉得很难。而且那种机械地堆在一起的高大全的知识不是系统的知识，国产技术书一般都是这样。以我的经验，一本好的技术书，都充满了对过去、现状、未来的描述，让人知道来龙去脉，而且还有很多独家见解，不一定客观但是很能激发思考，让人学起来如沐春风。相信其他载体或题材的知识也一样。</div><div><br/></div><div>     同样，应用系统的知识也很重要。这就是技术项目中需要一个架构师的原因。架构师通过理解现实情景，在大量技术中进行选型，选出最合适的技术组合。这个时候如果来了一个初级工程师，使用了自己最近学的最炫酷的技术，但是不适合在这个项目中用。那么架构师的最初设想就会偏离。如果多来几个这样的初级工程师，并且架构师离开了的话，整个项目过不了多久就没法维护了。架构师应用的是系统的知识，初级工程师应用的是零碎的知识。这是一个在技术项目领域很常见的例子，相信这也是一个放之四海而皆准的道理。</div><div><br/></div><div>     有些人可能会强烈反对。他们认为遇到问题的时候，最快的解决方式就是使用搜索引擎，而通过搜索引擎得到的知识大都是零散的。没错，那是因为搜索引擎使用了非人类的思考方式（人工智能）帮你筛选出了符合你遇到的问题的情境。但是你别忘了，这只能解决你当前的问题。而这个问题本身就是小而孤立的。如果你要创建一个独一无二的系统，你用搜索引擎能搜出来吗？可以，但是你必须专门搜那些系统的知识，看零碎的知识是解决不了这种系统性问题的。</div><div><br/></div><div>     有一个很现实的问题是，不论是学习系统的知识，还是分享系统的知识，还是应用系统的知识，都需要付出巨大的努力，需要投入大量的时间。像我这个例子，四年写了600篇笔记，只有10来篇是系统的，还是在外力作用下完成的，所以对我这样的普通人来说要付出努力是多么困难。但是，当你看到一个博士刚毕业的学生比你厉害，当你看到一本好书的作者年级竟然比你小，当你看到你的年龄竟然和架构师一样大（而你还是一个初级程序员），你就会明白，因为害怕投入你丢失了多少青春。</div><div><br/></div><div>     还有一个很现实的问题是，当你跑进书城，你看到了一片浩瀚的书海……这时候，记住两句话，一句是有舍才有得，另外一句是一切随缘……我只看一个书城中的一两个书架的书。</div><div><br/></div><div>     今天写下这篇文章，希望自己以后更有动力去学习、分享和应用系统的知识，如果能感染别人就更好了，因为系统的知识才有意义。</div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/note/life/20150706.html">人生需要哲学</a></div>
+    <div class="article-next">下一篇：暂无</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
