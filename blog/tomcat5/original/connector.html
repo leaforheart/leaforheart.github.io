@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Tomcat5源码解析-连接器</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/tomcat5/tomcat5-source.html">Tomcat5源码解析</a></li>
+    <li class="active">原创：2 连接器</li>
+</ol>
+
+<h1>2 连接器</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2015年01月13日</p></div>
+
+<div class="article-text">
+    <span style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><b
+            style="font-size: 16px;"><font color="#E30000">一，Tomcat中使用的连接器必须满足以下要求：</font></b><div><ul><li>实现org.apache.catalina.Connector接口</li><li>负责创建实现了org.apache.catalina.Request接口的request对象</li><li>负责创建实现了org.apache.catalina.Response接口的response对象</li></ul><div><hr/><br/></div><div
+            style="font-size: 16px;"><b><font color="#E30000">二，Connector类图</font></b></div><div><br/></div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/4.png" type="image/png" height="453"
+            style="cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;"
+            width="673"/></div></div><div><br/></div><div><hr/><br/></div><div style="font-size: 16px;"><b><font
+            color="#E30000">三，HttpConnector类</font></b></div><div><br/></div><div>实现了三个接口：Connector，Runnable，Lifecycle。</div><div><ul><li>任何连接器都要实现Connector接口</li><li>实现了Runnable接口，就有创建新线程的能力</li><li>实现了Lifecycle接口，就被纳入到生命周期管理。这里我们只需要知道，当创建一个HttpConnector实例后，就应该调用其initialize()方法和start()方法。这两个方法在HttpConnector实例的生命周期内，只执行一次。</li></ul><div>所以我们要了解HttpConnector，就要先了解其initialize()方法和start()方法。</div></div><div><br/></div><div><ul><li><b><font
+            color="#E30000">HttpConnector类的initialize()方法</font></b>，功能是创建ServerSocket。我们看看这个方法里面，哪些是值得学习的。</li></ul><div><hr/></div></div><div>★<b><font
+            color="#E30000">工厂方法模式</font></b></div><div><br/></div><div>结构分析：</div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/5.png" type="image/png" height="421"
+            style="cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;"
+            width="783"/></div><div>角色分析：</div><div><br/></div><div>1.抽象工厂角色（Creator）：可以是接口也可以是抽象类，至少一个返回抽象产品角色的公共方法</div><div>2.具体工厂角色（ConcreteCreator）</div><div>3.抽象产品角色（Product）：可以是接口，也可以是抽象类</div><div>4.具体产品角色（ConcreteProduct）</div><div><br/></div><div>通过这个实例，我谈谈对工厂模式应用场景的看法：</div><div><br/></div><div>首先本例中产品角色是ServerSocket（省略了抽象产品角色），是JDK的开发团队开发的。如果不反编译或者关联源代码，Tomcat的开发团队是看不到ServerSocket的源代码的。这就造成了一个问题，如果不用工厂方法创建模式，Tomact的团队每实例化一次ServerSocket，可能就要翻一下JDK的文档（如果记不住的话）。JDK里面的接口和类比较好记忆，因为有健全的文档，但是如果我们平时，调用了另外一个项目的代码，而这个项目没有文档，也没有源代码。那我们最好自己写一个类A去调用他们的接口，然后在具体要应用的地方直接调用类A就行了，这就是所有创建模式的存在原因。而工厂方法模式是多种创建模式中的一种。常见的创建模式有简单工厂模式、工厂方法模式、抽象工厂模式、单例模式、多例模式、原始模型模式……</div><div><br/></div><div>比如，BDC有一个反面例子，直接调用了一个jar包里面的Action。我第一次用的时候，发现找不到相应的配置文件，然后BDC自己的代码又有同名的Action（namespace不同），定位代码的时候就费了一番周折。如果我们采用一个创建模式，用我们自己的Action调用工厂类，工厂类再创建jar包里面的实例，就不会出现这种问题。</div><div><br/></div><div>总结一下，当我们调用外部接口的时候（可以相对于项目，也可以相对于模块），我们就会想到用创建模式，具体选择哪一种，根据应用场景来，工厂方法模式比较普通，如果没有单例的要求，用的一般就是工厂方法模式。Java引入反射机制后，更普遍用的方法是：简单工厂模式+反射+配置文件。</div><div><br/></div><div>★<b><font
+            color="#E30000">Tomcat里面的StringManager类</font></b></div><div><br/></div><div>这个类主要用来记录日志信息，并且通过调用JDK的ResourceBundle类实现国际化。在Tomcat中，每一个包下面都有几个LocalStrings*.properties文件，这些文件用不同的语言记录了程序当中可能遇到的状态，用键值对的形式保存起来，当程序遇到某种状态的时候，就通过StringManager类获取这个状态的详细描述，并记录起来。另外，StringManager类实例化的时候，用了单例模式——每一个包里面的每一个properties文件加载进一个单例的StringManager实例。</div><div><br/></div><div>Tomcat使用StringManager机制有什么好处呢？</div><div>1.properties文件类似于一个文档，看程序可能有什么样的状态，一目了然</div><div>2.程序记录日志，或打印状态的那些代码会变得更简洁。如果状态的描述有变化，也不用改代码，改properties文件就行了。</div><div>3.可以实现国际化</div><div><br/></div><div>★<b><font
+            color="#E30000">单例模式</font></b></div><div><br/></div><div>单例模式也是一种创建模式。</div><div><br/></div><div>结构分析：</div><div><br/></div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/6.png" type="image/png"
+            style="cursor: default;cursor: default;cursor: default;cursor: default;"/></div><div><br/></div><div>特点分析：</div><div>1.单例类只能有一个实例</div><div>2.单例类必须自己创建自己的实例</div><div>3.单例类必须给所有其他对象提供这一实例</div><div><br/></div><div>在StringManager这个例子中，不是严格的单例模式，而是对应于一个包创建一个StringManager实例。有的设计模式书把它叫做多例模式。这个单例虽然避免了多次创建相同的实例，但是如果修改了properties文件，就要重新编译。</div><div><hr/></div><div><ul><li><b><font
+            color="#E30000">HttpConnector类的start()方法</font></b></li></ul><div>主要作用：</div></div><div>1.创建并启动一个线程</div><div>2.创建有限个HttpProcessor实例。</div><div><br/></div><div>我们把新创建的线程叫做“连接器线程”（因为是在HttpConnector里面创建的）。<b><font
+            color="#328712">创建了线程并启动后，我们就要追踪它的run()方法</font></b>。</div><div><br/></div><div>下面看看创建HttpProcessor实例的方式很有意思。有一个最少个数minProcessors，一个最多个数maxProcessors，和当前个数curProcessors。如果当前个数小于最少个数，就会在HttpConnector类的start()方法不停创建HttpProcessor实例，直到达到最少个数，并压入一个Vector里面；如果将来Vector里面的HttpProcessor实例不够用了，后面还会用一次创建一次，如果超过了最多个数，就不继续创建了，而是等待别的请求用完了的HttpProcessor实例。HttpProcessor实例用完之后，又会压回Vector。</div><div><br/></div><div>把Java对象尽可能地重复利用，这点很值得我们学习。</div><div><br/></div><div>另外，Processor的意思是处理器。我们先不管它有什么具体功能，但是我们隐约知道，一个tomcat能并行处理至少minProcessors个请求，最多能处理maxProcessors个请求。</div><div><hr/><br/></div><div>到此为止，HttpConnector准备好了一个套接字实例（ServerSocket），启动了一个连接器的线程，并准备好了若干处理器实例（HttpProcessor）。我们应该接下来看HttpConnector类的run()方法。</div><div><ul><li><b><font
+            color="#E30000">HttpConnector类的run()方法</font></b></li></ul><div>1.通过准备好的ServerSocket等待请求，生成一个Socket实例</div></div><div>2.取一个处理器实例（HttpProcessor），把Socket实例作为参数传入HttpProcessor类的assign方法（assign的意思是分配、指派，把某个请求分派给某个处理器处理）。</div><div><br/></div><div>当然还有一些异常流程，这里就不探讨了，主要是由两个状态变量控制：started和stopped，判断要不要重新创建ServerSocket实例</div><div><br/></div><div><font
+            color="#328712" style="font-weight: bold;">到此，HttpConnector的使命结束。</font><font>所以，HttpConnector的作用如其名，就是起一个简单的连接作用。</font></div><div><br/></div><div><hr/></div><div><br/></div><div
+            style="font-size: 16px;"><b><font color="#E30000">四，HttpProcessor类</font></b></div><div><br/></div><div>实现了两个接口，Lifecycle和Runable，说明两点，这个类有生命周期，这个类可以创建线程；</div><div>回过头看看HttpConnector的newProcessor方法，我们发现，处理器实例化后，首先执行了start()方法。</div><div><ul><li><b><font
+            color="#E30000">HttpProcessor的start()方法</font></b></li></ul><div>作用就是创建一个线程，我们这里把它称作“处理器线程”。</div></div><div><br/></div><div><hr/><br/></div><div>到此为止，其实有两个线程在运行了。一个是连接器线程，到了HttpProcessor实例的assign方法；一个是处理器线程，到了同一个HttpProcessor实例的run方法。下面我们要同时看这两个方法，才能知道这两个线程是怎么协作的：</div><div><ul><li><font
+            color="#E30000"><b>HttpProcessor的run方法和assign方法</b></font></li></ul><div>1.先看run方法</div></div><div><br/></div><div>available状态变量一开始是false，所以一开始，处理器线程会一直处于等待状态</div><div><br/></div><div>2.再看assign方法</div><div><br/></div><div>通过连接器线程进入assign方法后，available状态变量会变成true（防止被唤醒的处理器线程，处理另外一个连接器分派的任务S，而这个时候任务S的Socket还没准备好，导致第一个任务执行两次，这样可能会造成错误），并且唤醒所有处于wait状态的线程（这里就只有一个处理器线程）。</div><div><br/></div><div>3.再看run方法</div><div><br/></div><div>★处理器线程被连接器线程唤醒，并把available状态变量变为false</div><div>★处理Socket实例，HttpProcessor的process方法</div><div><br/></div><div><b><font
+            color="#328712">总结一下，一个连接有多个任务，每一个任务都会分派给一个处理器，一个处理器实例中有两个线程，通过available状态变量，使两个线程协作。</font></b></div><div><hr/></div><div><br/></div><div>思考一下，为什么HttpProcessor要用多线程？</div><div><br/></div><div>我们现在实际上遇到了三种线程：主线程、连接器线程、处理器线程。下面画个示意图示意一下</div><div><br/></div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/7.png" type="image/png" height="421"
+            style="cursor: default;cursor: default;cursor: default;" width="870"/></div><div><br/></div><div>主线程：黑色</div><div>连接器线程：红色</div><div>处理器线程：绿色</div><div><br/></div><div>可以看得出来，主线程主要是为了创建其他线程，连接器线程主要是给处理器线程提供原料（这里是Socket实例），处理器线程才是真正做事的线程。</div><div><br/></div><div>问题来了，如果连接器线程和处理器线程合并成一个线程不是一样可以并行吗？为什么还要用两个线程呢？</div><div><br/></div><div>分析了一下原因，我觉得最佳解释是，为了让连接器线程执行的更快。如果有两个线程，只要把原料送到，就可以返回处理另外一个请求；如果只有一个线程，那么要处理完第一个任务之后，才能返回处理第二个任务。“其实是排队的并行，伪并行”</div><div><br/></div><div><b><font
+            color="#328712">所以多线程不神秘，也不需要滥用，一个系统用一个多线程模型就行了，先建立模型，然后再安安全全地单线程编程。像Tomcat这以后都不用考虑多线程的问题了，甚至连大部分web应用都不用考虑多线程了。</font></b></div><div><hr/><ul><li><b><font
+            color="#E30000">HttpProcessor的process方法</font></b></li></ul><div>在这里我们终于看到了Servlet API的影子。我这里不想仔细描述这个方法的逻辑，只想列举一下主要功能，以及在后面详细探讨一下Request对象和Response对象。</div></div><div><br/></div><div>1.根据Socket获取输入流和输出流，分别放到Request对象和Response对象里面</div><div>2.解析连接信息和请求信息（整个过程很复杂，就是把二进制流解析成文本信息，再提取各项信息），填充到Request对象和Response对象</div><div>3.把Request对象和Response对象传到容器里面去（下节讲容器的细节）</div><div>4.一些收尾工作</div><div><br/></div><div>整个方法很复杂，其中的细节我虽然看了些，但是要系统的梳理出来恐怕时间和篇幅上不够。</div><div><br/></div><div><hr/><br/></div><div
+            style="font-size: 16px;"><b><font color="#E30000">五，Request和Response</font></b></div><div><br/></div><div>★Request的类图</div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/8.png" type="image/png" height="493" style="cursor: default;" width="872"/></div><div><br/></div><div>★Response的类图</div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/9.png" type="image/png" height="493" style="cursor: default;" width="913"/></div><div><br/></div><div>两者类图相似，Response多使用了JDK的输出接口PrintWriter，所以我就以Request类图为例讲解一下：</div><div><br/></div><div>看看javax.servlet.ServletRequest类就知道，基本上是get方法，设置和解析信息是靠实现Tomcat自己的Request接口，用户获取解析后的信息要靠实现Servlet API。connector.HttpRequestImpl类实现了双方的接口。所以，在Tomcat项目内部，使用的是connector.HttpRequestImpl这个类。但是Tomcat传给web应用开发者的却是connector.HttpRequestFacade这个类。connector.HttpRequestFacade只实现了Servlet API。</div><div><br/></div><div>为什么这么做？</div><div><br/></div><div>如果直接把connector.HttpRequestImpl传给web应用开发者，而Tomcat又是开源的，有些web应用开发者就会去调用Tomcat的接口方法，而这些方法Tomcat团队可能会丢弃或者更改逻辑，那这些web应用就不能用了。所以设计一个外观类只实现Servlet API，一个具体的connector.HttpRequestImpl对象可以强制转换成connector.HttpRequestFacade类型。这样web应用开发者就不会乱调用方法了。而Servlet API是永久兼容的。</div><div><br/></div><div>这应该算是适配器模式，同时实现两种不同的接口，只提供一种接口给使用者用。</div><div><br/></div><div><br/></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/tomcat5/original/preparation.html">知识准备</a></div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/tomcat5/original/container.html">容器</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

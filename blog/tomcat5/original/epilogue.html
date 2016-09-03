@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Tomcat5源码解析-结语</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/tomcat5/tomcat5-source.html">Tomcat5源码解析</a></li>
+    <li class="active">原创：4 结语</li>
+</ol>
+
+<h1>4 结语</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2015年01月13日</p></div>
+
+<div class="article-text">
+    <span style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+     Tomcat的核心就是连接器和容器。但是除了这两个模块，还有很多重要的模块，如Session管理模块、启动模块、部署器、日志管理器等等。随着版本的升级，Tomcat也越来越强大，架构模式也一次跟一次不同，用的技术也越来越高效。
+<div><br/></div><div>     我是第一次读开源项目的源码，而且是跟着书读的，这本书的名字是《深入剖析Tomcat》。这本书把Tomcat4/5的设计思路写的很清楚，而且在详细讲述某个模块的时候，还刻意简化其他模块，用一些简化代码代替，以消除学习干扰。是一本很好的书。但是版本比较老了。而且我们读源码也不可能总是依靠书来。所以我在这总结一下，我认为的心得：</div><div><ul><li>读源码的目的是什么？</li><li
+            style="list-style: none; display: inline"><ul><li>体会代码模式、设计模式和架构模式，讲连接器的时候我主要讲设计模式，讲容器的时候，我主要讲的是架构模式</li><li>体会每天都要接触的工具，究竟是怎么实现的</li><li>开阔视野，我们平时提高技术靠两点，一点是学习理论，一点是项目实践。理论容易造成过度设计，实践容易造成不设计。读优秀源码可以让人体会，设计的时候什么时候宜直接，什么时候宜迂回。</li></ul></li><li>读源码的困难来源？</li><li
+            style="list-style: none; display: inline"><ul><li>源码公布者一般不会告诉你他的架构模式、设计模式是什么，设计思路是什么</li><li>一般不会有人把读源码写成书</li><li>网上的资料都是零碎的，而且并不权威</li></ul></li><li>怎么读源码？</li><li
+            style="list-style: none; display: inline"><ul><li>从使用者的角度，了解它的输入、输出，如果是你，你会怎么把输入变成输出？</li><li>粗略划分源码项目的模型，并且从各种资料中验证你的想法</li><li>各个击破，突出一个模块，简化其他模块</li><li>做笔记，写心得</li></ul></li></ul></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/tomcat5/original/container.html">连接器</a></div>
+    <div class="article-next">下一篇：没有了</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

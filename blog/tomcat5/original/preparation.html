@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Tomcat5源码解析-知识准备</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/tomcat5/tomcat5-source.html">Tomcat5源码解析</a></li>
+    <li class="active">原创：1 知识准备</li>
+</ol>
+
+<h1>1 知识准备</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2015年01月13日</p></div>
+
+<div class="article-text">
+    <span style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+一，HTTP协议
+<div><br/></div><div><ul><li>HTTP请求的例子</li></ul><div><table border="1" cellpadding="2" cellspacing="0" width="100%"><tbody><tr><td
+            valign="top"><div>GET / HTTP/1.1<br/>
+Accept: text/html, application/xhtml+xml, */*<br/>
+Accept-Language: zh-CN<br/>
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)<br/>
+Accept-Encoding: gzip, deflate<br/>
+Host: www.baidu.com<br/>
+Connection: Keep-Alive</div><div><br/>
+请求正文</div></td></tr></tbody></table><div><br/></div></div></div><div><ul><li>HTTP响应的例子</li></ul><div><table border="1"
+                                                                                                            cellpadding="2"
+                                                                                                            cellspacing="0"
+                                                                                                            width="100%"><tbody><tr><td
+            valign="top"><div>HTTP/1.1 200 OK<br/>
+Date: Mon, 15 Dec 2014 07:53:11 GMT<br/>
+Content-Type: text/html<br/>
+Transfer-Encoding: chunked<br/>
+Connection: Keep-Alive<br/>
+Cache-Control: private<br/>
+Expires: Mon, 15 Dec 2014 07:53:11 GMT<br/>
+Server: BWS/1.1<br/>
+BDPAGETYPE: 2<br/>
+BDQID: 0xa963f5f000001f3e<br/>
+BDUSERID: 347544430</div><div><br/></div><div>响应正文</div></td></tr></tbody></table><div><br/></div></div></div><div><br/></div><div><hr/></div><div><br/></div><div>不管是http的请求还是响应的内容，从信息的角度看，都是一段文本（HTTP2.0的请求或响应就不是文本信息了，而是二进制信息）。这段文本的本质就是一系列的命令。这些命令组成一门语言或者是一个协议。而服务器和浏览器要做的事情就是具有解析这门语言或协议的能力。在这里，tomcat要解析的是<b>http请求</b>这门“语言”，浏览器要解析的是<b>http响应</b>这门“语言”。有人会想到，tomcat除了要解析http请求，还要返回http响应。但是tomcat组装http响应其实是纯字符串操作，并不需要复杂的逻辑。所以，<b><font
+            color="#E30000">要读tomcat的源码，第一个重点就是：tomcat是怎么解析http请求的。</font></b></div><div><br/></div><div>这里我也谈谈我对协议的理解：协议对于制定者来说，是一组规则或者是一组命令；对于服务器的开发者来说，就是要他做一个解析这组命令的解析器；对于我们使用者来说，就是一门“语言”。比如在数学领域，四则运算是数学家发明出来的一组规则，老师教我们四则运算其实是把一个解析器植入我们的大脑，我们做算术题的时候，其实是把四则运算当成一门语言了，而这门语言可以解决很多现实问题。<br/>
+ 
+<div><hr/><div>二，Socket机制</div></div><div><br/></div><div>有了协议之后，我们可以根据协议写一段信息，然后发送给服务器。但是通过什么途径，可以把一段信息给发出去呢？这里靠的是各系统或平台都支持的Socket机制。</div><div><br/></div><div>伯克利版本的UNIX系统首先引入socket interface。Lunix，Windows，Java等系统或平台都支持socket interface。</div><div><br/></div><div>Java中Socket关系图：</div><div><img
+                src="/leaforheart.github.io/blog/tomcat5/image/1.jpg" type="image/jpeg" height="521"
+                style="cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;"
+                width="1300"/></div><div><br/></div><div>Socket1和Socket2其实是浏览器的，我们管不着。浏览器端的Socket组成一个队列，排着队试图和我们的Tomcat建立起TCP连接。我们Tomcat中有一个ServerSocket，每当等到一个来自浏览器建立连接的请求，就会new一个Socket出来（比如图中的Socket a和Socket b），和浏览器的那个Socket建立起联系。</div><div><br/></div><div>ServerSocket是依据什么信息建立起来的呢？是IP和端口号。同一个主机的同一个端口号只能创建一个ServerSocket对象。</div><div><br/></div><div>有些书上说ServerSocket是服务器端的套接字，Socket是客户端的套接字，其实是错误的。误导性很大。不管是浏览器还是tomcat，应该都有ServerSocket和Socket这两样东西，只不过可能叫法不一样。我理解ServerSocket是Socket的一个创建工厂。</div><div><br/></div><div><b><font
+                color="#E30000">Tomcat在和客户端建立连接的时候，只要调用几个接口就行了，所以这部分代码很少，算不上重点。但是对于理解tomcat的原理很重要</font></b></div><div><b><font
+                color="#E30000"><br/></font></b></div><div><hr/></div><div><br/></div><div>三，Servlet API</div></div><div><br/></div><div>Servlet提供了一套面向web开发者的API。这些API是抽象的，并没有具体实现。实现这些API，当然也主要是tomcat的任务。在一个web应用中，web开发者只要实现Servlet接口，并把具体的Servlet配置在web.xml中。tomcat从web.xml中获取配置的servlet信息，然后通过反射机制实例化它。而这些Servlet需要的<b>参数以及其他变量</b>（Servlet API的一部分）都通过tomcat提供。</div><div><br/></div><div><b><font
+            color="#E30000">所以Tomcat的第二个重点是怎么实例化Servlet API。</font></b></div><div><b><font color="#E30000"><br/></font></b></div><div><hr/></div><div><br/></div><div>四，Servlet容器</div><div><br/></div><div>一个功能齐全的servlet容器要做的事：</div><div>1.当第一次调用某个servlet时，要载入该servlet类，并调用其init()方法（仅此一次）；</div><div>2.针对每个request请求，创建一个javax.servlet.ServletRequest实例和一个javax.servlet.ServletResponse实例；</div><div>3.调用该servlet的service()方法，将ServletRequest和ServletResponse对象作为参数传入；</div><div>4.当关闭该Servlet类时，调用其destroy()方法，并卸载该servlet类。</div><div><br/></div><div>Tomcat的Servlet容器叫做Catalina【英文意思是<b>远程轰炸机</b>】，主要由连接器（Connector）和容器（Container）两个模块组成。</div><div><br/></div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/2.jpg" type="image/jpeg" height="419"
+            style="cursor: default;cursor: default;cursor: default;cursor: default;cursor: default;" width="909"/></div><div>由上面的分析，我们也可以看得到，Connector主要是解析HTTP请求，Container重要是实现Servlet API。所以Catalina自然也就是以这两个模块构成。</div><div><hr/><br/></div><div>五，总结</div><div><br/></div><div><img
+            src="/leaforheart.github.io/blog/tomcat5/image/3.jpg" type="image/jpeg"/><br/></div><div><br/></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：没有了</div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/tomcat5/original/connector.html">连接器</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
