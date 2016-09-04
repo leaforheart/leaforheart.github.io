@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Shiro配置</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：5 Apache Shiro配置</li>
+</ol>
+
+<h1>5 Apache Shiro配置</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月04日</p></div>
+
+<div class="article-text">
+    <span><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 26px;"><div>Apache Shiro Configuration</div></div><div><br/></div><div>Shiro被设计成可以在任何环境下工作，从简单的命令行应用到最最庞大的企业级集群应用。由于在这种多样性的环境中，所以它有许多配置机制以适应不同的环境。本节覆盖了所有被Shiro核心支持的配置机制。</div><div><br/></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div><i>多种配置项</i></div><div><i><br/></i></div><div><i>Shiro的SecurityManager实现和所有支持的组件都兼容JavaBean。这就允许Shiro几乎可以使用任何配置格式进行配置，比如常规的Java，XML(Spring,JBoss,Guice,等等)，YAML，JSON，Groovy生成器标记，还有更多……</i></div></td></tr></tbody></table><div><br/></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Programmatic Configuration</div></div><div><br/></div><div>创建一个可用的SecurityManager的最简单的办法就是创建一个 <span
+            style="color: rgb(0, 0, 0); font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">org.apache.shiro.mgt.DefaultSecurityManager，并且直接用代码。例如：</span></div><div><span
+            style="font-family: monospace;"><br/></span></div><div><span
+            style="font-family: monospace;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Realm realm = //instantiate or acquire a Realm instance.  We'll discuss Realms later.<br/>
+SecurityManager securityManager = new DefaultSecurityManager(realm);<br/><br/>
+//Make the SecurityManager instance available to the entire application via static memory:</div><div>SecurityUtils.setSecurityManager(securityManager);</div></div><div><span
+            style="font-family: monospace;"><br/></span></div><div>令人惊讶的是，只要3行代码，你已经有了一个适用于很多应用的功能齐全的Shiro环境。很容易对吧？！</div><div><br/></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>SecurityManager Object Graph</div></div><div><br/></div><div>正如在 <a
+            href="http://shiro.apache.org/architecture.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Architecture">Architecture</a>（架构）章节讨论的那样，Shiro的SecurityManager实现本质上是一个嵌套了许多安全特性组件的模块化对象图。又因为它们兼容JavaBean，所以你可以调用任何嵌套组件的getter和setter方法来配置SecurityManager及其内部对象图。</div><div><br/></div><div>例如，如果你想给SecurityManager配置一个定制的SessionDAO来定制 <a
+            href="http://shiro.apache.org/session-management.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Session Management">Session Management</a>组件，你可以直接用内嵌的SessionManager的setSessionDAO方法来设置SessionDAO：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/><br/>
+DefaultSecurityManager securityManager = new DefaultSecurityManager(realm);<br/><br/>
+SessionDAO sessionDAO = new CustomSessionDAO();<br/><br/>
+((DefaultSessionManager)securityManager.getSessionManager()).setSessionDAO(sessionDAO);<br/>
+...<br/><br/></div></div><div><br/></div><div>直接用方法调用，你可以配置SecurityManager的对象图的任何部分。</div><div><br/></div><div>但是，尽管程序定制方案很简单，它在大多数现实应用中并不是理想的配置方案。这里有几个理由解释了为什么程序定制方案不适合你的应用：</div><div><br/></div><ul><li>它要求你必须知道怎么实例化一个具体的实现。而如果你可以不必知道具体的实现以及去哪里找到它们，这样的设计会更加优雅。</li><li>因为Java的类型安全特性，你用get方法得到对象后，必须要强制转换才能得到具体的实现。</li><li>通过SecurityUtils.setSecurityManager方法调用，让SecurityManager实例在VM范围内是个静态单例，这对大多数应用都是适用的，但是如果在一个JVM中同时运行了多个嵌入Shiro的应用就容易出现问题。在应用范围内单例是好事，但不能是一个静态内存引用（也就是说不要在JVM范围内单例）。</li><li>当你要更改一个Shiro配置的时候，你必须重新编译你的代码。</li></ul><div><br/></div><div>然而，尽管有这么多的警告，但你在内存受限的环境下使用直接编程的方法还是有价值的，比如只能手机应用。如果你的应用不是运行在一个内存受限的环境下，你会发现基于文本的配置更加易用易读。</div><div><br/></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>INI Configuration</div></div><div><br/></div><div>大多数应用通过改用基于文本的配置，而获得这些好处：可以独立于源代码进行修改配置，并且可以让那些不熟悉Shiro API的人更容易理解。</div><div><br/></div><div>为了确保有一个具有普适性的基于文本的配置机制——也就是说只要最小的第三方依赖就能在所有环境下工作，Shiro支持用INI格式建立起SecurityManager对象图及其支持的组件。INI容易阅读，容易配置，并且安装起来很简单，适合大部分应用。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Creating a SecurityManager from INI</div></div><div><br/></div><div>这里有两个例子介绍怎么基于INI配置建立起SecurityManager。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>SecurityManager from an INI resource</div></div><div><br/></div><div>我们可以通过一个INI资源路径来创建SecurityManager实例，资源可以分别从文件系统，类路径或者URL获取，分别对应前缀file:，classpath: 或者 url: 。这个例子用一个Factory从classpath根路径下获取shiro.ini文件，然后返回一个SecurityManager实例：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>import org.apache.shiro.SecurityUtils;<br/>
+import org.apache.shiro.util.Factory;<br/>
+import org.apache.shiro.mgt.SecurityManager;<br/>
+import org.apache.shiro.config.IniSecurityManagerFactory;<br/><br/>
+...<br/><br/>
+Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);<br/>
+SecurityManager securityManager = factory.getInstance();</div><div>SecurityUtils.setSecurityManager(securityManager);</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>SecurityManager from an INI instance</div></div><div><br/></div><div>INI配置可以通过 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/config/Ini.html"
+            style="color: rgb(50, 84, 160); text-decoration: none;">org.apache.shiro.config.Ini</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 类程序化构造，这个INI类的功能和JDK中的</span> <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html" rel="nofollow"
+            style="color: rgb(50, 84, 160); text-decoration: none;">java.util.Properties</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 类差不多，但是额外支持通过section名称进行分段。</span></div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>import org.apache.shiro.SecurityUtils;<br/>
+import org.apache.shiro.util.Factory;<br/>
+import org.apache.shiro.mgt.SecurityManager;<br/>
+import org.apache.shiro.config.Ini;<br/>
+import org.apache.shiro.config.IniSecurityManagerFactory;<br/><br/>
+...<br/><br/>
+Ini ini = new Ini();<br/>
+//populate the Ini instance as necessary<br/>
+...<br/>
+Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(ini);<br/>
+SecurityManager securityManager = factory.getInstance();</div><div>SecurityUtils.setSecurityManager(securityManager);</div></div><div> </div><div>现在我们知道怎么通过INI配置构造一个SecurityManager实例，让我们看看到底如何定义一个Shiro INI配置。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>INI Sections</div></div><div><br/></div><div>INI基本上是由一对对键值对组成的文本配置文件，这些键值对由命名唯一的section来组织分类。key只需要在section范围内保证唯一，而不需要在整个配置文件中（这点和JDK的 <a
+            href="http://java.sun.com/javase/6/docs/api/java/util/Properties.html" rel="nofollow"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Properties</a>不一样）。每个section可以被视作就是一个单独的Properties定义。</div><div><br/></div><div>注释行可以用#号（又名“哈希”、“磅”、“数字”的符号）或者分号（“;”）开头。</div><div><br/></div><div>这是一个Shiro可以理解的section的例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div># =======================<br/>
+# Shiro INI configuration<br/>
+# =======================<br/><br/>
+[main]<br/>
+# Objects and their properties are defined here,<br/>
+# Such as the securityManager, Realms and anything<br/>
+# else needed to build the SecurityManager<br/><br/>
+[users]<br/>
+# The 'users' section is for simple deployments<br/>
+# when you only need a small number of statically-defined<br/>
+# set of User accounts.<br/><br/>
+[roles]<br/>
+# The 'roles' section is for simple deployments<br/>
+# when you only need a small number of statically-defined<br/>
+# roles.<br/><br/>
+[urls]<br/>
+# The 'urls' section is used for url-based security<br/>
+# in web applications.  We'll discuss this section in the</div><div># Web documentation</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>[main]</div></div><div><br/></div><div>[main] section 是用来配置应用的SecurityManager实例及其依赖的所有其他组件，比如说 <a
+            href="http://shiro.apache.org/realm.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Realm">Realm</a><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">。</span></div><div><br/></div><div>配置像SecurityManager及其依赖的所有其他组件一样的对象实例听起来很难用INI来做到，毕竟我们只能使用键值对。但是通过对对象图的一些约束和理解，你就会发现你其实可以用INI做很多。Shiro使用这些假设使一个简单而且相当简洁的配置机制得以实现。</div><div><br/></div><div>我们常常喜欢把这种方法称为“穷人的”依赖注入，尽管没有成熟的Spring/Guice/JBoss的XML配置那么强大，你也会发现它能做很多事，并且没什么复杂性。当然其他的配置机制也可以使用，但是在Shiro中不是必须的。</div><div><br/></div><div>只是为了吊起你的胃口，这里提供一个有效的[main]配置例子。下面我们将详细地介绍它，但是你会发现，介绍的这些东西我们仅凭直觉就能理解很多。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[main]<br/>
+sha256Matcher = org.apache.shiro.authc.credential.Sha256CredentialsMatcher<br/><br/>
+myRealm = com.company.security.shiro.DatabaseRealm<br/>
+myRealm.connectionTimeout = 30000<br/>
+myRealm.username = jsmith<br/>
+myRealm.password = secret<br/>
+myRealm.credentialsMatcher = $sha256Matcher<br/><br/></div><div>securityManager.sessionManager.globalSessionTimeout = 1800000</div></div><div><br/></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Defining an object</div></div><div><br/></div><div>思考一下下面的[main] section 片段：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[main]<br/>
+myRealm = com.company.shiro.realm.MyRealm</div><div>...</div></div><div><br/></div><div>这一行配置实例化了一个com.company.shiro.realm.MyRealm类型的对象实例，并且使这个对象可以用 <b
+            style="font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">myRealm</b> 这个名字作为进一步的引用和配置。</div><div><br/></div><div>如果被实例化的对象实现了org.apache.shiro.util.Nameable接口，那么这个对象的Nameable.setName就会被调用，并且方法参数是这个名字的值（这个例子中名字的值是MyRealm）。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Setting object properties</div></div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Primitive Values</span></div><div><br/></div><div>简单的原始属性可以只用等于号赋值：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/>
+myRealm.connectionTimeout = 30000<br/>
+myRealm.username = jsmith</div><div>...</div></div><div><br/></div><div>这些行的配置转成方法调用是这样子的：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/>
+myRealm.setConnectionTimeout(30000);<br/>
+myRealm.setUsername(&quot;jsmith&quot;);</div><div>...</div></div><div><br/></div><div>这怎么可能呢？那是因为假定了所有的对象都是JavaBean兼容的POJO。</div><div><br/></div><div>在后台，当设置这些属性的时候Shiro默认使用 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Apache Commons </span><a
+            href="http://commons.apache.org/beanutils/"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">BeanUtils</a> 来做所有的重活，所以尽管INI中的值都是文本，BeanUtils知道怎么把这些字符串转化成合适的原始类型，并且调用相应的JavaBean的setter方法。</div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Reference Values</span></div><div><br/></div><div>如果你要设置的值不是一个原始类型的，而是另外一个对象时该怎么办？嗯，你可以用一个美元符（$）去引用一个已经定义好的实例。例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/>
+sha256Matcher = org.apache.shiro.authc.credential.Sha256CredentialsMatcher<br/>
+...<br/>
+myRealm.credentialsMatcher = $sha256Matcher</div><div>...</div></div><div><br/></div><div>这样就简单地定位了由sha256Matcher这个名字来定义的对象，然后由BeanUtils在myRealm实例上设置这个对象（通过调用myRealm.setCredentialsMatcher(sha256Matcher)方法）。</div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Nested Properties</span></div><div><br/></div><div>在INI配置行的等号的左边使用点号（.），你可以遍历整个对象图来找到你最终想要设置的对象/属性。例如，这个配置行：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/>
+securityManager.sessionManager.globalSessionTimeout = 1800000</div><div>...</div></div><div><br/></div><div>转成代码（用BeanUtils）是这样的逻辑：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>securityManager.getSessionManager().setGlobalSessionTimeout(1800000);</div></div><div><br/></div><div>对图的遍历可以想多深就多深：object.property1.property2....propertyN.value = blah</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div><i>BeanUtils属性支持</i></div><div><i><br/></i></div><div><i>任何支持 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(221, 255, 221);"><i>BeanUtils.</i></span><a
+            href="http://commons.apache.org/beanutils/v1.8.2/apidocs/org/apache/commons/beanutils/BeanUtils.html#setProperty%28java.lang.Object,%20java.lang.String,%20java.lang.Object%29"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(221, 255, 221);"><i>setProperty</i></a> 方法的属性赋值操作都可以在Shiro的[main] section 工作，包括对set/list/map元素的赋值。参考 <a
+            href="http://commons.apache.org/beanutils/"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(221, 255, 221);"><i>Apache Commons BeanUtils Website</i></a> 及其文档获取更多相关信息。</i></div></td></tr></tbody></table><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Byte Array Values</span></div><div><br/></div><div>因为原始的字节数组不能在一个文本格式配置文件中被天然地描述，我们必须使用一种字节数组的文本编码。字节数组的值可以指定为一个Base64编码（默认）的字符串，也可以指定为一个十六进制编码的字符串。默认是Base64，因为它代表一个值可以使用更少的文本——它有更大的编码字母表，这意味着你使用的令牌会更短（在文本配置中显得更优雅） 【译者注：好比二进制和十进制，二进制表示一个数通常要很长，因为它的编码字母表只有两个元素，十进制相反】。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div># The 'cipherKey' attribute is a byte array.    By default, text values<br/>
+# for all byte array properties are expected to be Base64 encoded:<br/><br/>
+securityManager.rememberMeManager.cipherKey = kPH+bIxk5D2deZiIxcaaaA==</div><div>...</div></div><div><br/></div><div>然而，如果你更喜欢用十六进制编码，你必须在字符串令牌前加上0x：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>securityManager.rememberMeManager.cipherKey = 0x3707344A4093822299F31D008</div></div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Collection Properties</span></div><div><br/></div><div>Lists、Sets和Maps可以像任何其他属性一样被设置——不管是直接设置还是被当成一个嵌套属性来设置。对于sets和lists来说，只要指定一个用逗号分隔的值或引用的集合。</div><div><br/></div><div>例如，配置一些会话监听者：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>sessionListener1 = com.company.my.SessionListenerImplementation<br/>
+...<br/>
+sessionListener2 = com.company.my.other.SessionListenerImplementation<br/>
+...</div><div>securityManager.sessionManager.sessionListeners = $sessionListener1, $sessionListener2</div></div><div><br/></div><div>对于maps来说，你指定一个用逗号分隔的键值对列表，每个键值对用一个冒号分隔。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>object1 = com.company.some.Class<br/>
+object2 = com.company.another.Class<br/>
+...<br/>
+anObject = some.class.with.a.Map.property<br/><br/></div><div>anObject.mapProperty = key1:$object1, key2:$object2</div></div><div><br/></div><div>在上面的例子中，在map中被$object1引用的对象将存储在字符串键key1之下，例如，map.get(&quot;key1&quot;)将返回object1。你也可以用一个对象作为键：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>anObject.map = $objectKey1:$objectValue1, $objectKey2:$objectValue2</div><div>...</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Considerations（注意事项）</div></div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Order Matters</span></div><div><br/></div><div>在上面的描述中，INI的格式和惯例都是非常方便和容易理解的，但是它没有其它基于文本或XML的配置机制那么强大，在使用上述的机制时，最要注意的是配置的顺序会有影响！</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>小心</i></div><div><i><br/></i></div><div><i>每个对象的实例化和每个赋值操作都是在[main] section 下按顺序执行的。这些配置行最终被转化成一条条的JavaBeans getter/setter方法调用，所以这些方法调用的顺序和配置的顺序是一样的！</i></div><div><i><br/></i></div><div><i>在你写配置的时候牢记在心。</i></div></td></tr></table><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Overriding Instances</span></div><div><br/></div><div>任何一个对象都可以被后面新定义的实例所覆盖，例如，第二个myRealm定义会覆盖第一个：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/>
+myRealm = com.company.security.MyRealm<br/>
+...<br/>
+myRealm = com.company.security.DatabaseRealm</div><div>...</div></div><div><br/></div><div>这将导致myRealm是一个com.company.security.DatabaseRealm实例，前面的那个实例将永远不会被用到（JVM会把它当做垃圾回收）。</div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Default SecurityManager</span></div><div><br/></div><div>你可以已经注意到了，在完成上面的例子时，没有定义SecurityManager实例的类，我们直接跳到设置它的嵌套属性：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>myRealm = ...<br/><br/>
+securityManager.sessionManager.globalSessionTimeout = 1800000</div><div>...</div></div><div><br/></div><div>这是因为securityManager实例是非常特殊的——它早已给你实例化好了，随时可以被使用，所以你不必知道具体的SecurityManager实现类并且去实例化它。</div><div><br/></div><div>当然，如果你一定要指定你自己的实现，可以，但是请只在“压倒一切的情况下”指定你自己定义的实现：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>...<br/>
+securityManager = com.company.security.shiro.MyCustomSecurityManager</div><div>...</div></div><div><br/></div><div>当然，这种需求非常之少——Shiro的SecurityManager实现是非常可定制化的，并且通常可以配置上任何你所需要的。你可能会想问自己（或用户列表）是否真需要自己重新实现一个。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>[users]</div></div><div><br/></div><div>[users0] section允许你定义一组静态的用户账户，这在用户账户数量非常少或者用户账户不需要运行时动态创建的情况下非常有用。这里有一个例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[users]<br/>
+admin = secret<br/>
+lonestarr = vespa, goodguy, schwartz</div><div>darkhelmet = ludicrousspeed, badguy, schwartz</div></div><div><br/></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>自动实例化的IniRealm</i></div><div><i><br/></i></div><div><i>只要定义了一个非空的[users]或[roles] section，就会自动触发创建一个<span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(216, 228, 241);"><i> </i></span><span
+            style="color: rgb(0, 0, 0); font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(216, 228, 241);"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/realm/text/IniRealm.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">org.apache.shiro.realm.text.IniRealm</a></span> 实例，并且在[main] section 中可以直接引用iniRealm这个变量名。你可以像配置上面描述的其他对象一样配置它。</i></div></td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Line Format</div></div><div><br/></div><div>[users] section的每一行配置都必须符合下列格式：</div><div>username = password, roleName1, roleName2, ..., roleNameN</div><div><br/></div><ul><li>等号左边的值是用户名</li><li>等号右边第一个值是用户的密码。要求必须有一个密码</li><li>密码后面用逗号分隔的值都是分配给该用户的角色名称。角色名称是可选的。</li></ul><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Encrypting Passwords</div></div><div><br/></div><div>如果你不希望写在[users] section里面的密码是明文，你可以用你最喜欢的哈希算法（MD5, Sha1, Sha256等等）去加密它，你喜欢并且用哈希算法产生的字符串作为密码值。默认情况下，密码字符串被十六进制编码，但是你可以通过配置使用Base64编码（看下面）：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>轻松保护密码</i></div><div><i><br/></i></div><div><i>为了节省时间和使用最佳实践，你可能会想用Shiro的命令行哈希器，它可以像哈希编码其他资源一样对密码进行编码。在加密INI [users] 中的密码时尤为方便。</i></div></td></tr></table><div><br/></div><div>一旦你指定了被哈希过的密码值，你必须告诉Shiro这些都是加过密的。通过给在[main] section 中隐式创建的iniRealm设置CredentialsMatcher实例，每个CredentialsMatcher实例对应一种哈希算法。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[main]<br/>
+...<br/>
+sha256Matcher = org.apache.shiro.authc.credential.Sha256CredentialsMatcher<br/>
+...<br/>
+iniRealm.credentialsMatcher = $sha256Matcher<br/>
+...<br/><br/>
+[users]<br/>
+# user1 = sha256-hashed-hex-encoded password, role1, role2, ...</div><div>user1 = 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b, role1, role2, ...</div></div><div><br/></div><div>你可以在CredentialsMatcher上配置任意属性，比如配置上一个可以反映你的哈希策略的对象，例如，指定是否需要用盐或者需要迭代哈希多少次。如果想更好地理解哈希策略，请参考 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/credential/HashedCredentialsMatcher.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">org.apache.shiro.authc.credential.HashedCredentialsMatcher</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 文档</span> ，它或许对你有用。</div><div><br/></div><div>例如，如果你的用户密码字符串采用Base64编码来代替默认的十六进制编码，你可以这样指定：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[main]<br/>
+...<br/>
+# true = hex, false = base64:<br/>
+sha256Matcher.storedCredentialsHexEncoded = false</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>[roles]</div></div><div><br/></div><div>[roles] section允许你把权限和在[users] section中定义的那些角色关联起来。再次重复说明一下，这在角色数量非常少或者角色不需要运行时动态创建的情况下非常有用。这是一个例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[roles]<br/>
+# 'admin' role has all permissions, indicated by the wildcard '*'<br/>
+admin = *<br/>
+# The 'schwartz' role can do anything (*) with any lightsaber:<br/>
+schwartz = lightsaber:*<br/>
+# The 'goodguy' role is allowed to 'drive' (action) the winnebago (type) with<br/>
+# license plate 'eagle5' (instance specific id)</div><div>goodguy = winnebago:drive:eagle5</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Line Format</div></div><div><br/></div><div>[roles] section的每一行配置都必须定义成“角色-权限（一对多） ”的键值对映射，必须符合下面的格式：</div><div>rolename = permissionDefinition1, permissionDefinition2, ..., permissionDefinitionN</div><div><br/></div><div>尽管permissionDefinition可以是任意的字符串，但是大多数人都倾向于使用遵守 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/WildcardPermission.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authz.permission.WildcardPermission</a> 格式的字符串，因为它简单易用而且灵活。参考 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><a
+            href="http://shiro.apache.org/permissions.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Permissions">Permissions</a><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 文档获取更多权限相关信息，以及了解你将从中收获什么。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div><i>内部的逗号</i></div><div><i><br/></i></div><div><i>注意，如果你需要在一个特别的permissionDefinition中使用到内部逗号（e.g. printer:5thFloor:print,info），你需要在外面包一个双引号&quot;，以避免解析错误。</i></div></td></tr></table><div><br/></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div>没有权限的角色</div><div><br/></div><div>如果你有那种不需要关联权限的角色，你就干脆不要在[roles] section中写它。只要在[users] section中定义角色名称就可以了。</div></td></tr></table><div><br/></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>[urls]</div></div><div><br/></div><div>这个section及其选项在 章节中描述</div><div><br/></div><div><hr/></div><div><br/></div><div><a
+            href="http://shiro.apache.org/configuration.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/architecture.html">Shiro架构</a>
+    </div>
+    <div class="article-next">下一篇：暂无</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
