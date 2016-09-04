@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Oracle课堂笔记4 PL/SQL</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/oracle/oracle.html">Oracle</a></li>
+    <li class="active">笔记：4 PL/SQL</li>
+</ol>
+
+<h1>4 PL/SQL</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2012年08月09日</p></div>
+
+<div class="article-text">
+    <span style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><font
+            color="#E30000" style="font-size: 32px;"><b>pl/sql编程</b></font><div><hr
+            style="font-weight: bold; font-size: 32px; color: rgb(227, 0, 0);"/>
+1，sql语言的缺陷：</div><div>     ①     不能进行模块化的编程：只能一句句执行，有些复杂需求需要多条sql语句才行。</div><div>     ②     执行速度慢：Java程序中编译好的sql语句，交给Oracle以后，Oracle还要重新编译。</div><div>     ③     安全性问题：比如说会暴露列名这样的关乎表结构的信息，有时候会造成安全问题。</div><div>     ④     浪费带宽：客户端和服务器端不一样的情况下。</div><div>     pl/sql可以解决上述问题。但是pl/sql只能在Oracle中使用。</div><div><hr/>
+2，快速入门案例：</div><div>     ①     create procedure procedure_myemp1 is</div><blockquote
+            style="margin: 0 0 0 40px; border: none; padding: 0px;">   begin<br/>
+   insert into myemp(empno,ename,sal) values(8002,'YGJ',750);<br/>
+   end procedure_myemp1;              </blockquote><div>     ②     如何调用过程。     </div><div>          Ⅰ控制台：execute procedure_myemp1</div><div>          ⅡJava 程序：</div><div><hr/>
+3，块的开发：</div><div>    [ declare]</div><div>          declaration_statements</div><div>     begin</div><div>          executable_statements</div><div>     [exception]</div><div>          exception_handing_statements</div><div>     end;</div><div>     块是没有名字的，是lp/sql的最小单位。如果要让dbms_output.put_line('');显示到控制台上，先要设置：set serveroutput on</div><div><hr/></div><div>4，在pl/sql developer这个软件中默认是不会输出具体的错误的，可用show error;显示出当前错误。</div><div>     create procedure procedure_myemp1(in_ename <font
+            color="#E30000">in</font> varchar,in_new_sal <font color="#E30000">in</font> number) is</div><blockquote
+            style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+            style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+     begin<br/><blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+           update myemp set sal=in_new_sal where ename=in_ename;<br/>
+      end procedure_myemp1;
+<div>     在过程中变量可以是输入变量（in），也可以是输出变量（out）。<font color="#E30000">作为参数的变量不能指定大小。</font></div><div><font color="#E30000">     </font>在创建“过程（procedure）”的过程中，即使编译不成功，还是会生成这个过程，这个过程名就不能再用，如果要覆盖，请在create后面加上or                                                   replace。     
+<hr/><div>5，第33讲中用Java程序调用过程。学完以后统一处理。</div><div><hr/></div><div>6，创建函数。</div><div>     create function function_myemp1(v_ename varchar2)</div>
+       return number is<br/>
+       v_sal number;<br/>
+       begin<br/>
+         select sal into v_sal from myemp where ename=v_ename;<br/>
+         return v_sal;<br/>
+       end;</div><div><hr/></div><div>7，使用函数。</div><div>     select function_myemp1('SCOTT') from dual;</div><div><hr/>
+8，包的基本语法。</div><div>     ①     使用包的目的：使用包可以更好地管理自己写的过程和函数。</div><div>     ②     包的基本语法：</div><div>               create [or replace] package package_name is</div><div>                    procedure procedure_name(v v_type,...);</div><div>                    function function_name(v v_type,...) return return_type;</div><div>                    --只声明不创建，创建要靠他们自己另外的语句。</div><div>               end;</div><div><hr/><div>9，写一个包。</div><div>     create or replace package package_myemp1 is</div><div>          procedure procedure_myemp2(in_empno in number,in_sal in number);</div><div>          function function_myemp1(v_name varchar2) return number;</div><div>     end;</div><div><hr/></div><div>10，写一个包体。实现包中声明的过程和函数。包中声明过的必须要实现。没有声明的却可以直接实现（但是调不出来，写了也白写）。</div><div>   create or replace package body package_myemp1 is</div><div><br/></div>
+   procedure procedure_myemp2(in_empno in number,in_sal in number) is<br/>
+   v_ename varchar2(32);<br/>
+   begin<br/>
+   select ename into v_ename from emp where empno=in_empno;<br/>
+   update myemp set sal=in_sal where empno=in_empno;<br/>
+   exception<br/>
+   when NO_DATA_FOUND then<br/>
+   dbms_output.put_line('这个号码不代表任何员工！');<br/>
+   end procedure_myemp2;</div><div><br/>
+   function function_myemp1(v_ename varchar2)<br/>
+   return number is<br/>
+   v_sal number;<br/>
+   begin<br/>
+     select sal into v_sal from myemp where ename=v_ename;<br/>
+     return v_sal;<br/>
+   end function_myemp1;</div><div><br/>
+   end;</div><div>     <font color="#E30000">注意三点：①过程和函数的实现不要create关键字②包和包体中的参数名一定要一样，光是类型一样是不够的。③在不同的包中可以有相同名称的过程名或相同名称的函数名，而不产生冲突。</font></div><div><font
+                color="#E30000">     包就像Java中的借口，包体就像Java中的实现类。</font></div><div><hr/></div><div>11，触发器。</div><div>     触发器是当特定的SQL DML语句在特定的数据表上运行时，由数据库自动运行的过程。（触发器是过程）</div><div><hr/></div><div>12，pl/sql复合变量record</div><div>     ①     基本语法：</div><div>               type record_myemp1 is record(</div><div>               v     v_type,</div><div>               ......</div><div>               )</div><div>     ②     注意，符合变量只能在过程（或函数或包或代码块）中声明，只能作用于本过程（或函数或包或代码块）。</div><div>          create or replace procedure procedure_emp4(v_in_empno in myemp.empno%type) is<br/><br/></div><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"><div>type record_myemp1 is record(</div><div>  v_ename myemp.ename%type,</div><div>  v_sal myemp.sal%type,</div><div>  v_job myemp.job%type     <font
+                color="#E30000"> --注意这里没有逗号</font></div><div>);                                       <font
+                color="#E30000">--注意这里有分号</font></div><div>v_record_myemp1 record_myemp1;</div><div><br/></div><div>begin</div><div>  select ename,sal,job into v_record_myemp1 from myemp where empno=v_in_empno;</div><div>  dbms_output.put_line('姓名：'||v_record_myemp1.v_ename||'， 工资：'||v_record_myemp1.v_sal);</div><div>end;</div></blockquote><div><hr/></div><div>13，参照变量</div><div>          游标</div><div><hr/></div><div>14，关于goto语句。</div><div>     declare </div><div>     i number:=1;</div><div>     begin </div><div>          &lt;&lt;a&gt;&gt;</div><div>          loop</div><div>          dbms_output.put_line(i);</div><div>          if i=12 then</div><div>          goto b;</div><div>          end if;</div><div>          <a
+                href="file:///i:=i+1;">i:=i+1;</a></div><div>          if i=10 then</div><div>          goto a;</div><div>          end if;</div><div>          end loop;</div><div>          &lt;&lt;b&gt;&gt;</div><div><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span>      </span>dbms_output.put_line('循环结束');</span></div><div><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">     end;</span></div><div><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><br/></span></div><div><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">     </span><span
+                style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                color="#328712">&lt;&lt;label_name&gt;&gt;指的是标签名。goto语句其实就是汇编语言中的跳转语句。</font></span></div><div><span
+                style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                color="#328712">     会造成可读性差，提高程序复杂性，不得已而为之吧。</font></span></div><div><hr/></div><div>15，null语句，不执行任何操作。又有点像汇编。</div><div><hr/></div><div>16，视图会影响表，表也会影响视图。视图是动态生成的。</div><div>          个人理解：视图可以看成是查询语句的存储变量。一个查询结果随时拿出来看。</div><div>          基本语法：create view view_name as 查询语句。</div><div>          对视图的DML操作和对表的DML操作差不多。</div><div><hr/></div><div>17，触发器</div><div>     ①     触发器分类：dml触发器，ddl触发器，系统触发器。</div><div>     ②     行级触发器和语句级触发器。</div><div>     ③     触发器名如果在一张表中起作用，那么在另一张表中不能用同名触发器，用or replace也不行。</div><div>     ④     raise_application_error(-20000,'提示性语言');错误号的范围是-20000到-20999</div><div>     ⑤     一个例子（dml触发器）面向某个数据库对象：</div><div>          create table students(id number,name varchar2(32),class_id number);</div><div>          create table classes(class_id number,nums number);</div><div><br/></div><div>          CREATE OR REPLACE TRIGGER trigger_students1 AFTER</div><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;">DELETE OR INSERT ON students<br/>
+FOR EACH ROW<br/>
+BEGIN<br/>
+  IF deleting THEN<br/>
+    UPDATE classes SET nums=nums-1 WHERE :old.class_id=classes.class_id;<br/>
+  ELSIF inserting THEN<br/>
+    UPDATE classes SET nums=nums+1 WHERE :new.class_id=classes.class_id;<br/>
+  END IF;<br/>
+END;</blockquote><div>     ⑥     常用属性函数</div><div>             ora_client_ip_address//返回客户端的ip</div><div>             ora_database_name//返回数据库名</div><div>             ora_login_user//返回登录用户名</div><div>             ora_sysevent//返回触发事件名</div><div>             ora_des_encrypted_password//返回用户加密后的密码</div><div>     ⑦     ddl触发器。注意on后面的对象写法。面向整个方案：</div><div>             create or replace trigger trigger_scott after ddl on <font
+                color="#328712">scott.schema</font> </div><div>             begin</div><div>               insert into my_ddl_record values(ora_sysevent,ora_login_user,sysdate);</div><div>             end;</div><div>     ⑧     禁用触发器：alter trigger trigger_name disable;</div><div>             激活触发器：alter trigger trigger_name disable;</div><div>             删除触发器：drop trigger trigger_name;</div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/oracle/note/senior.html">高阶操作</a></div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/oracle/note/backup.html">备份和恢复</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

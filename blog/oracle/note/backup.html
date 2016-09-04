@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Oracle课堂笔记5 备份和恢复</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/oracle/oracle.html">Oracle</a></li>
+    <li class="active">笔记：5 备份和恢复</li>
+</ol>
+
+<h1>5 备份和恢复</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2012年08月09日</p></div>
+
+<div class="article-text">
+    <span style="font-size: 32px; word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><font
+            color="#FF0000"><b>Oracle备份与恢复</b></font><div><hr/></div><div style="font-size: 13px;">1，数据库管理员DBA</div><div
+            style="font-size: 13px;">     每个Oracle数据库应该有至少一名数据库管理员，对于一个小的数据库，一个dba就够了，对于一个打的数据库可能需要多个dba分担不同的管理职责，下面介绍数据库管理员的主要工作：</div><div
+            style="font-size: 13px;">     ①     安装和升级Oracle数据库；</div><div style="font-size: 13px;">     ②     建库，表空间，表，视图，索引……</div><div
+            style="font-size: 13px;">     ③     制定并实施备份与恢复计划；</div><div style="font-size: 13px;">     ④     数据库权限管理，调优，故障排除；</div><div
+            style="font-size: 13px;">     ⑤     对于高级dba，要求能参与项目开发，会编写sql语句、存储过程、触发器、规则、约束、包……</div><div
+            style="font-size: 13px;"><hr/></div><div style="font-size: 13px;">2，sys和system的区别</div><div
+            style="font-size: 13px;">     ①     sys方案中存放的数据更重要：所有Oracle的数据字典的基表和视图都存放在sys用户中。</div><div
+            style="font-size: 13px;">     ②     sys不能以normal方式登录，system可以。任何用户甚至不指定用户密码，只要以sysdba身份登录，都视为sys用户。</div><div
+            style="font-size: 13px;"><hr/></div><div style="font-size: 13px;">3，使用import和export对数据库（方案，表等）进行备份和恢复：</div><div
+            style="font-size: 13px;">     ①     </div><div style="font-size: 13px;">     <span style="font-size: 32px;"><img
+            src="/leaforheart.github.io/blog/oracle/image/1.jpg" type="image/jpeg" style="cursor: default;"/></span></div><div
+            style="font-size: 13px;">     ②    基本导出语法： exp userid=user_name/password@instace_name tables=(table_name1,...) file=file_name</div><div
+            style="font-size: 13px;">               在dos下运行，结尾不能加分号，否则会误认为是文件名的一部分。是个二进制文件。</div><div
+            style="font-size: 13px;">               exp userid=scott/tiger@xyl tables=myemp file=D:\myemp.dmp;习惯后缀是dmp，但不一定要遵循。</div><div
+            style="font-size: 13px;">             *只导出表结构：exp userid=user_name/password@instace_name tables=(table_name1,...) file=file_name rows=n  。其中n代表no</div><div
+            style="font-size: 13px;">             *直接导出方式：exp userid=user_name/password@instace_name tables=(table_name1,...) file=file_name direct=y  。这样速度会比较快，但是数据库的字符集和客户端的字符集必须一致。</div><div
+            style="font-size: 13px;">             *导出方案：exp userid=user_name/password@instace_name owner=schema_name file=file_name</div><div
+            style="font-size: 13px;">     ③     导入和导出应该是差不多。</div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/oracle/note/pl-sql.html">PL/SQL</a></div>
+    <div class="article-next">下一篇：没有了</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

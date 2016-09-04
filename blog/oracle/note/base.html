@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Oracle课堂笔记2 DDL和DML操作</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/oracle/oracle.html">Oracle</a></li>
+    <li class="active">笔记：2 DDL和DML操作</li>
+</ol>
+
+<h1>2 DDL和DML操作</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2012年08月09日</p></div>
+
+<div class="article-text">
+    <span style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><div
+            style="font-size: 32px;"><font color="#E30000"><b>第2讲     DDL语句和DML语句</b></font></div><div
+            style="font-size: 32px;"><font color="#E30000"><b>              其中有数据库最重要的部分——查询</b></font></div><div><hr/></div>
+1，Java程序和数据库表的对应关系：
+<div><table border="1" cellpadding="2" cellspacing="0" width="100%"><tbody><tr><td valign="top">类</td><td
+        valign="top">表</td></tr><tr><td valign="top">成员</td><td valign="top">字段</td></tr><tr><td valign="top">对象</td><td
+        valign="top">记录</td></tr></tbody></table><div><hr/></div></div><div>2，创建表的基本语法</div><div><font color="#FF0000">create table</font> table_name (</div><div>     列名  <font
+                color="#FF0000">列的数据类型</font></div><div>     ……</div><div>)</div><div>***Oracle数据类型，见《Oracle Database 10g SQL》的第9页，或者看附录A。这是<font
+                color="#FF0000">重点</font>记忆和理解的地方。</div><div><hr/></div><div>3，删除表的基本语法</div><div><font color="#FF0000">drop table</font> table_name;</div><div><hr/></div><div>4，表的管理——在一个表中，有时候需要添加，修改，或删除列。它们的基本语法如下：</div><div>     ①添加     <font
+                color="#FF0000">alter table</font> table_name</div><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;">          <font color="#FF0000">add</font> (column_name datatype);</blockquote>
+     ②修改     <font color="#FF0000">alter table</font> table_name
+<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+                    <font color="#FF0000">modify</font> (column_name datatype);<br/><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+              <font color="#328712">      注意这里修改的是数据类型，而不是数据名称。</font><br/><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+     ③删除     <font color="#FF0000">alter table</font> table_name<br/><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+                    <font color="#FF0000">drop column</font> column_name;<br/><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote>
+                    <font color="#328712">注意删除的语法和添加修改不同，不能有括号，一次只能删除一条。</font><br/><div>     ④修改表的名字     <font
+                color="#FF0000">rename</font> old_name <font color="#FF0000">to</font> new_name;</div><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"></blockquote><div><hr/></div><div>5，查看一个表的详情</div><div><font
+                color="#FF0000">desc</font> table_name;</div><div><hr/></div><div style="font-size: 32px;"><font
+                color="#FF0000"><b>以上是数据定义语言DDL，下面是数据操纵语言DML，体会其中的差别。</b></font></div><div style="font-size: 32px;"><hr/></div><div>6，Oracle的crud操作</div><div>     ①增     <font
+                color="#FF0000">insert into</font> table_name (columns...)</div><div>                 <font
+                color="#FF0000">values</font> (values...);</div><div>                <font color="#328712">注意：数据类型，数据大小，数据顺序必须要相同。如果columns...省略不写，values...一定要写全，顺序也一定要正确。</font></div><div><font
+                color="#328712">                插入空值可以直接添加null值，也可以不定义。</font></div><div><font
+                color="#328712">     </font>②改     <font color="#FF0000">update</font> table_name</div><div>                <font
+                color="#FF0000">set</font> column_name1=expr1,...</div><div>                <font
+                color="#FF0000">where</font> 条件</div><div>                <font color="#328712">注意：千万不能忘了where语句。任何值如果是空值都是“is null” 而不能“=null”。</font></div><div><font
+                color="#328712">     </font>③删     <font color="#FF0000">delete from</font> table_name </div><div>                <font
+                color="#FF0000">where</font> 条件</div><div>                <font color="#328712">注意：Ⅰ如果不使用where条件，将删除表中的所有数据。</font></div><div><font
+                color="#328712">                          Ⅱ只删除数据，不删除结构（drop table table_name是把数据和结构一起删除）。</font></div><div><font
+                color="#328712">                          Ⅲ和insert和update一样，删除表的数据时，将引起其他表的“参照完整性”问题。</font></div><div><font
+                color="#328712">                          Ⅳ用delete删除数据以后，如果事先设置了保存点，是可以进行回滚找回数据的。用法如下：</font></div><div><font
+                color="#328712">                             ⑴savepoint point_name;</font></div><div><font
+                color="#328712">                             ⑵执行delete删除操作</font></div><div><font color="#328712">                             ⑶rollback to point_name;</font></div><div><font
+                color="#328712">                             ***truncate table table_name;这条语句会删除表中所有的记录，但也不会删除表结构，数据删除后不可回滚，删除速度快。</font></div><div><font
+                color="#328712">                             truncate属于DDL语句。</font></div><div><font color="#328712">     </font>④查     <font
+                color="#FF0000">select</font> [distinct] columns,... <font color="#FF0000">from</font> table_name</div><div>                <font
+                color="#FF0000">where</font> 条件</div><div>                <font color="#328712">注意：增删改查中查是难点也是重点，所以具体操作放在下一个知识点中。如果加了distinct，那么重复数据将被忽略。</font></div><div><hr/></div><div>7，Oracle基本查询</div><div>     ①     SQL语句本身是不区分大小写的，但是数据库对象的内容是区分大小写的。</div><div>     ②     任何数乘以null等于null，任何数和null执行了任何运算得到的结果也为空。解决办法：用nvl(x,value)函数。</div><div>     ③     在查询时，“||”连接符可以把多个列合并成一个列进行输出，但是它只连接字符类型的字段或字符串或表达式，不连接数字类型。</div><div>     ④     灵活应用to_char()函数，见《Oracle Database 10g SQL》的第70页。</div><div>     ⑤     like。模糊查询。%：表示任意0到多个字符。_：表示任意单个字符。</div><div>             比如：S%表示首字母为S的字符串，__O%表示第三个字母为大写O的字符串。</div><div>     ⑥     in。在where语句中使用in。比如：select * from emp where empno in(123,456,789);查询括号中三个员工号的员工信息。</div><div>     ⑦     <font
+                color="#FF0000">order by</font> column_name<font color="#E30000"> [asc]</font>;默认，升序排列。ascend</div><div>          <font
+                color="#FF0000">   order by</font> column_name <font color="#FF0000">desc</font>;指定降序排列。descend</div><div>             order by 后面可以接多个字段，以逗号隔开，即可按多个字段排序。</div><div>             order by 对别名排序：<font
+                color="#328712">select ename,sal*12+nvl(comm,0) 年薪 order by 年薪;</font>这样可以减少运算量。</div><div><hr/></div><div>8，Oracle复杂查询</div><div>     ①     聚合函数（组合函数）会忽略空值，也就是不加入运算。常用的聚合函数有：avg(),max(),min(),count(),median(),stddev(),variance().</div><div>     ②     子查询。select ename,job,sal from emp where sal=(select max(sal) from emp);有的要求不能一步就能查询出来时用。</div><div>     ③     group by。select avg(sal),max(sal),<font
+                color="#328712">deptno</font> from emp group by deptno;被查询的字段或表达式的返回值个数相同，并且能一一对应起来就可以放在一起。</div><div>     ④     having。用于过滤行分组。必须和group by 连用，但是group by 不一定要和having连用。</div><div>             select avg(sal),max(sal),deptno from emp group by deptno;</div><div>     ⑤     分组函数只能出现在选择列表，having子句，order by子句中。也就是说不能出现在where子句中。</div><div>     ⑥     多表查询。</div><div>             Ⅰ笛卡尔积。<font
+                color="#328712">要避免笛卡尔积，那么就必须满足：条件的个数&gt;=表的个数-1。</font></div><div>             Ⅱselect ename,sal,dname from emp,dept where emp.deptno=dept.deptno;<font
+                color="#328712">说明如果在多个表中，字段名是唯一的，可以不用指明是哪个表的字段，但是如果一个字段名在多个表中出现，那么一定要特别指明。</font></div><div><font
+                color="#328712">             </font>Ⅲ select ename,sal,grade from emp,salgrade where sal between losal and hisal;<font
+                color="#328712">虽然说表名有时候可以省略，但是为了增加可读性，我们一般习惯加上表名。有些表名非常长，这时可以使用别名来替代，从而解决这个问题。</font></div><div><font
+                color="#328712">             </font>Ⅳ select t1.ename,t1.sal,t2.grade from emp t1,salgrade t2 where t1.sal between t2.losal and t2.hisal;</div><div>             自连接。</div><div>             在同一个表中，有时候需要通过一个记录的信息，得到另一个相关记录的信息。这时候我们就要把一张表看成两张表，构成多表查询。</div><div>             select t1.ename,t2.ename from emp t1,emp t2 where t1.mgr=t2.empno;查询某个员工的上级信息。</div><div><hr/></div><div>9，子查询</div><div>     ①     定义：子查询是指嵌入在其他sql语句中的select语句，也叫嵌套语句。</div><div>     ②     单行子查询：子查询语句返回一条记录。</div><div>             如：显示与SMITH同一部门的所有员工姓名。</div><div>             Ⅰ查询出SMITH所在部门号：<font
+                color="#328712">select deptno from emp where ename='SMITH'</font>;</div><div>             Ⅱ查询出在这个部门中的所有员工信息：select ename from emp where deptno=(<font
+                color="#328712">select deptno from emp where ename='SMITH'</font>);</div><div>     ③     多行子查询：子查询语句返回多条记录。</div><div>             如：显示具有与10号部门中任意岗位相同岗位的职员信息。</div><div>             Ⅰ查询出10号部门有哪些岗位：select distinct job from emp where deptno = 10;</div><div>             Ⅱ查询出在以上任意岗位的员工信息：select * from emp where job in (select distinct job from emp where deptno = 10);</div><div>             多行子查询中有时候会用到all（所有），any（任意一个）操作符。跟in用法差不多，意义很直观。</div><div>     ④     多列子查询：单行子查询和多行子查询都只返回表的一个字段值，多列子查询将会同时返回多个字段的值。</div><div>             如：查询与SMITH的部门，岗位完全相同的职员信息。</div><div>             Ⅰ查询出SMITH所在部门和工作岗位：select deptno from emp where ename='SMITH';select job from emp where ename='SMITH' ;</div><div>             Ⅱ查出与上述部门岗位都相同的员工信息：select * from emp where deptno=(select deptno from emp where ename='SMITH') and job=(select job from emp where ename='SMITH');(不好的写法)</div><div>             select * from emp where (deptno,job)=(select deptno,job from emp where ename='SMITH');<font
+                color="#328712">注意字段顺序要对应！</font></div><div>     ⑤     在from子句中使用子查询。（<font color="#328712">精髓：把子查询的结果看成一张表，然后进行多表查询</font>）</div><div>             如：显示高于自己部门平均工资的职员信息。       </div><div>             Ⅰselect avg(sal),deptno from emp group by deptno;</div><div>             Ⅱselect * from emp t1,(<font
+                color="#328712">select avg(sal) a,deptno from emp group by deptno</font>) t2 where t1.deptno=t2.deptno and t1.sal &gt; t2.a;</div><div>     ⑥     分页查询。<font
+                color="#AD0000">这是重点。学习任何数据库都必须要掌握。</font>分页查询是子查询的一个应用，应该作为一个独立的知识点。</div><div><hr/></div><div>10，分页查询。</div><div>     Oracle使用三层过滤机制。</div><div>     第一层：<font
+                color="#939600">select * from emp</font>;</div><div>     第二层：<font color="#328712">select t1.*,rownum  rn from</font> (<font
+                color="#939600">select * from emp</font>) <font color="#328712">t1 where rownum&lt;=6</font>;</div><div>     第三层：select t2.* from (<font
+                color="#328712">select t1.*,rownum  rn from</font><span> </span>(<font
+                color="#939600">select * from emp</font>)<span> </span><font
+                color="#328712">t1 where rownum&lt;=6</font>) t2 where rn&gt;=4;</div><div><br/></div><div>     注意：rownum&lt;=6中的rownum是t1表中的rownum，rn&gt;=4是t2表中的rownum。</div><div>     这是一个分页模版。只要改变数字就行了。</div><div>     如果在分页查询中还涉及到多表查询或子查询之类的复杂查询，那么先把这些复杂查询“压缩”在第一层。</div><div><br/></div><div>     这只是三种方法之一，据说效率最高。还有按照rowid和分析函数来做。</div><div><hr/></div><div>11，合并查询。</div><div>     ①     union：用于取得两个结果集的并集。把两个结果中完全相同的行去掉一行。</div><div>             select ename,job,sal from emp where sal&gt;2000 <b><font
+                color="#E30000">union</font></b> select ename,job,sal from emp where job='MANAGER';</div><div>     ②     union all：和union相似，不过不会去掉重复行，并且不会自动排序。其他三个都会自动排序。</div><div>     ③     intersect：取交集。也会去掉重复行。</div><div>     ④     minus：取差集。</div><div><hr/></div><div
+                style="font-size: 32px;"><font color="#E30000"><b>以上是对表的查询进行详细的探讨，下面探讨的是表的内连接和外连接。</b></font></div><div><hr
+                style="font-weight: bold; font-size: 32px; color: rgb(227, 0, 0);"/>
+12，内连接。</div><div>     基本语法：<font color="#E30000">select</font> 列名... <font color="#E30000">from</font> 表1 <font
+                color="#E30000">inner join</font> 表2 <font color="#E30000">on</font> 条件...</div><div>     它的执行效果跟：select 列名... from 表1，表2 where 条件...     是一样的。</div><div>     前面讲的都是内连接，内连接是我们用的最多的连接。</div><div><hr/></div><div>13，外连接。</div><div>     ①     外连接分三种：左外连，右外连，完全外连。</div><div>     ②     创建两张表做测试。</div><div>           ID NAME             </div><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;">--- -------<br/>
+  1 jack<br/>
+  2 tom<br/>
+  3 kity<br/>
+  4 nono</blockquote><blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><br/></blockquote><blockquote
+                style="margin: 0 0 0 40px; border: none; padding: 0px;"> ID      GRADE<br/>
+--- ----------<br/>
+  1         56<br/>
+  2         76<br/>
+11         80</blockquote><blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><br/></blockquote>
+     ③     左外接测试：显示所有人的成绩，如果没有成绩，也要显示该人的姓名和id号，成绩显示为空。
+<div>             如果左侧的表，完全显示，就是左外连。两种写法：</div><div>             <font color="#E30000">select</font> stu.name,stu.id,exam.grade <font
+                color="#E30000">from</font> stu <font color="#E30000">left join</font> exam <font
+                color="#E30000">on</font> stu.id=exam.id;左侧的表全部显示</div><div>             <font
+                color="#E30000">select<span> </span></font>stu.name,stu.id,exam.grade<span> </span><font
+                color="#E30000">from</font><span> </span>stu,exam<font
+                color="#E30000"><span> where</span></font><span> </span>stu.id=exam.id(+);用null填补右侧的表
+<div>     ④     右外连测试：显示所有的成绩，如果没有名字匹配，显示空。</div><div>             <font color="#E30000">select<span> </span></font>stu.name,stu.id,exam.grade<span> </span><font
+                    color="#E30000">from</font><span> </span>stu<font
+                    color="#E30000"><span> right</span> join</font><span> </span>exam<font
+                    color="#E30000"><span> </span>on</font><span> </span>stu.id=exam.id;右侧的表全部显示</div><div>             <font
+                    color="#E30000">select<span> </span></font>stu.name,stu.id,exam.grade<span> </span><font
+                    color="#E30000">from</font><span> </span>stu,exam<font
+                    color="#E30000"><span> where</span></font><span> </span>stu.id(+)=exam.id;用null填补左侧的表</div><div>     ⑤     完全外连测试：显示所有成绩和所有人的名字，如果没有相应的匹配值，则显示空。</div><div>             <font
+                    color="#E30000">select<span> </span></font>stu.name,stu.id,exam.grade<span> </span><font
+                    color="#E30000">from</font><span> </span>stu<font
+                    color="#E30000"><span> full outer</span> join</font><span> </span>exam<font
+                    color="#E30000"><span> </span>on</font><span> </span>stu.id=exam.id;</div><div><hr/></div><div
+                    style="font-size: 32px;"><font color="#E30000"><b>数据库实例的创建</b></font></div><div
+                    style="font-size: 32px;"><hr/></div><div style="font-size: 32px;"><div><b><span
+                    style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">14，数据库实例的创建</span></b><div
+                    style="color: rgb(227, 0, 0);"><b><span
+                    style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">     ①     使用向导工具来创建。</span></b></div><div
+                    style="color: rgb(227, 0, 0);"><b><span
+                    style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">             Database Configuraton Assistant\创建数据库\一般用途\全局数据库名\直接下一步\设置口令\选择存储机制——文件系统\指定存储位置——默认\直接下一步\下一步\下一步\下一步\完成</span></b></div><div
+                    style="color: rgb(227, 0, 0);"><b><span
+                    style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">     ②     手工创建。没有资料，略。</span></b></div><div><b><span
+                    style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">     </span><span
+                    style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                    color="#328712">注意：当我们创建完一个新的数据库实例的时候，在服务中就有两个服务被创建，这时你根据实际需要去启动相应的数据库实例。</font></span></b></div><div><b><span
+                    style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                    color="#328712">               在同一台机器，可以同时启动多个数据库实例，在登录或连接的时候，需要指定主机字符串。</font></span></b></div><div><b><span
+                    style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                    color="#328712">               两个不同的数据库实例中，即使是同名方案，也互不相关。</font></span></b></div></div></div><div><hr/></div><div
+                    style="font-size: 32px;"><font color="#E30000"><b>第2讲完</b></font></div></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/oracle/note/use.html">使用Oracle</a></div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/oracle/note/senior.html">高阶操作</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Oracle课堂笔记1 使用Oracle</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/oracle/oracle.html">Oracle</a></li>
+    <li class="active">笔记：1 使用Oracle</li>
+</ol>
+
+<h1>1 使用Oracle</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2012年08月09日</p></div>
+
+<div class="article-text">
+    <div>对象权限：with grant option</div>
+    <div>系统权限：with admin option</div>
+    <div>
+        <hr/>
+    </div>
+    <div>2，使用profile文件对口令进行管理(其中lock_account是文件名)：</div>
+    <div>sql&gt; <font color="#FF0000">create profile</font> lock_account <font color="#FF0000">limit
+        failed_login_attempts</font> 3 <font color="#FF0000">password_lock_time</font> 2;
+    </div>
+    <div>sql&gt; <font color="#FF0000">alter user</font> tea <font color="#FF0000">profile</font> lock_account;</div>
+    <div>注意具有口令管理权限的是管理员。管理员也可以对被锁用户解锁。</div>
+    <div>sql&gt; <font color="#FF0000">alter user</font> tea <font color="#FF0000">account unlock</font>;</div>
+    <div><br/></div>
+    <div>终止口令：一个账号密码，最多能用x天，宽限期为y天，到时必须设置新的密码。</div>
+    <div><span
+            style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">sql&gt;<span
+            style="color: rgb(0, 0, 0);"> </span><font color="#FF0000"
+                                                       style="color: rgb(0, 0, 0);">create profile</font><span
+            style="color: rgb(0, 0, 0);"> </span>lock_account <font color="#FF0000">password_life_time</font><span
+            style="color: rgb(0, 0, 0);"> 10</span><span style="color: rgb(0, 0, 0);"> </span><font color="#FF0000">password_grace_time</font><span
+            style="color: rgb(0, 0, 0);"> </span>2;</span></div>
+    <div>sql&gt;<span> </span><font color="#FF0000">alter user</font><span> </span>tea<span> </span><font
+            color="#FF0000">profile<span> </span></font>lock_account;
+    </div>
+    <div>解锁方法和上面一样。</div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">sql&gt;<span> </span><font
+            color="#FF0000">alter user</font><span> </span>tea<span> </span><font color="#FF0000">account unlock</font>;</span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><br/></span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">口令限制可以任意自己组合，不光具有以上几种限制。</span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><br/></span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">删除profile文件：</span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">sql&gt;</span>
+        <span style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                color="#FF0000">drop profile</font></span> <span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">文件名;</span>
+    </div>
+    <div>
+        <hr/>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">3，数据库的启动流程</span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">注意以下命令是在windows控制台运行：</span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">&gt; lsnrctl start</span>
+    </div>
+    <div><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">&gt; oradim -startup -sid</span>
+        <span style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+                color="#328712">xyl（数据库实例名）</font></span></div>
+    <div><span
+            style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><font
+            color="#328712">*注意也可以到电脑管理服务那里手动启动或关闭数据库服务流程。</font></span></div>
+    <div>
+        <hr/>
+    </div>
+    <div>4，oracle用户验证机制</div>
+    <div>普通用户，默认是以数据库方式验证，如：conn scott/tiger</div>
+    <div>特权用户，默认是以操作系统方式验证，如： conn / <font color="#FF4635">as sysdba</font></div>
+    <div><font color="#FF4635"><br/></font></div>
+    <div>一看到as sysdba，就不验证用户名和密码了，登录后自动切换成sys用户。</div>
+    <div><font color="#328712">前提：特权用户所在的操作系统用户身份必须是ora_dba组中，Administrator用户默认是在ora_dba组中。</font></div>
+    <div><font color="#328712"><br/></font></div>
+    <div>修改验证机制：通过修改sqlnet.ora文件，C:\oracle\product\10.2.0\db_2\NETWORK\ADMIN。</div>
+    <div>SQLNET.AUTHENTICATION_SERVICES= (<font color="#E30000">NTS</font>)</div>
+    <div>（NTS）操作系统方式验证</div>
+    <div>（NONE）数据库方式验证</div>
+    <div>（NTS，NONE）两种方式验证</div>
+    <div>
+        <hr/>
+    </div>
+    <div>5，丢失管理员密码怎么办？</div>
+    <div>*搜索名为PWD数据库实例名.ora文件。C:\oracle\product\10.2.0\db_2\database\PWDxyl.ora。</div>
+    <div>*备份一份，然后删除一份。</div>
+    <div>*在控制台下输入如下命令：</div>
+    <div>orapwd file = 密码文件的全路径\文件名 password = 新密码 entries=10;</div>
+    <div><font color="#328712">其中entries=10是允许10个特权用户。</font></div>
+    <div><span
+            style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">本机中应该输入这样的命令：orapwd file=</span>C:\oracle\product\10.2.0\db_2\database\PWDxyl.ora password=onetree
+        entries=10;
+    </div>
+    </span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：没有了</div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/oracle/note/base.html">DDL和DML操作</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

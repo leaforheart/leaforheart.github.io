@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Oracle课堂笔记3 高阶操作</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/oracle/oracle.html">Oracle</a></li>
+    <li class="active">笔记：3 高阶操作</li>
+</ol>
+
+<h1>3 高阶操作</h1>
+<div class="article-subtitle"><p>作者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2012年08月09日</p></div>
+
+<div class="article-text">
+    <span style="font-size: 32px; word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><font
+            color="#E30000"><b>第3讲</b></font><div><font color="#E30000"><b>     1  Java程序如何操作Oracle</b></font></div><div><font
+            color="#E30000"><b>     2  如何在Oracle中操作数据</b></font></div><div><font
+            color="#E30000"><b>     3  Oracle事务处理</b></font></div><div><font
+            color="#E30000"><b>     4  sql函数的使用。</b></font></div><div><hr/></div><div style="font-size: 13px;">1，Java连接Oracle最常用的方法有两种。</div><div
+            style="font-size: 13px;">     ①     JDBC直连。用JDBC连接Oracle必须先启动OracleOraDb10g_home1TNSListener监听器服务。</div><div
+            style="font-size: 13px;"><br/></div><div style="font-size: 13px;">使用静态块加载驱动</div><div
+            style="font-size: 13px;"><br/></div><div style="font-size: 13px;">2，to_date的使用</div><div
+            style="font-size: 13px;"><br/></div><div style="font-size: 13px;">3，使用子查询完成更新。</div><div
+            style="font-size: 13px;">     希望员工XYL的岗位，工资，补助与smith一样。</div><div style="font-size: 13px;">     update myemp set (job,sal,comm)=(select job,sal,comm from myemp where ename='SMITH') where ename='XYL';</div><div
+            style="font-size: 13px;"><br/></div><div style="font-size: 13px;">4，函数分为单行函数和组合函数。单行函数是指，每一行作为一个参数返回一个值。组合函数是指，多行作为一个参数返回一个值。</div><div
+            style="font-size: 13px;"><br/></div><div style="font-size: 13px;">5，单行函数分为：字符函数，数字函数，日期函数，转换函数，系统函数。</div><div
+            style="font-size: 13px;">     ①     replace(column,search_str,replace_str)</div><div
+            style="font-size: 13px;">     ②     concat(str1,str2)，str#可以是字段名或字符串。和||的作用是一样的。</div><div
+            style="font-size: 13px;">     ③     length()，一个汉字也算一个字符。</div><div style="font-size: 13px;">     ④     ceil()，向上取整。天花板</div><div
+            style="font-size: 13px;">     ⑤     floor()，向下取整。地板</div><div style="font-size: 13px;">     ⑥     ln()，自然对数。log(n1,n2)，n1为底，n2的对数。</div><div
+            style="font-size: 13px;">     ⑦     round()，用于四舍五入。trunc(n1,n2)，n2代表精度，n1代表被处理的数。</div><div
+            style="font-size: 13px;">     ⑧     mod()，取模。</div><div
+            style="font-size: 13px;">     ⑨     sign()，符号函数。</div><div style="font-size: 13px;"><br/></div><div
+            style="font-size: 13px;">系统权限166种，查询有哪些系统权限（任何用户都可以执行此句）：select * from system_privilege_map order by name;</div><div
+            style="font-size: 13px;">     privilege的英文意思：特权，优惠。admin管理的缩写。option选择，选择权。</div><div
+            style="font-size: 13px;">授权：grant 系统权限 to 用户 [with <font color="#E30000">admin</font> option]，其中带上with admin option的时候，用户可以把自己获得的权限传给别人，同时也可以自行撤销自己授给他的权限。</div><div
+            style="font-size: 13px;">撤权：revoke 系统权限 from 用户。不被级联回收。跟权力联想起来。</div><div
+            style="font-size: 13px;"><br/></div><div style="font-size: 13px;">对象权限17种，查询有哪些对象权限（只有dba角色用户可以执行此句）：select distinct privilege from dba_tab_privs;用自己方案的对象不需要授权，用别人的对象的时候才要授权。</div><div
+            style="font-size: 13px;"><div><span
+            style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+            style="font-size: 13px;">授权：grant 对象权限 on 方案.数据对象 to 用户 [with <font
+            color="#E30000">grant</font> option]</span></span></div><div><span
+            style="border-collapse: separate; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+            style="font-size: 13px;">          </span></span>grant 对象权限 on 方案.数据对象 to 角色，后面不能跟with grant option。</div><div>撤权：revoke 对象权限 on 方案.数据对象 from 用户/角色。属于级联回收。跟个人财产联想起来。</div></div><div
+            style="font-size: 13px;">     </div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/oracle/note/base.html">DDL和DML操作</a></div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/oracle/note/pl-sql.html">PL/SQL</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
