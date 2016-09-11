@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Shiro认证</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：6 Apache Shiro认证</li>
+</ol>
+
+<h1>6 Apache Shiro认证</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月11日</p></div>
+
+<div class="article-text">
+    <span><div style="text-align: center"><img src="/leaforheart.github.io/blog/shiro/images/4.png" type="image/png"
+                                               style="height: auto;"/></div><div><br/></div><div><br/></div><div><br/></div><div><br/></div><div>Authentication是身份验证的过程——就是说，证明一个用户真的是他们所自称的身份。用户为了证明他们的身份，他们需要提供你的系统可以理解和信任的一些身份信息以及某种身份证明。</div><div><br/></div><div>这里通过提交一个用户的principals和credentials给Shiro，看看它们是否匹配得上应用的预期。</div><div><br/></div><ul><li><b>Principals</b> 是一个主体的“身份属性”。Principals可以是任何可以识别一个主体的东西。例如名字、姓氏、用户名、社会安全号码等等。当然像姓氏不是很适合给主体做唯一标识。因此，给authentication用的最佳principals应该是在整个应用中独一无二的——典型的就是用户名或电子邮件。</li></ul><div><br/></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>主 Principal</i></div><div><i><br/></i></div><div><i>尽管Shiro可以有任何数量的principals，Shiro期望一个应用有唯一的主principal——在应用中可以唯一标识主体的单一值。在大多数应用中最经典的就是用户名、电子邮件或者全局唯一用户ID。</i></div></td></tr></table><div><br/></div><ul><li>Credentials 通常是只有主体知道的保密值，被当成支持证据它们事实上“拥有”它们所声称的身份。常见的例子是密码、生物特征数据（如指纹和视网膜扫描）和X.509证书</li></ul><div><br/></div><div>最常见的principal/credential对就是用户名和密码。用户名是声称的身份，密码是匹配这个声称的身份的证据。如果一个提交的密码符合应用程序的预期，应用程序就可以很大程度地假设这个用户真的是他们自己所说的那个用户，因为没有其他人知道同样的密码。</div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Authenticating <tt>Subjects</tt></div></div><div><br/></div><div>认证主体的过程可以有效地分解成三个清晰的步骤：</div><div><br/></div><ol><li>收集主体提交的principals和credentials</li><li>提交用来认证的principals和credentials</li><li>如果提交成功，允许访问，否则就重试认证或禁止访问。</li></ol><div><br/></div><div>下面的代码演示了Shiro的API是怎么对应到这些步骤的：</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>步骤1: 收集主体的principals和credentials</div></div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>//Example using most common scenario of username/password pair:<br/>
+UsernamePasswordToken token = new UsernamePasswordToken(username, password);<br/><br/>
+//”Remember Me” built-in:</div><div>token.setRememberMe(true);</div></div><div><br/></div><div>在这个例子里，我们使用的是 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/UsernamePasswordToken.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">UsernamePasswordToken</a> ，支持最常用的用户名/密码的认证方式。这是一个Shiro的 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/AuthenticationToken.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authc.AuthenticationToken</a> 接口的一种实现。是Shiro认证系统使用的基本接口，用来表示被提交的principals和credentials。</div><div><br/></div><div>这里特别需要注意的是，Shiro并不关心你是怎么得到这个信息的：可能数据是由用户提交了一个HTML表单获取的，或者可能是从一个HTTP头获取的，或者可能是从一个Swing或Flex UI密码表单里读取的，或者可能通过命令行参数。从应用程序的最终用户收集信息的过程完全和Shiro的AuthenticationToken概念解耦。</div><div><br/></div><div>你可以随意构建和表示AuthenticationToken实例——它是协议无关的。</div><div><br/></div><div>这个例子也表明我们已经暗示了我们希望Shiro在认证尝试的时候执行“记住我”的服务。这确保了当用户日后再次访问这个应用时，Shiro可以记住用户的身份。在后面的章节将介绍“记住我”服务。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>步骤2: 提交principals和credentials</div></div><div><br/></div><div>在收集了principals和credentials，并且被AuthenticationToken表示之后，我们需要提交这个Token给Shiro去执行真正的认证尝试：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/></div><div>currentUser.login(token);</div></div><div><br/></div><div>在获取当前执行的主体后，我们发起一次 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#login(org.apache.shiro.authc.AuthenticationToken)"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">login</a></tt>调用，传入刚刚创建的AuthenticationToken实例作为参数。</div><div><br/></div><div>一次login方法调用就代表一次有效的认证尝试。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>步骤3: 处理成功或失败</div></div><div><br/></div><div>如果login方法返回的时候静悄悄的【译者注：没有catch到异常】——那就是登录成功了！这个主体已经被认证成功。应用线程可以不间断地继续运行下去，后续所有的SecurityUtils.getSubject()调用都会返回已经被认证成功的主体实例，任何subject.isAuthenticated()调用都会返回true。</div><div><br/></div><div>但是如果登陆尝试失败了会怎样？例如，如果最终用户提供了一个错误密码会怎样？或者访问次数太多会怎样【译者注：登陆尝试失败次数太多】？或者他们的账户被锁定了会怎样？</div><div><br/></div><div>Shiro有一套丰富的运行时 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/AuthorizationException.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">AuthenticationException</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 层级结构，能精确地说明登陆尝试失败的原因。你可以把login方法调用放在一个try/catch块里面，捕获任何你想捕获的异常并且相应地做出处理。例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>try {<br/>
+    currentUser.login(token);<br/>
+} catch ( UnknownAccountException uae ) { ...<br/>
+} catch ( IncorrectCredentialsException ice ) { ...<br/>
+} catch ( LockedAccountException lae ) { ...<br/>
+} catch ( ExcessiveAttemptsException eae ) { ...<br/>
+} ... catch your own ...<br/>
+} catch ( AuthenticationException ae ) {<br/>
+    //unexpected error?<br/>
+}<br/><br/>
+//No problems, continue on as expected...</div></div><div><br/></div><div>如果现存的异常类不能满足你的需求，你可以自定义一个AuthenticationExceptions实现去描述特定的失败细节。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>登录失败的小提示</i></div><div><i><br/></i></div><div><i>虽然您的代码可以对特定的异常分别做出反应和分别执行必要的逻辑，但一个基于安全考虑的最佳实践是在失败事件发生时只显示一条通用的失败消息给最终用户，例如，“用户名或密码不正确”。这保证了没有详细的信息可提供给潜在的黑客，这些信息可能会暴露应该攻击的方向。</i></div></td></tr></table><div> </div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Remembered vs. Authenticated</div></div><div><br/></div><div>正如上面的例子，Shiro除了支持正常登录过程还支持“记住我”的概念。这个时候十分值得指出的是，Shiro给被记住的主体和真正被认证的主体之间做了很明确的区分：</div><div><br/></div><ul><li><b>Remembered</b> 一个被记住的主体不是匿名的而是有一个已知的身份（例如： subject.getPrincipals() 返回的不是空的）。但是这个身份是以先前的认证过程中存储在先前的会话的形式被记住的。如果 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">subject.</tt><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isRemembered()"
+            style="color: rgb(50, 84, 160); text-decoration: none;">isRemembered()</a></tt> 调用返回true，则认为这个主体被记住了。</li><li><b>Authenticated</b> 一个被认证过的主体是指在当前会话中被成功认证的主体（例如： login方法调用了并且没抛出异常）。如果 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">subject.</tt><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isAuthenticated()"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">isAuthenticated()</a></tt> 调用返回true，则认为这个主体被认证成功了。</li></ul><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div><i>互斥的</i></div><div><i><br/></i></div><div><i>被记住和被认证成功的状态是互斥的，如果其中一个是true，另一个就是false，反之亦然。</i></div></td></tr></tbody></table><div><br/></div><div><b><span
+            style="font-size: 15px;"><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><br/></span></span></b></div><div><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><span style="font-size: 15px;"><b>为什么要区分？</b></span></span></div><div><br/></div><div>“认证”这个词有十分强烈的证明意义。也就是说，要求有一个担保来确保主体已经被证明它是它所自称的身份。当一个用户只是从先前和应用的交互中被记住，而被证明身份的状态不再存在：被记住的身份给系统提供用户可能是谁的建议，但是在现实中，没有任何绝对担保方式保证这个被记住的主体是否代表了当前的用户。一旦主体被认证，就不是只考虑被记住的状态了，因为它的身份已经在当前会话中被验证了。</div><div><br/></div><div>所以尽管凭着被记住的身份，应用的很多部分仍然可以执行用户特定的逻辑，如自定义视图，但它通常应该不会执行高敏感级别的操作，直到用户执行了一次成功的认证尝试来合法地验证他们的身份。</div><div><br/></div><div>例如，检查一个用户是否能访问财务信息应该总是取决于isAuthenticated()，而不是isRemembered()，从而保证得到的身份是预期的并且验证过的。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;">一个说明的例子</div><div><br/></div><div>这是一个相当普遍的场景，用来帮助说明为什么区分被记住状态和被认证状态很重要，</div><div><br/></div><div>假如你在使用亚马逊，你已经登录成功并且加了几本书到你的购物车，但是你必须离开去参加一个会议，但是忘记了退出。当会议结束的时候，已经到了回家的时候，你离开了办公室。</div><div><br/></div><div>第二天你来工作，你发现你没有完成你的购买，所以你回到了亚马逊。这次，亚马逊记住了你是谁，问候你的名字，并且还给你个性化地推荐了几本书。对于亚马逊来说，subject.isRemembered()应该返回的是true。</div><div><br/></div><div>但是，当你为了买书进入你的账户更新你的信用卡信息的时候会发生什么呢？虽然亚马逊记住了你（isRemembered() == true），但是它不能保证你就是那个你（例如，可能是一个同事在用你的电脑）。</div><div><br/></div><div>所以在你可以执行一个像更新信用卡信息的敏感动作前，亚马逊将迫使你登录，这样他们就可以保证你的身份，当你登录后，你的身份已经被亚马逊验证过了，isAuthenticated()现在将返回true。</div><div><br/></div><div>这种场景在各类应用中发生的是如此的频繁，所以这个功能集成进了Shiro，所以你可以用进你自己的应用。现在，不管你是用isRemembered()还是用isAuthenticated()来定制化你的视图和工作流，都随你喜欢。但是Shiro将保留这个基本状态【译者注：被记住状态 】以防你万一要用。</div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Logging Out</div></div><div><br/></div><div>认证操作的反面就是释放所有已知的身份状态。当主体完成和应用的交互，你可以调用subject.logout()方法来丢弃所有的身份信息。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>currentUser.logout(); //removes all identifying information and invalidates their session too.</div></div><div><br/></div><div>当你调用logout方法，任何现有的会话都将失效，任何身份信息都将被删除（例如，在一个web应用里，“记住我”cookie将被删除）。</div><div><br/></div><div>在一个主体安全退出后，主体实例又重新被认为是匿名的，除了web应用，如果你想重新使用只要再登陆一次就行了。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>Web应用提示</i></div><div><i><br/></i></div><div><i>因为在web应用里记住身份通常依靠持久化在cookie里面，并且cookie只能在一个响应体被提交后才删除。强烈建议在调用subject.logout()方法后立刻将最终用户重定向到一个新视图或页面中。这能保证任何安全相关的cookie都能如预期地被删除。这是受HTTP cookie的功能所限制，而不是因为Shiro。</i></div></td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Authentication Sequence</div></div><div><br/></div><div>目前为止，我们只关注了如何在应用代码中认证主体。现在我们将要涉及，当认证尝试发生时Shiro内部会发生什么。</div><div><br/></div><div>我们从<a
+            href="http://shiro.apache.org/architecture.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Architecture">Architecture</a><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 章节拿到了先前的架构图，并且只让认证相关的组件变得高亮显示，每个数字代表认证尝试中的一个步骤：</span></div><div><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><br/></span></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/shiro/images/5.png" type="image/png"/></div><div><br/></div><div><br/></div><div><b
+            style="font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Step 1</b><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">:</span> 应用代码调用Subject.login方法，给方法体传入代表了最终用户的principals和credentials的AuthenticationToken实例。</div><div><br/></div><div><b
+            style="font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Step 2</b><span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><span
+            style="font-size: medium;">:</span></span> 主体实例，通常是一个</span> <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/support/DelegatingSubject.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">DelegatingSubject</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> （及其子类）通过调用securityManager.login(token)方法委托给应用的SecurityManager，这是认证工作真正开始的地方。</span></div><div><br/></div><div><b
+            style="font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Step 3</b><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">:</span> <span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">SecurityManager作为基本的“保护伞”组件，接收token后只是简单地调用</span> <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">authenticator.</tt><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/Authenticator.html#authenticate(org.apache.shiro.authc.AuthenticationToken)"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">authenticate(token)</a></tt><span
+            style="color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 方法委托给其内部组件</span><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/Authenticator.html"
+            style="outline: 0px; color: rgb(64, 104, 195); font-family: monospace; line-height: normal;">Authenticator</a> 。它通常是一个 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/ModularRealmAuthenticator.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">ModularRealmAuthenticator</a> 实例，在认证过程中能协调一个或多个Realm实例。ModularRealmAuthenticator本质上是给Apache Shiro提供了一个 <a
+            href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" rel="nofollow"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">PAM</a> 风格的模板（在PAM术语中，每个Realm是一个模块）。</div><div><br/></div><div><b
+            style="font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Step 4</b><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">:</span> 如果在应用中配置了多个Realm，ModularRealmAuthenticator实例将利用它所配置的 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/AuthenticationStrategy.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">AuthenticationStrategy</a> 来发起一个多Realm的认证尝试。我们将很快讨论AuthenticationStrategies。在认证过程中，在Realm被调用的前前后后AuthenticationStrategy都将被调用，这使得它可以针对Realm的各个结果做出反应。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>单Realm应用</i></div><div><i><br/></i></div><div><i>如果只配置了一个Realm，只要直接调用【译者注：直接调用ModularRealmAuthenticator】——在单Realm应用中就没必要使用AuthenticationStrategy了。</i></div></td></tr></table><div><br/></div><div><b
+            style="font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Step 5</b><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">:</span> 每一个被配置的Realm都被检查是否支持提交过来的AuthenticationToken。如果支持的话，这个Realm的 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/realm/Realm.html#getAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken)"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">getAuthenticationInfo</a> 方法（传入提交过来的token）就会被调用。getAuthenticationInfo方法有效地代表了在一个具体的Realm中进行单次认证尝试。我们将很快讨论到在认证中Realm的行为。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div><tt>Authenticator</tt></div></div><div><br/></div><div>正如前面提到的，Shiro的SecurityManager实现默认使用  <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/ModularRealmAuthenticator.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">ModularRealmAuthenticator</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> 实例，ModularRealmAuthenticator跟支持多Realm应用一样支持单Realm应用。</span></div><div><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><br/></span></div><div><font
+            face="Helvetica Neue, Helvetica, Arial, sans-serif">在单Realm应用中，ModularRealmAuthenticator将直接调用这个单一的Realm。如果配置了多个Realm，将使用一个AuthenticationStrategy实例去协调怎么去发生认证尝试。下面我们将提到AuthenticationStrategies。</font></div><div><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><br/></span></div><div><font
+            face="Helvetica Neue, Helvetica, Arial, sans-serif">如果你想给SecurityManager配置一个自定义的Authenticator实现，你可以像下例一样在shiro.ini中配置：</font></div><div><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><br/></span></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[main]<br/>
+...<br/>
+authenticator = com.foo.bar.CustomAuthenticator<br/><br/></div><div>securityManager.authenticator = $authenticator</div></div><div><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><br/></span></div><div>虽然在实践中，对于大多数需求来说ModularRealmAuthenticator是最适合的。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div><tt>AuthenticationStrategy</tt></div></div><div><br/></div><div>当应用中配置了多个Realm时，ModularRealmAuthenticator依赖其内部组件 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/AuthenticationStrategy.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">AuthenticationStrategy</a></tt> ，来决定一次认证尝试成功或失败的条件。</div><div><br/></div><div>例如，如果只有一个Realm认证AuthenticationToken成功了，其他都是失败的，这次认证尝试算成功吗？或者必须要求在整个认证尝试中所有Realm都认证成功才算成功？或者，如果一个Realm认证成功，还需不需要继续认证下去？AuthenticationStrategy会根据应用的需求做出适当的决策。</div><div><br/></div><div>AuthenticationStrategy是一个无状态组件，在一次认证尝试中要被调用4次（任何必要状态都要求有这4次交互，交互结果将作为后面调用的方法参数）：</div><ol><li>在所有的Realm被调用之前调用</li><li>在个别Realm的getAuthenticationInfo方法被调用前立即调用</li><li>在个别Realm的getAuthenticationInfo方法被调用后立即调用</li><li>在所有的Realm被调用完之后调用</li></ol><div><br/></div><div>AuthenticationStrategy还有责任把每一个成功认证的Realm返回的结果集合起来，并且把他们绑到一个 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/AuthenticationInfo.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">AuthenticationInfo</a> 单例中。这个最终集成的AuthenticatinoInfo实例是由Authenticator返回的，它是Shiro用来表示主体最终身份的对象（也叫Principals）。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>主体的身份视图</i></div><div><i><br/></i></div><div><i>如果你在应用中使用了多个Realm，要求从多个数据源中获取账户数据，AuthenticationStrategy最终有责任让应用看到最后“合成”的主体身份视图。</i></div></td></tr></table><div><br/></div><div>Shiro有三个具体的AuthenticationStrategy实现：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;margin-left:0px;table-layout:fixed;width:100%;"><tr><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:22.032520325203254%;"><span
+            style="font-size: 16px;"><b>实现类</b></span></td><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:77.88617886178861%;"><span
+            style="font-size: 16px;"><b>描述</b></span></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/AtLeastOneSuccessfulStrategy.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">AtLeastOneSuccessfulStrategy</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果有一个（或多个）Realm认证成功，整体的尝试就被认为是成功的。如果没有一个认证是成功的，整个尝试算失败。</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/FirstSuccessfulStrategy.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">FirstSuccessfulStrategy</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>只有第一个被成功认证的Realm返回的信息将被使用，后面的Realms认证结果将全部被忽略。如果没有一个认证是成功的，整个尝试算失败。</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/AllSuccessfulStrategy.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">AllSuccessfulStrategy</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>所以被配置的Realm都必须被认证成功，整个的尝试才被认为是成功的。如果任意一个失败了，整个尝试算失败。</div></td></tr></table><div><br/></div><div>ModularRealmAuthenticator默认使用AtLeastOneSuccessfulStrategy实现，因为这是最常用的策略。不过，你可以随意配置别的策略：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div
+            style="text-align: center">shiro.ini</div><div><hr/></div><div>[main]</div><div>...<br/>
+authcStrategy = org.apache.shiro.authc.pam.FirstSuccessfulStrategy<br/><br/>
+securityManager.authenticator.authenticationStrategy = $authcStrategy<br/><br/></div><div>...</div></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>定制的AuthenticationStrategy</i></div><div><i><br/></i></div><div><i>如果你想创建自己的AuthenticationStrategy实现，你可以使用 <i><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authc/pam/AbstractAuthenticationStrategy.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(221, 255, 221);">org.apache.shiro.authc.pam.AbstractAuthenticationStrategy</a></i> 作为一个起点，AbstractAuthenticationStrategy自动实现了把各个Realm的合并结果绑定到一个AuthenticationInfo单例中。</i></div></td></tr></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Realm Authentication Order</div></div><div><br/></div><div>特别需要指出的是，ModularRealmAuthenticator将按迭代顺序和Realm进行交互。</div><div><br/></div><div>ModularRealmAuthenticator必须访问配置在SecurityManager上面的Realm实例，当执行一次认证尝试，它会遍历集合，对于每一个支持所提交的AuthenticationToken的Realm，都将调用这个Realm的getAuthenticationInfo方法。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Implicit Ordering 隐式排序</div></div><div><br/></div><div>当使用Shiro的INI配置格式时，你可以按顺序配置Realms，让它们处理一个AuthenticationToken。例如，在shiro.ini，Realms将按照在INI定义的顺序被调用。也就是，按照下面的shiro.ini例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>blahRealm = com.company.blah.Realm<br/>
+...<br/>
+fooRealm = com.company.foo.Realm<br/>
+...</div><div>barRealm = com.company.another.Realm</div></div><div><br/></div><div>SecurityManager将配置这三个Realm，并且在一次认证尝试中，blahRealm、fooRealm和barRealm将按照这个顺序被调用。</div><div><br/></div><div>效果和下面的定义一样：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>securityManager.realms = $blahRealm, $fooRealm, $barRealm</div></div><div><br/></div><div>用这个方法，你不用去设置securityManager的Realm属性——每个被定义的realm将自动加到realm属性中。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Explicit Ordering 显式排序</div></div><div><br/></div><div>如果你想显式地定义和Realm交互的顺序，无论它们是怎么被定义的，你都可以把securityManager的Realm属性当成一个显式的集合属性。例如，如果用了上面的定义，但是你又想把blahRealm放到最后被调用：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>blahRealm = com.company.blah.Realm<br/>
+...<br/>
+fooRealm = com.company.foo.Realm<br/>
+...<br/>
+barRealm = com.company.another.Realm<br/><br/>
+securityManager.realms = $fooRealm, $barRealm, $blahRealm</div><div>...</div></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i>显式包含Realm</i></div><div><i><br/></i></div><div><i>当你显式地配置securityManager.realms属性，只有引用到了的Realm才会被配置到SecurityManager里。这意味着你可以在INI定义5个Realm，但是实际上只用了3个，如果在Realm属性中只引用了其中3个的话。这和隐式排序中所有可用的Realm都将被用到是不同的。</i></div></td></tr></table><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Realm Authentication</div></div><div><br/></div><div>本章节涵盖了Shiro的主流程，解释了一次认证尝试是怎么发生的。对于认证过程中在单个Realm调用中发生了什么的子流程（上面提到的第五步），包含在了 <a
+            href="http://shiro.apache.org/realm.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Realm">Realm</a> 章节的 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><a
+            href="http://shiro.apache.org/realm.html#Realm-authentication"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Realm Authentication</a> 部分中。</div><div><br/></div><div><hr/></div><div><br/></div><div><a
+            href="http://shiro.apache.org/authentication.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/configuration.html">Shiro配置</a>
+    </div>
+    <div class="article-next">下一篇：暂无</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
