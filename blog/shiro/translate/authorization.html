@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Shiro授权</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：7 Apache Shiro授权</li>
+</ol>
+
+<h1>7 Apache Shiro授权</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月26日</p></div>
+
+<div class="article-text">
+    <span><div style="text-align: center"><img src="/leaforheart.github.io/blog/shiro/images/6.png" type="image/png"/></div><div><br/></div><div>授权，也被称作访问控制，是管理访问资源的过程。也就是说，在一个应用中控制谁能访问什么。</div><div><br/></div><div>授权检查的例子有：这个用户是否被允许查看这个页面，编辑这条数据，看到这个按钮，或者打印到打印机？这些都是关于一个用户是否有权限访问的决定。</div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Elements of Authorization 授权的要素</div></div><div><br/></div><div>授权有三个核心要素，在Shiro中用的很多：permissions，roles，users。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Permissions 权限</div></div><div><br/></div><div>Permissions在Apache Shiro中是安全策略的最小原子元素。它们是对行为描述的最基本语句，明确地表示了在一个应用中能做什么。一个格式良好的permission语句本质上描述了资源和当一个主体和这些资源进行交互时可能采取什么样的动作。</div><div><br/></div><div>permission语句的一些例子：</div><ul><li>打开一个文件</li><li>查看'/user/list'网页</li><li>打印文档</li><li>删除'jsmith'用户</li></ul><div><br/></div><div>大部分资源都支持经典的CRUD（增查改删）动作，但是只要是对于一个具体的资源类型有意义的动作都是可以的。最基本的想法就是，permission语句至少是基于资源和动作的。</div><div><br/></div><div>当查看权限时，可能要认识到的最重要的一点就是，permission语句并不表示谁可以执行某种行为，只是描述了在应用中什么事情可以做。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i><b><span
+            style="font-size: 16px;">权限只代表了行为</span></b></i></div><div><i><br/></i></div><div><i>权限只反映了行为（行为就是关联了某种资源类型的动作）。它们不反应谁能执行这些行为。</i></div></td></tr></tbody></table><div><br/></div><div>定义谁（用户）被允许做什么（权限），基本上可以看做是分配权限给用户的操作。这经常有应用的数据模型来处理，在不同的应用中可能有很大的不同。</div><div><br/></div><div>例如，权限可以被归组到角色，角色又可以关联到一个或多个用户对象。或者有些用户可以有用户组，用户组可以关联角色，通过传递关联，将角色中的所有权限间接地授权给了用户组中的所有用户。</div><div><br/></div><div>将权限授权给用户有很多不同的方法——应用将根据自身需求来决定怎么建模。</div><div><br/></div><div>等下我们将介绍Shiro怎么决定一个主体是否被允许做某事。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Permission Granularity 权限粒度</div></div><div><br/></div><div>上面的几个权限例子全都指定了在某个资源类型（门，文件，用户，等等）上采取什么动作（打开，查看，删除，等等）。在某些情况下，它们甚至指定非常细粒度（实例水平）的行为——例如，“删除”（动作）一个叫“jsmith”（实例标识）的“用户”（资源类型）。在Shiro中，你有能力去准确定义任何细粒度的权限语句。</div><div><br/></div><div>我们将在Shiro的 <a
+            href="http://shiro.apache.org/permissions.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Permissions">Permissions Documentation</a> 中介绍关于权限粒度和权限语句水平的更多详细信息。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Roles 角色</div></div><div><br/></div><div>角色是一个被特定命名的、代表了一个行为或责任集合的实体。这些行为最终被转化成在一个软件应用中可以做或不可以做的事。角色通常被分配给用户账户，由此关联，用户能“做 ”某事就归因于他是否拥有各种各样的角色。</div><div><br/></div><div>角色有两种类型，Shiro都支持：</div><ul><li><b>隐式角色</b>。大多数人都把角色当成隐式结构：在你的应用中只用一个角色名称隐含一个行为（比如，权限）的集合。有了隐式角色，在软件里面就没了“某角色X被允许执行某某行为A,B,C”的说法。行为被暗含在一个角色名称下。</li></ul><div>     </div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i><b><span
+            style="font-size: 16px;">潜在的脆弱的安全</span></b></i></div><div><i><br/></i></div><div><i>虽然是更简单和最通用的做法，隐式角色可能会强加需要软件维护和管理的问题。</i></div><div><i><br/></i></div><div><i>例如，如果你只是想增加或移除一个角色，或者想在后面重新定义一个角色的行为时会怎样？你必须回去找你的源代码，并修改所有的角色检查代码来应对你的安全模型的变化，而且每次变化都要这么搞！更不提这将招致额外的运营成本（重新测试，通过QA，关闭应用，因为新的角色检查升级软件，重启应用，等等）。</i></div><div><i><br/></i></div><div><i>这在简单应用中没多大问题（比如只有一个“admin”角色和“everyone else”角色的话），但是对于更多的复杂的或可配置的应用来说，在你的应用的生命周期内这将是一个非常非常重大的问题，并且将造成一笔非常大的维护费用。</i></div></td></tr></tbody></table><div><br/></div><ul><li>显式角色。然而，一个显式角色本质上是一个真实的permission语句组成的带有命名的集合。在这种形式下，应用（和Shiro）明确地知道拥有与否一个具体的角色意味着什么。因为它能准确地知道行为是否可以被执行，这里没有任何猜测和暗示一个具体的角色能做什么不能做什么。</li></ul><div><br/></div><div>Shiro团队提倡使用权限和显式角色来代替隐式角色这种更老的办法。你将会得到好得多的控制你的应用安全的体验。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i><b><span
+            style="font-size: 16px;">基于资源的访问控制</span></b></i></div><div><i><br/></i></div><div><i>请阅读Les Hazlewood的文章， <a
+            href="http://www.katasoft.com/blog/2011/05/09/new-rbac-resource-based-access-control" rel="nofollow"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(221, 255, 221);"><i>The New RBAC: Resource-Based Access Control</i></a> ，它深入地探讨了使用权限和显式角色（及其对源代码所带来的积极影响 ）来代替更老的隐式角色的办法所带来的好处。</i></div></td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Users 用户</div></div><div><br/></div><div>用户本质上是指使用应用的“谁”。正如前面所提到的，主体（Subject）就是Shiro中的“用户”的概念。</div><div><br/></div><div>通过关联角色或直接关联权限，用户在应用中被允许执行某些动作。你应用的数据模型精确地定义了一个主体是怎么被允许做某事或不允许做某事的。</div><div><br/></div><div>例如，在你的数据模型中，你也许有一个实际的用户类，并且你直接分配权限给用户实例。或者你可能只直接给角色分配权限，然后再把角色分配给用户，通过联系，用户间接地拥有了分配给角色的那些权限。或许你可以用“组”的概念来表示这些东西，这随你——使用对你的应用程序有意义的模型就行了。</div><div><br/></div><div>你的数据模型完全决定了授权将怎样起作用，Shiro依赖一个 <a
+            href="http://shiro.apache.org/realm.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Realm">Realm</a> 实现把你的数据模型关联详细翻译成Shiro可以理解的格式。我们稍后将介绍Realm是怎么做的。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div><i>最终，你的Realm实现是和你的数据源（RDBMS, LDAP, 等等）进行通信，所以你的Realm就是告诉Shiro存不存在某角色或权限的东西。你可以完全控制你的授权模型的结构和定义。</i></div></td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Authorizing Subjects 授权中的主体</div></div><div><br/></div><div>在Shiro里面执行授权有3种办法：</div><ul><li>硬编码——你可以在你的Java代码里面（像if和else代码块 ）执行授权检查</li><li>JDK注解——你可以在你的Java方法上标注一个authorization注解</li><li>JSP/GSP标签库——你可以控制JSP或GSP页面根据角色和权限输出不同的内容</li></ul><div><br/></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Programmatic Authorization 硬编码授权</div></div><div><br/></div><div>也许执行授权最简单和最通用的方法就是通过直接编码的方式和当前主体实例进行交互。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Role-Based Authorization 基于角色授权</div></div><div><br/></div><div>如果你想基于更简单的/更传统的隐式角色名来进行访问控制，你可以执行角色检查：</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Role Checks</div></div><div><br/></div><div>如果你只是想简单地检查当前用户是否拥有某个角色，你可以调用Subject实例的hasRole*系列方法。</div><div><br/></div><div>例如，看某个主体是否有某个特定（单个）的角色，你可以调用 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">subject.</tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#hasRole(java.lang.String)"
+            style="color: rgb(50, 84, 160); text-decoration: none;">hasRole(roleName)</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 方法，并且做出相应反应：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+if (currentUser.hasRole(&quot;administrator&quot;)) {<br/>
+    //show the admin button<br/>
+} else {<br/>
+    //don't show the button?  Grey it out?</div><div>}</div></div><div><br/></div><div>Subject类有一些跟角色相关的方法供你使用，你可以根据需要选择：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;margin-left:0px;table-layout:fixed;width:100%;"><tbody><tr><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:29.43089430894309%;"><div
+            style="text-align: center"><b>Subject方法</b></div></td><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:70.48780487804878%;"><div
+            style="text-align: center"><b>描述</b></div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#hasRole(java.lang.String)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">hasRole(String roleName)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;">如果Subject实例被分配了这个指定的role，就返回true，否则返回false</td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#hasRoles(java.util.List)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">hasRoles(List&lt;String&gt; roleNames)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>返回一个boolean数组，分别对应每个角色的检查结果。当需要检查多个角色的时候是一个很有用的增强性能的操作（例如，当自定义了一个复杂的视图）</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#hasAllRoles(java.util.Collection)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">hasAllRoles(Collection&lt;String&gt; roleNames)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;">如果Subject实例被分配了所有集合中指定的role，返回true，否则返回false</td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Role Assertions 角色断言</div></div><div><br/></div><div>还有一个检查主体是否拥有某个角色的并返回boolean值的方法，在逻辑执行之前，你可以先简单地断言他们是否拥有一个预期的角色。如果主体没有这个角色，该方法将抛出一个 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/AuthorizationException.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">AuthorizationException</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 异常。如果有这个预期的角色，断言将会静默地执行通过，后面的逻辑代码也将预期执行。</div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+//guarantee that the current user is a bank teller and<br/>
+//therefore allowed to open the account:<br/>
+currentUser.checkRole(&quot;bankTeller&quot;);</div><div>openBankAccount();</div></div><div><br/></div><div>相对于使用hasRole*方法，用这个方法可以使代码更加整洁，因为在当前主体不符合预期的条件下你不必自己创建AuthorizationExceptions异常（如果你不想创建的话）。</div><div><br/></div><div>Subject类有一些跟角色相关的断言方法供你使用，你可以根据需要选择：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;margin-left:0px;table-layout:fixed;width:100%;"><tbody><tr><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:30.24390243902439%;"><div
+            style="text-align: center"><b>Subject方法</b></div></td><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:69.67479674796748%;"><div
+            style="text-align: center"><b>描述</b></div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkRole(java.lang.String)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkRole(String roleName)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果Subject实例被分配了指定的role，就静默地返回，否则抛出一个AuthorizationException异常</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkRoles(java.util.Collection)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkRoles(Collection&lt;String&gt; roleNames)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果Subject实例被分配了所有集合中指定的role，就静默地返回，否则抛出一个AuthorizationException异常</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkRoles(java.lang.String...)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkRoles(String... roleNames)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;">效果跟上面的方法一样，但是允许使用Java5的可变参数个数风格</td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Permission-Based Authorization 基于权限授权</div></div><div><br/></div><div>正如我们上面对角色的概述一样，基于权限的授权来执行访问控制通常是一种更好的方式。基于权限授权，因为它与你的应用的原始功能（基于应用核心资源之上的行为）密切相关，当你的功能发生变化，基于权限授权的源代码才会改变，而不会因为一次安全策略的改变而改变。这意味着相比于基于角色授权代码来说，代码受冲击的频率要大大减小。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Permission Checks 权限检查</div></div><div><br/></div><div>如果你想检查一个主体是否被允许做某事，你可以调用isPermitted*方法的任何变体。检查权限有两个主要的方法——基于对象的权限实例或者用代表权限的字符串。</div><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Object-based Permission Checks 基于对象的权限检查</span></div><div><br/></div><div>执行权限检查的一种可能方式就是，初始化一个Shiro的 <span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Permission.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">org.apache.shiro.authz.Permission</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 接口实例，并且将它传入接受权限实例的isPermitted*方法。</div><div><br/></div><div>例如，考虑以下情况：办公室有一个打印机，这个打印机有一个独特标识laserjet4400n，在允许他们按“print”按钮之前，我们的软件需要检查当前用户是否被允许在那台打印机上打印文档。权限检查有可能看起来是这种形式的：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Permission printPermission = new PrinterPermission(&quot;laserjet4400n&quot;, &quot;print&quot;);<br/><br/>
+Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+if (currentUser.isPermitted(printPermission)) {<br/>
+    //show the Print button<br/>
+} else {<br/>
+    //don't show the button?  Grey it out?</div><div>}</div></div><div><br/></div><div>在上面的例子中，我们也看到了一个非常强大的在实例级别进行访问控制的例子——在个别数据实例上约束行为的能力。</div><div><br/></div><div>在下面的几种情形中基于对象的权限非常有用：</div><ul><li>你想在编译期做到类型安全</li><li>你想确保权限被正确表示和使用</li><li>你想显式控制权限的解析逻辑（基于权限接口的暗示方法，叫做权限隐含逻辑）的执行</li><li>你想确保权限精确地反映应用资源（例如，在一个项目基于项目的领域模型构建起来的时候，也许权限类可以自动生成）</li></ul><div><br/></div><div>Subject类有一些跟权限相关的方法供你使用，你可以根据需要选择：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;margin-left:0px;table-layout:fixed;width:100%;"><tbody><tr><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:31.382113821138212%;"><div
+            style="text-align: center"><b>Subject方法</b></div></td><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:68.53658536585367%;"><div
+            style="text-align: center"><b>描述</b></div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isPermitted(org.apache.shiro.authz.Permission)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermitted(Permission p)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果通过指定的权限实例的综述，主体被允许执行某个动作或访问某个资源，则返回true，否则返回false</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isPermitted(java.util.List)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermitted(List&lt;Permission&gt; perms)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>返回一个boolean数组，分别对应每个权限的检查结果。当需要检查多个权限的时候是一个很有用的增强性能的操作（例如，当自定义了一个复杂的视图）</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isPermittedAll(java.util.Collection)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermittedAll(Collection&lt;Permission&gt; perms)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果Subject实例被许可了集合中所有指定的权限，返回true，否则返回false</div></td></tr></tbody></table><div><br/></div><div><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">String-based permission checks 基于字符串的权限检查</span></div><div><br/></div><div>虽然基于对象的权限十分有用（编译期类型安全，确保行为正确，自定义隐含逻辑，等等），但是对于很多应用来说有时显得很“笨重”。还有一种办法就是使用普通字符串来表示权限实例。</div><div><br/></div><div>例如，沿用上面的打印权限示例，我们可以用基于字符串的权限检查重新设计一个相同效果的检查：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+if (currentUser.isPermitted(&quot;printer:print:laserjet4400n&quot;)) {<br/>
+    //show the Print button<br/>
+} else {<br/>
+    //don't show the button?  Grey it out?</div><div>}</div></div><div><br/></div><div>这个例子仍然展示了实例级别的权限检查，但是权限的重要部分——打印机（资源类型），打印（action）和laserjet4400n（实例id）——都由字符串来表示。</div><div><br/></div><div>这个具体的例子展示了由Shiro的默认 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/WildcardPermission.html"
+            style="color: rgb(50, 84, 160); text-decoration: none;">org.apache.shiro.authz.permission.WildcardPermission</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span>实现定义的一种由冒号分隔的特殊格式，大多数人都会觉得这种格式用起来很恰当。</div><div><br/></div><div>也就是说，上面的代码块就是（很大程度上可以这么认为）下面这个代码块的简短写法：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+Permission p = new WildcardPermission(&quot;printer:print:laserjet4400n&quot;);<br/><br/>
+if (currentUser.isPermitted(p) {<br/>
+    //show the Print button<br/>
+} else {<br/>
+    //don't show the button?  Grey it out?</div><div>}</div></div><div><br/></div><div>WildcardPermission的令牌格式和生成选项在Shiro的 <a
+            href="http://shiro.apache.org/permissions.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Permissions">Permission documentation</a> 文档里面有讨论。</div><div><br/></div><div>虽然上面的字符串的格式都默认为WildcardPermission格式，但是实际上你可以创造自己的字符串格式，并且随你喜欢用哪种。我们将在下面的Realm授权章节讨论该怎么定义自己的字符串格式。</div><div><br/></div><div>基于字符串的权限是有益的，它不强制要求你实现一个接口，并且简单的字符串易于阅读。不利的是，你没有类型安全，如果你需要更复杂的行为，而这种行为超出了字符串所能表示的范围，这时你就会想基于权限接口实现自己的权限对象。在实践中，大多数Shiro的最终用户选择更简单的基于字符串的方法，但最终还是由你的应用的需求来决定那种方法更好。</div><div><br/></div><div>像基于对象的权限检查方法一样，主体也有基于字符串权限检查的方法变体：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;margin-left:0px;table-layout:fixed;width:100%;"><tbody><tr><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:29.43089430894309%;"><div
+            style="text-align: center"><b>Subject方法</b></div></td><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:70.48780487804878%;"><div
+            style="text-align: center"><b>描述</b></div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isPermitted(java.lang.String)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermitted(String perm)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果通过指定的字符串权限的综述，主体被允许执行某个动作或访问某个资源，则返回true，否则返回false</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isPermitted(java.util.List)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermitted(String... perms)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>返回一个boolean数组，分别对应每个权限的检查结果。当需要检查多个权限的时候是一个很有用的增强性能的操作（例如，当自定义了一个复杂的视图）</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#isPermittedAll(java.lang.String...)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermittedAll(String... perms)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果Subject实例被许可了参数中所有指定的权限，返回true，否则返回false</div></td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 11px;"><div>Permission Assertions 权限断言</div></div><div><br/></div><div>还有一个检查主体是否被允许做某事并返回boolean值的方法，在逻辑执行之前，你可以先简单地断言他们是否拥有一个预期的权限。如果主体没有这个权限，就抛出一个AuthorizationException异常。如果有这个预期的权限，断言将会静默地执行通过，后面的逻辑代码也将预期执行。</div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+//guarantee that the current user is permitted<br/>
+//to open a bank account:<br/>
+Permission p = new AccountPermission(&quot;open&quot;);<br/>
+currentUser.checkPermission(p);</div><div>openBankAccount();</div></div><div><br/></div><div>或者，同样的检查，用基于字符串权限：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Subject currentUser = SecurityUtils.getSubject();<br/><br/>
+//guarantee that the current user is permitted<br/>
+//to open a bank account:<br/>
+currentUser.checkPermission(&quot;account:open&quot;);</div><div>openBankAccount();</div></div><div><br/></div><div>相对于使用isPermitted*方法，用这个方法可以使代码更加整洁，因为在当前主体不符合预期的条件下你不必自己创建AuthorizationExceptions异常（如果你不想创建的话）。</div><div><br/></div><div>Subject类有一些跟权限相关的断言方法供你使用，你可以根据需要选择：</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;margin-left:0px;table-layout:fixed;width:100%;"><tbody><tr><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:30.89430894308943%;"><div
+            style="text-align: center"><b>Subject方法</b></div></td><td
+            style="border: 1px solid rgb(211, 211, 211); padding: 10px; margin: 0px;width:69.02439024390243%;"><div
+            style="text-align: center"><b>描述</b></div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkPermission(org.apache.shiro.authz.Permission)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkPermission(Permission p)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果通过指定的权限实例的综述，主体被允许执行某个动作或访问某个资源，则静默返回，否则抛出一个AuthorizationException异常</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkPermission(java.lang.String)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkPermission(String perm)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果通过指定的字符串权限的综述，主体被允许执行某个动作或访问某个资源，则静默返回，否则抛出一个AuthorizationException异常</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkPermissions(java.util.Collection)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkPermissions(Collection&lt;Permission&gt; perms)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div>如果Subject实例被许可了集合中所有指定的权限，则静默返回，否则抛出一个AuthorizationException异常</div></td></tr><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;"><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/Subject.html#checkPermissions(java.lang.String...)"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: nowrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkPermissions(String... perms)</a></div></td><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:50%;">跟上面的方法效果一样，但是使用的是基于字符串的权限</td></tr></tbody></table><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Annotation-based Authorization 基于注解的授权</div></div><div><br/></div><div>除了Subject的API调用，Shiro还提供了Java5+里面的注解的集合，如果你喜欢基于元数据进行授权控制的话。</div><div><br/></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Configuration 配置</div></div><div><br/></div><div>在你使用Java注解之前，你必须让你的应用支持AOP。这里有许多不同的AOP框架，所以很不幸，这里并没有一种标准的方法使你的应用拥有AOP功能。</div><div><br/></div><div>对于AspectJ，你可以回顾一下我们的 <a
+            href="https://github.com/apache/shiro/tree/master/samples/aspectj"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">AspectJ sample application</a>文档。</div><div><br/></div><div>对于Spring应用，你可以查看我们的 <a
+            href="http://shiro.apache.org/spring.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Spring">Spring Integration</a>文档。</div><div><br/></div><div>对于Guice应用，你可以查看我们的 <a
+            href="http://shiro.apache.org/guice.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Guice">Guice Integration</a>文档。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>The <tt>RequiresAuthentication</tt> annotation</div></div><div><br/></div><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/annotation/RequiresAuthentication.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RequiresAuthentication</a> 注解要求当前的主体在当前会话期间并且在被标注的类/实例/方法被访问或调用时被<span
+            style="color: rgb(255, 0, 0);">认证</span>。</div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>@RequiresAuthentication<br/>
+public void updateAccount(Account userAccount) {<br/>
+    //this method will only be invoked by a<br/>
+    //Subject that is guaranteed authenticated<br/>
+    ...</div><div>}</div></div><div><br/></div><div>这大概相当于下面这段基于Subject API的逻辑代码：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void updateAccount(Account userAccount) {<br/>
+    if (!SecurityUtils.getSubject().isAuthenticated()) {<br/>
+        throw new AuthorizationException(...);<br/>
+    }<br/>
+   <br/>
+    //Subject is guaranteed authenticated here<br/>
+    ...</div><div>}</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>The <tt>RequiresGuest</tt> annotation</div></div><div><br/></div><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/annotation/RequiresGuest.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RequiresGuest</a>注解要求当前主体是一个“宾客”。也就是说，当被标注的类/实例/方法被访问或调用时，他们（这些主体）没有被认证过或被先前的会话记住过。</div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>@RequiresGuest<br/>
+public void signUp(User newUser) {<br/>
+    //this method will only be invoked by a<br/>
+    //Subject that is unknown/anonymous<br/>
+    ...</div><div>}</div></div><div><br/></div><div>这大概相当于下面这段基于Subject API的逻辑代码：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void signUp(User newUser) {<br/>
+    Subject currentUser = SecurityUtils.getSubject();<br/>
+    PrincipalCollection principals = currentUser.getPrincipals();<br/>
+    if (principals != null &amp;&amp; !principals.isEmpty()) {<br/>
+        //known identity - not a guest:<br/>
+        throw new AuthorizationException(...);<br/>
+    }<br/>
+   <br/>
+    //Subject is guaranteed to be a 'guest' here<br/>
+    ...</div><div>}</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>The <tt>RequiresPermissions</tt> annotation</div></div><div><br/></div><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/annotation/RequiresPermissions.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RequiresPermissions</a>注解要求当前的主体被许可了一个或多个权限后，才可以执行被标注的方法。</div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>@RequiresPermissions(&quot;account:create&quot;)<br/>
+public void createAccount(Account account) {<br/>
+    //this method will only be invoked by a Subject<br/>
+    //that is permitted to create an account<br/>
+    ...</div><div>}</div></div><div><br/></div><div>这大概相当于下面这段基于Subject API的逻辑代码：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void createAccount(Account account) {<br/>
+    Subject currentUser = SecurityUtils.getSubject();<br/>
+    if (!subject.isPermitted(&quot;account:create&quot;)) {<br/>
+        throw new AuthorizationException(...);<br/>
+    }<br/>
+   <br/>
+    //Subject is guaranteed to be permitted here<br/>
+    ...</div><div>}</div></div><div><br/></div><div
+            style="font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div><span
+            style="font-size: medium;"><span style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><b>The </b></span><tt><span
+            style="font-size: medium;">RequiresRoles </span></tt></span><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"><span style="font-size: medium;"><b>annotation</b></span></span></div></div><div><br/></div><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/annotation/RequiresRoles.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RequiresRoles</a><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 注解要求当前主体拥有所有指定的角色。如果他们没有这些角色，方法将不会执行并且抛出一个AuthorizationException异常。</div><div><br/></div><div>例如：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>@RequiresRoles(&quot;administrator&quot;)<br/>
+public void deleteUser(User user) {<br/>
+    //this method will only be invoked by an administrator<br/>
+    ...</div><div>}</div></div><div><br/></div><div>这大概相当于下面这段基于Subject API的逻辑代码：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void deleteUser(User user) {<br/>
+    Subject currentUser = SecurityUtils.getSubject();<br/>
+    if (!subject.hasRole(&quot;administrator&quot;)) {<br/>
+        throw new AuthorizationException(...);<br/>
+    }<br/>
+   <br/>
+    //Subject is guaranteed to be an 'administrator' here<br/>
+    ...</div><div>}</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>The <tt>RequiresUser</tt> annotation</div></div><div><br/></div><div><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/annotation/RequiresUser.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RequiresUser</a><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">*</span> 注解要求在被注解的类/实例/方法被访问或调用时，当前主体是一个应用用户。一个“应用用户”被定义成是一个已知标识身份的主体，不管是因为当前会话期间被认证过而已知，还是因为在先前会话中被“记住我”服务记住而已知。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>@RequiresUser<br/>
+public void updateAccount(Account account) {<br/>
+    //this method will only be invoked by a 'user'<br/>
+    //i.e. a Subject with a known identity<br/>
+    ...</div><div>}</div></div><div><br/></div><div>这大概相当于下面这段基于Subject API的逻辑代码：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void updateAccount(Account account) {<br/>
+    Subject currentUser = SecurityUtils.getSubject();<br/>
+    PrincipalCollection principals = currentUser.getPrincipals();<br/>
+    if (principals == null || principals.isEmpty()) {<br/>
+        //no identity - they're anonymous, not allowed:<br/>
+        throw new AuthorizationException(...);<br/>
+    }<br/>
+   <br/>
+    //Subject is guaranteed to have a known identity here<br/>
+    ...</div><div>}</div></div><div><br/></div><div
+            style="font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div><b><span
+            style="font-size: 15px;"><span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">JSP</span>授权<span
+            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">标签库</span></span></b></div></div><div><br/></div><div>Shiro提供了一套标签库，用来控制JSP/GSP页面根据Subject的状态来输出。这将在<a
+            href="http://shiro.apache.org/web.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Web">Web</a>章节的<a href="http://shiro.apache.org/web.html#Web-taglibrary"
+                                     style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">JSP/GSP Tag Library</a>部分介绍。</div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Authorization Sequence 授权步骤</div></div><div><br/></div><div>现在我们必须看看怎么根据当前主体执行授权，让我们看看当一个授权调用发生的时候Shiro内部发生了什么。</div><div><br/></div><div>我们还是使用前面 <a
+            href="http://shiro.apache.org/architecture.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Architecture">Architecture</a>架构章节的架构图，并且只让跟授权相关的组件高亮。每个数字代表了授权期间的一个步骤：</div><div><br/></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/shiro/images/7.png" type="image/png"/></div><div><br/></div><div><br/></div><div><br/></div><div><b>Step 1：</b>应用或框架代码调用Subject的hasRole*, checkRole*, isPermitted*, 或 checkPermission*方法变体，然后传入要求的任何权限或角色的表述作为参数。</div><div><br/></div><div><b>Step 2：</b>主体的实例，通常是一个 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/subject/support/DelegatingSubject.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">DelegatingSubject</a> （或者它的子类）实例，它通过调用securityManager的几乎相同的hasRole*, checkRole*, isPermitted*, 或checkPermission*方法变体（securityManager 实现了 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Authorizer.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authz.Authorizer</a> 接口，这个接口定义了所有关于主体授权的方法），来委托给应用的SecurityManager。</div><div><br/></div><div><b>Step 3：</b>SecurityManager， 作为一个“保护伞”组件，通过调用authorizer的各自对应的hasRole*, checkRole*, isPermitted*, or checkPermission*方法，委托给它内部的 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Authorizer.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">org.apache.shiro.authz.Authorizer</a> 实例。authorizer实例默认是一个 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/ModularRealmAuthorizer.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">ModularRealmAuthorizer</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 实例，它在任何授权操作期间，都支持协调一个或多个Realm实例。</div><div><br/></div><div><b>Step 4：</b>每个被配置的Realm都要被检查是否实现了相同的 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Authorizer.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Authorizer</a> 接口。如果是，这个Realm自己对应的hasRole*,checkRole*, isPermitted*, 或checkPermission*方法就要被调用。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div><tt>ModularRealmAuthorizer</tt></div></div><div><br/></div><div>前面一点提到过，Shiro的SecurityManager实现默认使用 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/ModularRealmAuthorizer.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">ModularRealmAuthorizer</a> 实例。ModularRealmAuthorizer在处理应用支持多个Realm时和处理应用支持一个Realm时效果一样。</div><div><br/></div><div>对于任何授权操作，ModularRealmAuthorizer都将迭代它内部的Realm集合，并且按顺序逐一和它们交互。每个Realm交互步骤如下：</div><div><br/></div><ol><li>    如果Realm自己实现了 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Authorizer.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Authorizer</a> 接口，就说明Authorizer方法（hasRole*, checkRole*, isPermitted*, 或checkPermission*）被调用了。
+<ol><li>如果Realm的方法返回一个异常结果，这个异常传播一个AuthorizationException给主体的调用者。这直接把授权进程短路了，在这个授权操作中剩余的Realm都不会被请求。</li><li>如果Realm的hasRole*或isPermitted*方法返回一个boolean值并且值是true，true值被立即返回并且剩余的Realm被短路。这个行为存在一个性能增强的点，通常如果被一个Realm许可了，就暗示着这个主题被完全许可了。这个最受欢迎的安全策略，在默认情况下任何东西都是被禁止的，被允许的东西都是明确被允许的，这是安全策略中最常用的安全类型。</li></ol></li><li>如果这个Realm没有实现Authorizer接口，它将被忽略。</li></ol><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Realm Authorization Order ：Realm的授权顺序</div></div><div><br/></div><div>十分值得指出的是，跟认证完全一样，ModularRealmAuthorizer将使用迭代顺序和Realm实例交互。</div><div><br/></div><div>ModularRealmAuthorizer必须访问配置在SecurityManager上面的Realm实例。当执行一个授权操作，它将迭代那个集合，并且只针对实现了Authorizer接口的那些Realm，调用Realm中各自对应的Authorizer方法（例如： <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">hasRole*</tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">, </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkRole*</tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">, </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">isPermitted*</tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">, 或 </span><tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">checkPermission*</tt>）。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>配置一个全局的 <tt>PermissionResolver</tt></div></div><div><br/></div><div>当执行一个基于字符串的权限检查的时候，大多数Shiro的默认Realm实现都在执行权限的隐含逻辑之前首先将这条字符串转换成一个真实的 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/Permission.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">Permission</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 实例。</div><div><br/></div><div>这是因为权限都是基于隐含逻辑进行求值的，而不是直接用一个等式来检查（参看 <a
+            href="http://shiro.apache.org/permissions.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="Permissions">Permission</a>文档，得到更多关于隐含逻辑和等式逻辑的信息）。在代码中隐含逻辑比通过字符串比较更容易表达意思。因此，大多数Realm需要转换，或者把已提交的权限字符串解析成对应的权限实例。</div><div><br/></div><div>为了这个转换，Shiro支持 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/PermissionResolver.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">PermissionResolver</a> 这一概念。大多数Shiro的Realm实现都使用一个PermissionResolver来支持它们的实现——实现Authorizer接口中那些基于字符串权限检查的方法，它将使用PermissionResolver将字符串转换成权限对象，然后通过权限对象执行检查。</div><div><br/></div><div>所有Shiro的Realm实现使用内部组件 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/WildcardPermissionResolver.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">WildcardPermissionResolver</a> ，假定使用Shiro的 <tt
+            style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/WildcardPermission.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline;">WildcardPermission</a></tt><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 字符串格式。</div><div><br/></div><div>如果你想创建自己的PermissionResolver实现，或许是为了支持你自己的权限字符串语法，并且你希望所有被配置的Realm实例都支持这种语法，你可以将你的PermissionResolver设置为全局变量给所有的Realm使用，在一个应用中只要配置一次就行了。</div><div><br/></div><div>例如，在shiro.ini中：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div
+            style="text-align: center">shiro.ini</div><div><hr/></div><div>globalPermissionResolver = com.foo.bar.authz.MyPermissionResolver<br/>
+...<br/>
+securityManager.authorizer.permissionResolver = $globalPermissionResolver</div><div>...</div></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.91869918699187%;"><div><i><b><span
+            style="font-size: 16px;">PermissionResolverAware</span></b></i></div><div><i><br/></i></div><div><i>如果你想配置一个全局的PermissionResolver，每一个配置在Realm中的PermissionResolver都必须实现 <a
+            href="http://shiro.apache.org/static/current/apidocs/src-html/org/apache/shiro/authz/permission/PermissionResolverAware.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 206);"><i>PermisionResolverAware</i></a> 接口。这保证了配置的实例可以传递到每一个支持这种配置的Realm。</i></div></td></tr></tbody></table><div><br/></div><div>如果你不想使用一个全局的PermissionResolver，或者你不想那么麻烦使用PermissionResolverAware接口，你可以显式地给每一个Realm配置一个PermissionResolver实例（假设有一个JavaBeans兼容的setPermissionResolver方法）：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>permissionResolver = com.foo.bar.authz.MyPermissionResolver<br/><br/>
+realm = com.foo.bar.realm.MyCustomRealm<br/>
+realm.permissionResolver = $permissionResolver</div><div>...</div></div><div><br/></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>配置一个全局的 <tt>RolePermissionResolver</tt></div></div><div><br/></div><div>类似于PermissionResolver的概念，一个 <a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/RolePermissionResolver.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RolePermissionResolver</a>有能力去表示Realm所需要的权限实例，进而执行权限检查。</div><div><br/></div><div>RolePermissionResolver的关键不同之处在于，输入的字符串是一个角色的名称，而不是一个权限字符串。</div><div><br/></div><div>当需要将一个角色名称转换成一个具体的权限实例集合的时候，RolePermissionResolver将被Realm内部调用。</div><div><br/></div><div>这是一个特别有用的特性，用于支持那些古老的不灵活的数据源，它们可能没有权限的概念。</div><div><br/></div><div>例如，很多LDAP目录存储了角色名称（或者用户组名称），但是不支持将角色名称关联到具体的权限，因为它们根本没有“权限”的概念。基于Shiro的应用可以使用存储在LDAP中的角色名称，但是另外实现一个RolePermissionResolver，用来将角色名称转换成一个显式权限的集合，进而执行首选的显式访问控制。权限关联存储在另一个数据存储中，可能是一个本地数据库。</div><div><br/></div><div>因为将角色名称转换成权限的概念在应用中有非常大的差异，所以Shiro的默认Realm实现不实现它。</div><div><br/></div><div>然而，如果你想创建自己的RolePermissionResolver实现，并且你想把它配置给一个以上的Realm实现，你可以将你的RolePermissionResolver设置为全局变量，这样可以只配置一次。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div
+            style="text-align: center">shiro.ini</div><div><hr/></div><div>globalRolePermissionResolver = com.foo.bar.authz.MyPermissionResolver<br/>
+...<br/>
+securityManager.authorizer.rolePermissionResolver = $globalRolePermissionResolver</div><div>...</div></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;width:100%;table-layout:fixed;margin-left:0px;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:100%;"><div><i><span
+            style="font-size: 16px;"><b>RolePermissionResolverAware</b></span></i></div><div><i><br/></i></div><div><i>如果你想配置一个全局的RolePermissionResolver，每一个配置在Realm中的RolePermissionResolver都必须实现 <i><a
+            href="http://shiro.apache.org/static/current/apidocs/org/apache/shiro/authz/permission/RolePermissionResolverAware.html"
+            style="outline: 0px; color: rgb(64, 104, 195); text-decoration: underline; font-family: monospace; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 206);">RolePermisionResolverAware</a></i>接口。这保证了配置的实例可以传递到每一个支持这种配置的Realm。</i></div></td></tr></tbody></table><div><br/></div><div>如果你不想使用一个全局的RolePermissionResolver，或者你不想那么麻烦使用RolePermissionResolverAware接口，你可以显式地给每一个Realm配置一个RolePermissionResolver实例（假设有一个JavaBeans兼容的setRolePermissionResolver方法）：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>rolePermissionResolver = com.foo.bar.authz.MyRolePermissionResolver<br/><br/>
+realm = com.foo.bar.realm.MyCustomRealm<br/>
+realm.rolePermissionResolver = $rolePermissionResolver</div><div>...</div></div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>自定义Authorizer</div></div><div><br/></div><div>如果你的应用使用多个Realm执行授权，并且ModularRealmAuthorizer默认只是简单地迭代，短路授权行为不符合你的需求，这时你就可能会想要创建一个自定义的Authorizer，并且相应地配置给SecurityManager 。</div><div><br/></div><div>例如，在shiro.ini：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>[main]<br/>
+...<br/>
+authorizer = com.foo.bar.authz.CustomAuthorizer<br/><br/></div><div>securityManager.authorizer = $authorizer</div></div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><a
+            href="http://shiro.apache.org/authorization.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/authentication.html">Shiro认证</a>
+    </div>
+    <div class="article-next">下一篇：暂无</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
