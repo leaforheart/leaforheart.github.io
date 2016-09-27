@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - Shiro权限</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/shiro/shiro.html">Shiro</a></li>
+    <li class="active">翻译：6 Apache Shiro权限</li>
+</ol>
+
+<h1>6 Apache Shiro权限</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年09月27日</p></div>
+
+<div class="article-text">
+    <span><div>Shiro把权限定义为一种规定明确行为或动作的语句。它是表示应用中最原始功能的语句，没有表示更多的信息。权限在安全策略是最底层的结构，它们只定义了应用能做“什么”。</div><div><br/></div><div>它们完全不描述“谁”可以执行某动作。</div><div><br/></div><div>权限的一些例子：</div><ul><li>打开一个文件</li><li>查看'/user/list'网页</li><li>打印文档</li><li>删除'jsmith'用户</li></ul><div><br/></div><div>定义“谁”（用户）被允许做“什么”（权限），在某种程度上说是一个分配权限给用户的特例。这总是通过应用的数据模型来完成，并且在不同的应用中有很大的变数。</div><div><br/></div><div>例如，权限可以归组进一个角色，角色可以关联到一个或多个用户。或者一些应用可以有一个用户组，并且可以给组分配一个角色，通过关联传递，这意味着所有在组中的用户被隐含授予了角色中所有的权限。</div><div><br/></div><div>有很多不同的办法把权限分配给用户——应用根据需求决定怎么去建模。</div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Wildcard Permissions 通配符权限语句</div></div><div><br/></div><div>上面那些关于权限的例子，“打开一个文件”、“查看'/user/list'网页 ”等等都是有效的权限语句。然而，如果要解析这些自然语言字符串，并且要决定一个用户是否被允许执行这个行为，这将非常难以计算。</div><div><br/></div><div>为了使权限语句在程序处理起来简单的同时还保持较好的可读性，Shiro提供了强大而直观的权限语法，就是我们之前提到过的WildcardPermission。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Simple Usage</div></div><div><br/></div><div>假如你想控制你公司的打印机的访问权限，一些人可以在特定的打印机打印，另一些人有权查询当前队列中的作业情况。</div><div><br/></div><div>一个极其简单的方法是给用户授予一个“queryPrinter”权限，然后你可以检查这个用户是否有queryPrinter权限：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>subject.isPermitted(&quot;queryPrinter&quot;)</div></div><div><br/></div><div>这（大致）等同于：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>subject.isPermitted( new WildcardPermission(&quot;queryPrinter&quot;) )</div></div><div><br/></div><div>但是好戏还在后头。</div><div><br/></div><div>简单的权限字符串可能用于简单的应用，但是它要求你有“printPrinter”、“queryPrinter”和“managePrinter”等等权限。你也可以用通配符（这种权限结构的名称由此而来）给用户授予一个“*”权限，这意味着这些用户有了整个应用中所有的权限。</div><div><br/></div><div>但是用这个方法没办法只定义用户拥有“所有的打印机权限”。基于这个理由，通配符权限支持多层次的权限许可。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Multiple Parts</div></div><div><br/></div><div>通配符权限支持多层级或部分的概念。例如，你可以重写前面给用户授权的简单例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:query</div></div><div><br/></div><div>例子中的冒号是一个特殊字符，在权限字符串中用来分隔下一部分。第一部分是被操作（printer）的领域，第二部分是被执行的动作（query），上面其他的例子可以改成：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:print</div><div>printer:manage</div></div><div><br/></div><div>对于使用多少个部分没有任何限制，所以在你的应用中的使用方式完全取决于你的想象力。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Multiple Values</div></div><div><br/></div><div>每个部分可以包含多个值，所以完全可以用一句简化的授权语句，来替代前面的两条“printer:print”和“printer:query”：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:print,query</div></div><div><br/></div><div>上面的语句给用户同时赋予了打印和查询打印机的能力。由于用户被同时赋予了两个动作，你可以检查一下这个用户是否可以查询打印机：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>subject.isPermitted(&quot;printer:query&quot;)</div></div><div><br/></div><div>这将返回true。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>All Values</div></div><div><br/></div><div>如果你想给用户授予某个部分的所有值怎么办？比起必须要手动把值一个个列出来，应该要更方便才对。又一次，我们又可以基于通配符。如果打印机领域有三个可能的动作（查询，打印和管理）：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:query,print,manage</div></div><div><br/></div><div>简化写法如下：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:*</div></div><div><br/></div><div>然后，任何对于“printer:XXX”的权限检查都会返回true。这样使用通配符比显式地列出所有动作要好的多，如果你稍后在应用中加了一个动作，因为你在那个部分使用了通配符，你不再需要更新权限语句。</div><div><br/></div><div>最后，你可以把通配符用在通配符权限字符串的任何部分。例如，如果你想给一个用户授予所有领域的“view”动作（不只是打印机），你可以这样授权：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>*:view</div></div><div><br/></div><div>任何针对“XXX<span
+            style="color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">:view</span>”的权限检查都会返回true。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 15px;"><div>Instance-Level Access Control 实例级别的访问控制</div></div><div><br/></div><div>通配符权限的另一种常见用法就是为实例级别的访问控制列表建模。在这种场景下你有三个部分——第一部分是领域，第二部分是动作，第三部分就是被执行的实例。</div><div><br/></div><div>所以你可以有这样的例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:query:lp7200</div><div>printer:print:epsoncolor</div></div><div><br/></div><div>第一条权限语句定义了在ID为lp7200的打印机上进行查询的行为。第二条权限语句定义了在ID为epsoncolor的打印机上进行打印的行为。如果你把这些权限授权给了用户，他们就能在特定的实例上执行特定的行为。你可以在代码里做个检查：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( SecurityUtils.getSubject().isPermitted(&quot;printer:query:lp7200&quot;) {<br/>
+    // Return the current jobs on printer lp7200</div><div>}</div></div><div><br/></div><div>这是一种极其强大的表达权限的方式。但是，在配置所有打印机时必须定义多个实例ID的做法不是太好，特别是当有新的打印机加入这个系统的时候。你可以用一个通配符代替：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:print:*</div></div><div><br/></div><div>这很好，因为它包括了所有的打印机。你甚至可以允许在所有打印机上执行任何动作：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:*:*</div></div><div><br/></div><div>或者在单个打印机上执行任何动作：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:*:lp7200</div></div><div><br/></div><div>或者指定几个动作：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:query,print:lp7200</div></div><div><br/></div><div>通配符“*”号和部分分隔符“,”号，可以在任意部分使用。</div><div><br/></div><div
+            style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold;"><div>Missing Parts 省略某些部分</div></div><div><br/></div><div>关于权限分配最后值得关注的一件事情是：省略的部分意味着用户有权访问这个部分的所有值。也就是说，</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:print</div></div><div><br/></div><div>这相当于</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:print:*</div></div><div><br/></div><div>并且</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer</div></div><div><br/></div><div>相当于</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:*:*</div></div><div><br/></div><div>然而，你只能在末尾的部分省略，所以：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:lp7200</div></div><div><br/></div><div>不等于</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:*:lp7200</div></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Checking Permissions 检查权限</div></div><div><br/></div><div>为了方便和可扩展性，再分配权限的时候大量使用通配符结构（&quot;printer:print:*&quot; = 在所有打印机上可打印），与此同时，在运行时检查权限的时候却应该尽量使用详细的权限字符串。</div><div><br/></div><div>例如，如果用户有个交互接口，并且想在lp7200打印机上打印一个文档，你应该检查这个用户是否有权限做这件事，用这段代码检查：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( SecurityUtils.getSubject().isPermitted(&quot;printer:print:lp7200&quot;) ) {<br/>
+    //print the document to the lp7200 printer</div><div>}</div></div><div><br/></div><div>这个检查是非常明确的，明确地反映了在那一刻用户在试图做什么。</div><div><br/></div><div>然而，下面这段代码在做运行时检查时就不那么理想：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>if ( SecurityUtils.getSubject().isPermitted(&quot;printer:print&quot;) ) {<br/>
+    //print the document</div><div>}</div></div><div><br/></div><div>为什么呢？因为第二个例子等于在说“你必须有在所有打印机打印的权限，然后才可以执行后面的代码块”。记住&quot;printer:print&quot; 相当于 &quot;printer:print:*&quot;！</div><div><br/></div><div>因此，这是一个不正确的检查。如果当前用户没有在所有打印机打印的权限，但是它们可以在lp7200和epsoncolor两台打印机上打印。那么在上面的第二个例子中，即使当前用户被授权了可以在lp7200打印机上打印，他也永远无法打印。</div><div><br/></div><div>所以当执行权限检查的时候尽可能地使用最详细的权限字符串是首先要遵守的规则。当然，上面的第二个例子在某些场景下也可能是一个有效的检查，如果你真的希望拥有所有打印机打印权限的用户才能执行那段代码块的话（怀疑是否有这样的真实需求，但是可能）。你的应用将决定什么样的检查是有意义的，但是一般情况下，越详细越好。</div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Implication, not Equality 包含逻辑，而不是简单相等</div></div><div><br/></div><div>为什么在运行时权限检查的时候应该尽量详细，却在权限分配的时候可以表述的更通用些？这是因为权限检查的结果是由包含逻辑求值得出的——而不是等式检查。</div><div><br/></div><div>就是说，如果用户被分配了user:*权限，这意味着这个用户可以执行user:view动作。很明显“user:* ”不等于“user:view ”，但是前者包含了后者。功能上“user:* ”是“user:view ”的超集。</div><div><br/></div><div>为了支持包含逻辑规则，所有的权限语句都要翻译成实现了org.apache.shiro.authz.Permission接口的对象实例。正因为如此包含逻辑可以在运行时执行，包含逻辑通常要比简单的字符串等式检查要复杂。在这个文档中描述的所有通配符行为，由于org.apache.shiro.authz.permission.WildcardPermission这个实现类而成为可能。这里有一些更多的通配符字符串，它们展示了通过包含逻辑进行访问：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>user:*</div></div><div><br/></div><div>包含了删除用户的能力：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>user:delete</div></div><div><br/></div><div>相似地，</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>user:*:12345</div></div><div><br/></div><div>包含了升级ID为12345的用户账户的能力：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>user:update:12345</div></div><div><br/></div><div>和</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer</div></div><div><br/></div><div>包含了在任何打印机打印的能力：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>printer:print</div></div><div><br/></div><div
+            style="color: rgb(50, 84, 160); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-weight: bold; font-size: 20px;"><div>Performance Considerations 性能方面的考虑</div></div><div><br/></div><div>权限检查比简单的等式检查复杂得多，运行时的包含逻辑必须针对每一个被分配的权限而执行。当使用像上面展示的那些权限字符串，你实际上已经间接地使用了Shiro默认的权限实现WildcardPermission，它执行了必要的包含逻辑。</div><div><br/></div><div>Shiro的各种Realm实现的默认行为都是，对于每一个权限检查（例如，一次subject.isPermitted调用），所有分配给这个用户的权限（通过组，角色或直接赋给用户）都要一个一个地分别用包含逻辑去检查。Shiro通过在第一个成功检查发生后立即返回这种“短路”方式，来提高性能，但它不是银弹。</div><div><br/></div><div>当使用一个合适的 <a
+            href="http://shiro.apache.org/cachemanager.html"
+            style="color: rgb(50, 84, 160); text-decoration: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            title="CacheManager">CacheManager</a> 来缓存用户，角色和权限时，这将变得非常快速，缓存在Shiro的Realm实现中不支持。只知道有了这个默认的行为，随着分配给用户的权限的数量不停增长，执行权限检查的时间也肯定会延长。</div><div><br/></div><div>如果一个Realm实现有更高效的检查权限和执行包含逻辑的方式，尤其是基于应用的数据模型，他们应该实现Realm中的isPermitted*方法。默认的Realm/WildcardPermission实现可以支持80-90%的应用场景，但是对于那种在运行时有大量权限需要存储和检查的应用来说，它可能不是最好的解决方案。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><a
+            href="http://shiro.apache.org/permissions.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/shiro/translate/authorization.html">Shiro授权</a>
+    </div>
+    <div class="article-next">下一篇：暂无</div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
