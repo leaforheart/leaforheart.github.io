@@ -3,7 +3,7 @@ body {
 }
 
 .article-text {
-    width: 80%;
+    width: 60%;
     margin: 5rem auto 0 auto;
     border: 1px solid #d3d3d3;
     background: #fff;
@@ -60,6 +60,34 @@ h1 {
 
 .article-next {
     text-align: right;
+}
+
+@media screen and (min-width: 480.99px) and (max-width: 1024px) {
+    html {
+        -webkit-text-size-adjust: none;
+    }
+
+    #header {
+        width: 80%
+    }
+
+    .article-text {
+        width: 80%;
+        margin: 10px auto;
+        -moz-border-radius: 0px;
+        -khtml-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
+
+    .article-next-back {
+        width: 80%;
+        margin: 10px auto;
+        -moz-border-radius: 0px;
+        -khtml-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
 }
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
