@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 创建异常类</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：5.2 创建异常类</li>
+</ol>
+
+<h1>5.2 创建异常类</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>当面对选择抛出什么类型的异常，你可以使用一种由别人写的异常——Java平台提供了大量的异常类供你使用——或者你也可以写一个你自己的异常类型。如果符合下面几个条件之一，你就应该创建自己的异常类型，反之你应该用别人写的。</div><ul><li>你是否有一个异常类型，Java平台里面的异常类型都不能描述它？</li><li>它是否可以帮助用户区分这个异常类型是你的还是其他供应商的？</li><li>你的代码中是否会抛出多种相关的异常？</li><li>如果你用了别人的异常类型，用户是否有权限访问这些异常？也就是，你的代码包是不是独立的？</li></ul><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>一个例子</b></span></span></div><div><br/></div><div>假如你写了一个linked list类，这个类支持下面的方法：</div><ul><li>objectAt(int n) — 返回列表中第n个对象。如果参数小于0或者大于列表当前还有的对象个数，就抛出异常</li><li>firstObject() — 返回列表中的第一个对象。如果列表中没有任何对象，就抛出异常</li><li>indexOf(Object o) — 在列表中搜索指定的对象，并返回对象所在的位置。如果这个对象不再list中，就抛出异常</li></ul><div><br/></div><div>这个linked list类可以抛出多种异常。如果能用一个异常处理器就可以处理所有这个类可能抛出的异常，就很方便了。当然，如果将你的linked list类打包发布到一个包里面，所有相关的代码都应该打包在一起。这样的话，linked list应该提供自己的一套异常类型。</div><div><br/></div><div>下图展示了一种可能的类层级结构，这些类都是linked list抛出的异常类型：</div><div><br/></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/jexception/image/4.png" type="image/png"
+                                            style="height: auto;"/></div><div style="text-align: center">示例异常类层级结构</div><div><br/></div><div><br/></div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>选一个父类</b></span></span></div><div><br/></div><div>理论上所有Exception的子类都可以当做LinkedListException的父类。然而，一眼看过去，它们要么看起来太专业，要么看起来完全和LinkedListException无关。因此，LinkedListException的父类应该是Exception。</div><div><br/></div><div>大部分你写的applets和应用都只抛出Exception。Error通常只用在系统中发生重大的或者硬故障性的问题时，比如那些阻止JVM运行的问题。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.92266047950503%;"><div>注意：为了使代码更易读，所有继承（直接或间接）于Exception类的子类的名称都应该以“Exception”为后缀。</div></td></tr></table><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/creating.html">原文地址</a></div><div><br/></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/chained.html">链式异常</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/runtime.html">非检查异常</a>
+    </div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

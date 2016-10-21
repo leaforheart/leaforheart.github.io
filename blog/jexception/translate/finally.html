@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - finally代码块</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：3.3 finally代码块</li>
+</ol>
+
+<h1>3.3 finally代码块</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>finally代码块在try代码块退出后一定会执行。这保证了无论有没有发生异常，finally代码块总是会执行。可是finally的用处可不止于处理异常——它允许程序员避免发生这样的意外，因一个return、continue或者break语句绕过了代码清理语句。在finally代码块中放置代码清理语句是一个很好的实践，即使没有任何可预期的异常。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.9236641221374%;"><div>备注：当执行try或catch代码的时候，JVM退出了，finally代码块可能不会执行。同样，如果执行try或catch代码的线程被中断或杀死，即使整个应用还在运行，finally代码块也不会再执行。</div></td></tr></table><div><br/></div><div>在writeList方法的try代码块里面打开了一个PrintWriter。程序应该在退出writeList方法之前关闭这个流。这造成了一个稍微比较复杂的问题，因为writeList的try代码块可能以以下三种方式退出：</div><ol><li>new FileWriter语句失败并抛出一个IOException</li><li>list.get(i)语句失败并抛出一个IndexOutOfBoundsException</li><li>一切正常</li></ol><div><br/></div><div>运行时系统始终会执行finally代码块，不管try代码块里发生了什么。所以这是一个执行清理的理想地。</div><div><br/></div><div>下面的代码展示了在writeList方法的finally代码块执行清理，关闭PrintWriter：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>finally {<br/>
+    if (out != null) {<br/>
+        System.out.println(&quot;Closing PrintWriter&quot;);<br/>
+        out.close();<br/>
+    } else {<br/>
+        System.out.println(&quot;PrintWriter not open&quot;);<br/>
+    }</div><div>}</div></div><div><br/></div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.9236641221374%;"><div>重要：finally代码块是防止资源泄露的关键工具。当关闭文件或恢复资源，将这些代码放到finally代码块中就可以保证资源总可以恢复。</div><div><br/></div><div>这种情形可以考虑用try-with-resources语句，它可以自动释放系统资源，当这些资源不再需要使用的时候。参看 <a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">The try-with-resources Statement</a> 有更多相关信息。</div></td></tr></table><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/finally.html">原文地址</a></div><div><br/></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/catch.html">catch代码块</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/tryResourceClose.html">try-with-resource</a>
+    </div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

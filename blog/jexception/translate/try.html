@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - try代码块</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：3.1 try代码块</li>
+</ol>
+
+<h1>3.1 try代码块</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>构建异常处理器的第一步就是，把可能抛出异常的代码包在try代码块里面。通常，try代码块看起来是这样的：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>try {<br/>
+    code<br/>
+}<br/>
+catch and finally blocks . . .</div></div><div><br/></div><div>示例中在标记为“code”的代码片段里，包含了一个或多个可能会抛出异常的合法的代码行。</div><div><br/></div><div>为了给ListOfNumbers类的writeList方法构建一个异常处理器，把writeList方法中会抛异常的语句包在一个try代码块里面。有许多不同的办法，你可以给每一条可能会抛出异常的语句分别提供一个异常处理器。或者你可以把方法中所有的代码都放在单个try代码块里面，然后关联多个处理器。因为例子中的代码很短，所以这里采用单个try代码块。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>private List&lt;Integer&gt; list;<br/>
+private static final int SIZE = 10;<br/><br/>
+public void writeList() {<br/>
+    PrintWriter out = null;<br/>
+    try {<br/>
+        System.out.println(&quot;Entered try statement&quot;);<br/>
+        out = new PrintWriter(new FileWriter(&quot;OutFile.txt&quot;));<br/>
+        for (int i = 0; i &lt; SIZE; i++) {<br/>
+            out.println(&quot;Value at: &quot; + i + &quot; = &quot; + list.get(i));<br/>
+        }<br/>
+    }<br/>
+    catch and finally blocks  . . .</div><div>}</div></div><div><br/></div><div>如果一个异常在try代码块里面发生了，这个异常处理器就会被相关的异常处理器处理。为了给try代码块关联异常处理器，你必须在后面加catch代码块，在<a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/catch.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">The catch Blocks</a>里介绍怎么用。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/try.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/handling.html">捕获并处理</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/catch.html">catch代码块</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

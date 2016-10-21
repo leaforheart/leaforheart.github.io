@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 使用异常的优势</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：7 使用异常的优势</li>
+</ol>
+
+<h1>7 使用异常的优势</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>现在你知道了异常是什么，并且知道怎么使用它们，现在是时候讨论一下在你的程序中使用异常会有什么好处了。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span
+            style="font-size: 19px;"><b>优势1：隔离错误处理代码和常规代码</b></span></span></div><div><br/></div><div>Exception提供了一种方法，把意外发生时的细节从程序主逻辑中隔离开来。在传统的编程中，错误的检测、报告和处理通常会导致像意大利面条那么混乱的代码。例如，请看下面的伪码，它把整个文件读入内存：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>readFile {<br/>
+    <span style="color: rgb(227, 0, 0);"><b>open the file;<br/>
+    determine its size;<br/>
+    allocate that much memory;<br/>
+    read the file into memory;<br/>
+    close the file;</b></span></div><div>}</div></div><div><br/></div><div>第一眼看过去，这函数简单到不能再简单，但是它忽略了下列所有潜在的问题：</div><ul><li>如果文件不能打开怎么办？</li><li>如果不能确定文件的大小怎么办？</li><li>如果内存不够分配怎么办？</li><li>如果文件读取失败怎么办？</li><li>如果文件不能关闭怎么办？</li></ul><div><br/></div><div>为了处理这些问题，readFile函数必须有更多的代码来处理错误检测、报告和处理。这个函数可能会变成这样：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>errorCodeType readFile {<br/>
+    initialize errorCode = 0;<br/>
+   <br/>
+    <span style="color: rgb(227, 0, 0);"><b>open the file;</b></span><br/>
+    if (theFileIsOpen) {<br/>
+        <span style="color: rgb(227, 0, 0);"><b>determine the length of the file;</b></span><br/>
+        if (gotTheFileLength) {<br/>
+            <span style="color: rgb(227, 0, 0);"><b>allocate that much memory;</b></span><br/>
+            if (gotEnoughMemory) {<br/>
+                <span style="color: rgb(227, 0, 0);"><b>read the file into memory;</b></span><br/>
+                if (readFailed) {<br/>
+                    errorCode = -1;<br/>
+                }<br/>
+            } else {<br/>
+                errorCode = -2;<br/>
+            }<br/>
+        } else {<br/>
+            errorCode = -3;<br/>
+        }<br/>
+        <span style="color: rgb(227, 0, 0);"><b>close the file;</b></span><br/>
+        if (theFileDidntClose &amp;&amp; errorCode == 0) {<br/>
+            errorCode = -4;<br/>
+        } else {<br/>
+            errorCode = errorCode and -4;<br/>
+        }<br/>
+    } else {<br/>
+        errorCode = -5;<br/>
+    }<br/>
+    return errorCode;</div><div>}</div></div><div><br/></div><div>有那么多的错误检测、报告和返回语句，让原本简单的5行代码完全迷失在乱哄哄的代码里面了。更糟糕的是，代码的逻辑流程也随着丢失了，因此很难说这段代码是否做了正确的事：当函数分配内存的时候失败了，文件能否确保被关闭？当你三个月之后再修改这段代码时，你就更难确定改完后代码还到底能不能用了。很多程序员解决的办法就是简单地忽略它——当他们的程序崩溃了报告一下错误就行。</div><div><br/></div><div>Exception可以让你能在一个地方写好代码主流程，在另外一个处理异常情况。如果readFile函数改用Exception来替换传统的错误管理技术，看起来就像下面的代码：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>readFile {<br/>
+    try {<br/>
+        <b><span style="color: rgb(227, 0, 0);">open the file;<br/>
+        determine its size;<br/>
+        allocate that much memory;<br/>
+        read the file into memory;<br/>
+        close the file;<br/></span></b>    } catch (fileOpenFailed) {<br/>
+      doSomething;<br/>
+    } catch (sizeDeterminationFailed) {<br/>
+        doSomething;<br/>
+    } catch (memoryAllocationFailed) {<br/>
+        doSomething;<br/>
+    } catch (readFailed) {<br/>
+        doSomething;<br/>
+    } catch (fileCloseFailed) {<br/>
+        doSomething;<br/>
+    }<br/>
+}<br/><br/></div></div><div><br/></div><div>要注意的是，使用Exception并不会让你在检测、报告和处理错误时更省力，但是可以让你把这些工作组织起来更高效。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><b><span style="font-size: 19px;">优势2：在调用栈中向上传播错误</span></b></span></div><div><br/></div><div>Exception的第二个优势就是，可以把错误报告给调用栈的上层方法。假如在主程序中，在一系列嵌套的调用方法中，readFile方法是第四个方法： method1调用method2，然后调用method3，最后调用readFile。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>method1 {<br/>
+    <span style="color: rgb(227, 0, 0);"><b>call method2;</b></span><br/>
+}<br/><br/>
+method2 {<br/>
+    <span style="color: rgb(227, 0, 0);"><b>call method3;</b></span><br/>
+}<br/><br/>
+method3 {<br/>
+    <b><span style="color: rgb(227, 0, 0);">call readFile;</span></b></div><div>}</div></div><div><br/></div><div>假设method1是唯一关心在readFile内发生了什么错误的方法。传统的错误通知技术强制method1和method2传播readFile返回的错误代码，直到错误代码最后传到method1——而method1是唯一需要返回码的方法。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div><span
+            style="color: rgb(227, 0, 0);"><b>method1 {</b></span><br/>
+    errorCodeType error;<br/>
+    error = call <span style="color: rgb(227, 0, 0);"><b>method2;</b></span><br/>
+    if (error)<br/>
+        <b><span style="color: rgb(227, 0, 0);">doErrorProcessing;</span></b><br/>
+    else<br/>
+        <span style="color: rgb(227, 0, 0);"><b>proceed;</b></span>}<br/><br/>
+errorCodeType <span style="color: rgb(227, 0, 0);"><b>method2 {</b></span><br/>
+    errorCodeType error;<br/>
+    error = call <b><span style="color: rgb(227, 0, 0);">method3;</span></b><br/>
+    if (error)<br/>
+        return error;<br/>
+    else<br/>
+        <span style="color: rgb(227, 0, 0);"><b>proceed;</b></span>}<br/><br/>
+errorCodeType <span style="color: rgb(227, 0, 0);"><b>method3 {</b></span><br/>
+    errorCodeType error;<br/>
+    error = <span style="color: rgb(227, 0, 0);"><b>call readFile;</b></span><br/>
+    if (error)<br/>
+        return error;<br/>
+    else<br/>
+        <span style="color: rgb(227, 0, 0);"><b>proceed;</b></span>}</div></div><div><br/></div><div>回忆一下，Java运行时系统通过逆向搜索，查找对某个异常感兴趣的任何方法。一个方法可以躲避任何抛给它的异常，从而让一个方法可以把异常抛到更远的调用栈中捕获。因此，只有关心错误的方法，才必须要去检测错误。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div><span
+            style="color: rgb(227, 0, 0);"><b>method1 {</b></span><br/>
+    try {<br/>
+        <b><span style="color: rgb(227, 0, 0);">call method2;</span></b><br/>
+    } catch (exception e) {<br/>
+        <span style="color: rgb(227, 0, 0);"><b>doErrorProcessing;</b></span><br/>
+    }<br/>
+}<br/><br/><span style="color: rgb(227, 0, 0);"><b>method2</b></span> throws exception {<br/>
+    <span style="color: rgb(227, 0, 0);"><b>call method3;</b></span><br/>
+}<br/><br/><span style="color: rgb(227, 0, 0);"><b>method3</b></span> throws exception <span
+                style="color: rgb(227, 0, 0);"><b>{<br/>
+    call readFile;<br/>
+}</b></span></div></div><div><br/></div><div>然而，正如伪代码所示，中间人方法可以躲避掉后面必须要处理的异常。一个方法通过在throws从句中进行声明，可以抛掉任何检查异常。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><b><span style="font-size: 19px;">优势3：归类和区分错误类型</span></b></span></div><div><br/></div><div>因为程序抛出的所有异常都是对象，类是有层次结构的，所以对异常进行归类或分组是非常自然的结果。在Java平台中有一个例子，一组相关异常被定义在java.io包——IOException及其子类。IOException是最通用的，它代表了我们在执行I/O相关操作的时候发生的任何错误类型。它的继承者代表了更加细分的错误。例如，FileNotFoundException表示一个文件不能再磁盘中定位到。</div><div><br/></div><div>一个方法可以写一个具体的处理器，能处理一个十分具体的异常。由于FileNotFoundException没有继承者，所以下面的这个异常处理器只能处理一种类型的异常：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>catch (FileNotFoundException e) {<br/>
+    ...</div><div>}</div></div><div><br/></div><div>一个方法也可以用更通用的处理器捕获处理具体的异常。例如，为了捕获所有的I/O异常，不管具体的类型是什么，只要给异常处理器指定一个IOException参数就行。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>catch (IOException e) {<br/>
+    ...</div><div>}</div></div><div><br/></div><div>这个处理器可以捕获所有的I/O异常，包括FileNotFoundException，EOFException等等。你可以通过查询传给异常处理器的参数，发现错误发生的细节。例如，用下面的代码打印堆栈跟踪信息：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>catch (IOException e) {<br/>
+    // Output goes to System.err.<br/>
+    e.printStackTrace();<br/>
+    // Send trace to stdout.<br/>
+    e.printStackTrace(System.out);</div><div>}</div></div><div><br/></div><div>你甚至可以构建一个可以处理所有异常的异常处理器：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>// A (too) general exception handler<br/>
+catch (Exception e) {<br/>
+    ...</div><div>}</div></div><div><br/></div><div>在Throwable类层级结构中，Exception类已经快接近顶点了。所以这个处理器将会捕获很多它不想捕获的异常。如果你想在整个程序中对所有异常都采取统一处理方式，你就可能会采取这种办法处理异常，例如，给用户打印错误信息并退出。</div><div><br/></div><div>然而在大多数情况下，你希望异常处理器越具体越好。理由是在你决定最佳的恢复策略之前，你首先要知道错误的类型。事实上，如果不捕获具体的错误，这个处理器就必须要容纳任何可能性。太通用的异常处理器可能会让代码更容易出错，因为它们会捕获和处理程序员意料之外的异常，这样就超出处理器的能力范围了。</div><div><br/></div><div>就像前面说过的，你可以创建一组异常，然后采用通用处理的风格。或者你可以使用具体的异常类型来区分不同的异常，然后用精确的风格处理异常。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/advantages.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/runtime.html">非检查异常</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/summary.html">总结</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

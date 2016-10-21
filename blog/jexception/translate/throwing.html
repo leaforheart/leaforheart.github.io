@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 如何抛出异常</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：5 如何抛出异常</li>
+</ol>
+
+<h1>5 如何抛出异常</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>在你捕获一个异常之前，肯定在某个地方有代码抛出了这个异常。任何代码都可以抛异常：你的代码，别人写的代码包（比如Java平台里面的代码包），或者Java运行时系统。不管是什么抛出异常，总是用throw语句来抛出的。</div><div><br/></div><div>你可能已经注意到了，Java平台提供了大量的异常类。所有这些异常类都是 <a
+            href="https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_blank"><code style="font-family: Monaco, Courier, &quot;Courier New&quot;;">Throwable</code></a> 类的子类，并且可以让程序区分在程序执行过程中可能发生的不同种类的异常。</div><div><br/></div><div>你可以创建你自己的异常类，来代表你写的类中可能会出现的问题。事实上，如果你是一个代码包开发者，你可能必须创建自己的一套异常类型，让用户可以区分错误是发生在你的包还是Java平台或者其他的包。</div><div><br/></div><div>你也可以创建链式异常（chained exception）,可以看 <a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/chained.html"
+            style="text-decoration: underline; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Chained Exceptions</a> 章节了解更多信息。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>throw语句</b></span></span></div><div><br/></div><div>所有方法都是用throw语句抛异常。throw语句要求要有一个单独参数：一个Throwable对象。Throwable对象可以是Throwable类的任何子类的实例。这里有一个throw语句的例子：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>throw someThrowableObject;</div></div><div><br/></div><div>让我们看看在上下文中的throw语句。下面的pop方法是在一个实现了普通堆栈功能的类里面的方法。这个方法把堆栈的顶部元素移除，并返回给用户。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public Object pop() {<br/>
+    Object obj;<br/><br/>
+    if (size == 0) {<br/>
+        <span style="color: rgb(227, 0, 0);"><b>throw new EmptyStackException();</b></span><br/>
+    }<br/><br/>
+    obj = objectAt(size - 1);<br/>
+    setObjectAt(size - 1, null);<br/>
+    size--;<br/>
+    return obj;</div><div>}</div></div><div><br/></div><div>pop会首先检查是否有元素在堆栈里面。如果堆栈是空的（size为0），pop就会初始化一个EmptyStackException对象（java.util的一个成员）并抛出。在 <a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/creating.html"
+            style="text-decoration: underline; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Creating Exception Classes</a> 章节介绍了怎么创建你自己的异常类型。现在你只要记住，你可以抛出任何继承了java.lang.Throwable类的对象。</div><div><br/></div><div>注意pop方法的声明部分并没有包含throws从句。因为EmptyStackException是一个非检查异常，所以pop没必要描述它可能会发生。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><b><span style="font-size: 19px;">Throwable类及其子类</span></b></span></div><div><br/></div><div>继承Throwable类的对象包括直接继承（继承Throwable类）和间接继承（继承Throwable类的子孙类）。下图描述了Throwable类及其重要子类组成的层级关系。如你所见，Throwable有两个直接继承者： <a
+            href="https://docs.oracle.com/javase/8/docs/api/java/lang/Error.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_blank"><code style="font-family: Monaco, Courier, &quot;Courier New&quot;;">Error</code></a><span
+            style="color: rgb(0, 0, 0); font-size: 12.8px; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important;"><span
+            style="font-family: Arial, Helvetica, sans-serif;"> </span>和 </span><code
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Monaco, Courier, 'Courier New'; font-size: 12.8px; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a
+            href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_blank">Exception</a>。</code></div><div><br/></div><div style="text-align: center"><img
+            src="/leaforheart.github.io/blog/jexception/image/3.png" type="image/png" style="height: auto;"/></div><div
+            style="text-align: center">Throwable类</div><div><br/></div><div><br/></div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>Error类</b></span></span></div><div><br/></div><div>当Java虚拟机中发生一个动态链接失败或者其他硬故障，虚拟机就会抛出一个Error。简单的程序通常不会捕获或抛出Error。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>Exception类</b></span></span></div><div><br/></div><div>大部分程序抛出和捕获的对象都是继承于Exception类。一个Exception表明有一个问题发生了，但不是严重的系统问题，你写的大多数程序都将是抛出和捕获Exception，而不是Error。</div><div><br/></div><div>Java平台定义了大量的Exception类的继承者。这些继承者说明有很多不同种类的异常可能会发生。例如，IllegalAccessException指示了找不到某个方法，NegativeArraySizeException指示了程序企图用负size创建数组。</div><div><br/></div><div>Exception的子类之一，RuntimeException，用于保留那些“指示API使用错误 ”的Exception。运行时异常的一个例子就是NullPointerException，当一个方法试图访问一个对象的成员，而这个对象的引用是null的时候，就会发生NullPointerException异常。 <a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html"
+            style="text-decoration: underline; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Unchecked Exceptions — The Controversy</a><span
+            style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 讨论了为什么大多数程序不应该抛出运行时异常或运行时异常的子类。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/throwing.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/declaring.html">声明异常</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/chained.html">链式异常</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

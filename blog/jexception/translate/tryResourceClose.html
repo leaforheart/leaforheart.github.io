@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - try-with-resources语句</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：3.4 try-with-resources语句</li>
+</ol>
+
+<h1>3.4 try-with-resources语句</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>try-with-resources语句是一种声明了一种或多种资源的try语句。资源是指在程序用完了之后必须要关闭的对象。try-with-resources语句保证了每个声明了的资源在语句结束的时候都会被关闭。任何实现了java.lang.AutoCloseable接口的对象，和实现了java.io.Closeable接口的对象，都可以当做资源使用。</div><div><br/></div><div>下面的例子读取了一个文件的第一行。它使用了一个BufferedReader实例去读取文件，BufferedReader是一种资源，用完之后必须关闭。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>static String readFirstLineFromFile(String path) throws IOException {<br/>
+    try (BufferedReader br =<br/>
+                  new BufferedReader(new FileReader(path))) {<br/>
+        return br.readLine();<br/>
+    }</div><div>}</div></div><div><br/></div><div>在这个例子中，try-with-resources语句种声明的是BufferedReader资源。声明语句紧跟着在try关键词的圆括号里面。BufferedReader从Java SE7开始就实现了java.lang.AutoCloseable接口。因为BufferedReader声明在了try-with-resources里面，所以无论try语句是正常结束还是异常结束（比方说BufferedReader.readLine方法抛出一个IOException异常），它都会被关闭。</div><div><br/></div><div>在Java SE7之前，你可以用finally代码块来确保资源一定被关闭，无论try语句正常结束还是异常结束。下面的例子用finally代码块代替try-with-resources语句：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>static String readFirstLineFromFileWithFinallyBlock(String path)<br/>
+                                                    throws IOException {<br/>
+    BufferedReader br = new BufferedReader(new FileReader(path));<br/>
+    try {<br/>
+        return br.readLine();<br/>
+    } finally {<br/>
+        if (br != null) br.close();<br/>
+    }</div><div>}</div></div><div><br/></div><div>然而，在这个例子中，如果readLine和close方法都抛出异常，那么readFirstLineFromFileWithFinallyBlock方法最终会在finally代码块抛出异常，从try代码块里面抛出的那个异常被抑制住了。相比之下，readFirstLineFromFile方法中，如果try代码块和try-with-resources语句同时抛出异常，这个方法将会最终抛出try代码块里面的异常，try-with-resources语句里面抛出的异常被压抑了。在Java SE7之后，你可以找回被压抑的异常。参看后面的“被压抑的异常”部分。</div><div><br/></div><div>你可以在一个try-with-resources语句里面声明多个资源。下面的例子展示了从一个名字为zipFileName的zip文件中检索出里面所有文件的名称，并创建一个文本文件存储所有文件名称。</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public static void writeToFileZipFileContents(String zipFileName,<br/>
+                                          String outputFileName)<br/>
+                                          throws java.io.IOException {<br/><br/>
+    java.nio.charset.Charset charset =<br/>
+        java.nio.charset.StandardCharsets.US_ASCII;<br/>
+    java.nio.file.Path outputFilePath =<br/>
+        java.nio.file.Paths.get(outputFileName);<br/><br/>
+    // Open zip file and create output file with<br/>
+    // try-with-resources statement<br/><br/>
+    try (<br/>
+        java.util.zip.ZipFile zf =<br/>
+            new java.util.zip.ZipFile(zipFileName);<br/>
+        java.io.BufferedWriter writer =<br/>
+            java.nio.file.Files.newBufferedWriter(outputFilePath, charset)<br/>
+    ) {<br/>
+        // Enumerate each entry<br/>
+        for (java.util.Enumeration entries =<br/>
+                                zf.entries(); entries.hasMoreElements();) {<br/>
+            // Get the entry name and write it to the output file<br/>
+            String newLine = System.getProperty(&quot;line.separator&quot;);<br/>
+            String zipEntryName =<br/>
+                ((java.util.zip.ZipEntry)entries.nextElement()).getName() +<br/>
+                newLine;<br/>
+            writer.write(zipEntryName, 0, zipEntryName.length());<br/>
+        }<br/>
+    }</div><div>}</div></div><div><br/></div><div>在这个例子中，try-with-resources语句包含了两个用分号隔开的声明：ZipFile和BufferedWriter。当代码块中代码终止，不管是正常还是异常，BufferedWriter和ZipFile对象的close方法都会自动按声明的<b>相反</b>顺序调用。</div><div><br/></div><div>下面的例子用try-with-resources语句自动关闭一个java.sql.Statement对象：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public static void viewTable(Connection con) throws SQLException {<br/><br/>
+    String query = &quot;select COF_NAME, SUP_ID, PRICE, SALES, TOTAL from COFFEES&quot;;<br/><br/>
+    try (Statement stmt = con.createStatement()) {<br/>
+        ResultSet rs = stmt.executeQuery(query);<br/><br/>
+        while (rs.next()) {<br/>
+            String coffeeName = rs.getString(&quot;COF_NAME&quot;);<br/>
+            int supplierID = rs.getInt(&quot;SUP_ID&quot;);<br/>
+            float price = rs.getFloat(&quot;PRICE&quot;);<br/>
+            int sales = rs.getInt(&quot;SALES&quot;);<br/>
+            int total = rs.getInt(&quot;TOTAL&quot;);<br/><br/>
+            System.out.println(coffeeName + &quot;, &quot; + supplierID + &quot;, &quot; +<br/>
+                              price + &quot;, &quot; + sales + &quot;, &quot; + total);<br/>
+        }<br/>
+    } catch (SQLException e) {<br/>
+        JDBCTutorialUtilities.printSQLException(e);<br/>
+    }</div><div>}</div></div><div><br/></div><div>例子中的资源java.sql.Statement是JDBC 4.1及其后面版本的一部分。</div><div><br/></div><div>注意：try-with-resources语句也可以像普通的try语句一样，有catch和finally代码块。在try-with-resources语句中，任何的catch和finally代码块都在所有被声明的资源被关闭后执行。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>被压抑的异常</b></span></span></div><div><br/></div><div>try-with-resources语句相关联的代码块可能会抛出异常。在writeToFileZipFileContents例子中，try代码块中可能会抛出异常，并且有高达两个异常可能会在try-with-resources语句抛出，当试图去关闭ZipFile和BufferedWriter对象的时候。如果在try代码块中抛出一个异常，同时在try-with-resources语句中抛出一个或多个异常，那么在try-with-resources语句中抛出的异常就被压抑了，并且最终在writeToFileZipFileContents方法抛出的异常就是try代码块中抛出的那个异常。你可以通过被try代码块抛出的异常的Throwable.getSuppressed方法找回被压抑的异常。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span
+            style="font-size: 19px;"><b>实现了AutoCloseable或Closeable接口的类</b></span></span></div><div><br/></div><div>看 <a
+            href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_blank"><code
+            style="font-family: Monaco, Courier, &quot;Courier New&quot;;">AutoCloseable</code></a> 和 <a
+            href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_blank"><code style="font-family: Monaco, Courier, &quot;Courier New&quot;;">Closeable</code></a> 接口的javadoc，看看实现了它们的类都有哪些。Closeable接口继承了AutoCloseable接口。不同之处在于，Closeable接口的close方法抛出的是IOException异常，AutoCloseable接口的close方法抛出的是Exception异常。 因此，AutoCloseable的子类可以重写close方法的行为，抛出指定的异常，比如IOException异常，甚至可以不抛出异常。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/finally.html">finally代码块</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/putItTogether.html">组合起来</a>
+    </div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 所有代码块组合在一起</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：3.5 所有代码块组合在一起</li>
+</ol>
+
+<h1>3.5 所有代码块组合在一起</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>前面的章节描述了怎么在ListOfNumbers类的writeList方法里面构建try，catch和finally代码块。现在，我们把所有代码块串起来，看看会发生什么。</div><div><br/></div><div>当所有的组件放在一块，writeList方法看起来就像这样：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void writeList() {<br/>
+    PrintWriter out = null;<br/><br/>
+    try {<br/>
+        System.out.println(&quot;Entering&quot; + &quot; try statement&quot;);<br/><br/>
+        out = new PrintWriter(new FileWriter(&quot;OutFile.txt&quot;));<br/>
+        for (int i = 0; i &lt; SIZE; i++) {<br/>
+            out.println(&quot;Value at: &quot; + i + &quot; = &quot; + list.get(i));<br/>
+        }<br/>
+    } catch (IndexOutOfBoundsException e) {<br/>
+        System.err.println(&quot;Caught IndexOutOfBoundsException: &quot;<br/>
+                          +  e.getMessage());<br/>
+                               <br/>
+    } catch (IOException e) {<br/>
+        System.err.println(&quot;Caught IOException: &quot; +  e.getMessage());<br/>
+                               <br/>
+    } finally {<br/>
+        if (out != null) {<br/>
+            System.out.println(&quot;Closing PrintWriter&quot;);<br/>
+            out.close();<br/>
+        }<br/>
+        else {<br/>
+            System.out.println(&quot;PrintWriter not open&quot;);<br/>
+        }<br/>
+    }</div><div>}</div></div><div><br/></div><div>如前所述，方法的try代码块有三种不同的退出可能性；下面是其中两种：</div><ol><li>try语句失败并抛出一个异常。这个异常有可能是new FileWriter语句抛出的IOException异常，也有可能是for循环里面因为一个错误的索引值引发的IndexOutOfBoundsException异常。</li><li>一切正常，try语句正常退出。</li></ol><div><br/></div><div>让我们看看writeList方法分别在这两种退出情况下发生了什么。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><span style="font-size: 19px;"><b>场景1：发生了一个异常</b></span></span></div><div><br/></div><div>有很多原因可能导致FileWriter创建失败。比如，可能因为程序无法创建或改写这个文件，致使FileWriter的构造器抛出一个IOException异常。</div><div><br/></div><div>当FileWriter抛出一个IOException异常，运行时系统立马停止执行try代码块；方法调用执行的不完全。然后，运行时系统开始从方法调用栈的顶部开始搜索合适的异常处理器。在这个例子中，当IOException异常发生了，FileWriter的构造器方法就是调用栈的顶部。然而，在FileWriter的构造器方法内部没有一个合适的异常处理器，所以运行时系统会在方法调用栈中检查下一个方法——writeList方法。writeList方法有两个异常处理器：一个处理IOException，一个处理IndexOutOfBoundsException。</div><div><br/></div><div>运行时系统按照出现的顺序检查writeList方法的处理器。第一个异常处理器的参数是IndexOutOfBoundsException。它不能匹配抛出的异常类型，所以运行时系统检查下一个异常处理器——IOException。这个处理器能匹配抛出的异常类型，所以运行时系统结束搜索。现在运行时系统已经找到了合适的异常处理器，那个catch代码块的代码将被执行。</div><div><br/></div><div>在异常处理器执行完以后，运行时系统把控制转移到finally代码块。无论上面捕获了什么异常，finally代码块里面的代码一定会执行。在这个场景中，FileWriter从来没有被打开过，所以没必要关闭。当finally代码块执行完，将继续执行finally代码块后面的代码。</div><div><br/></div><div>当ListOfNumbers程序抛出IOException异常的时候，将会输出：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Entering try statement<br/>
+Caught IOException: OutFile.txt</div><div>PrintWriter not open</div></div><div><br/></div><div>在这种场景下，下面的红色粗体代码部分将被执行：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void writeList() {<br/>
+  <b><span style="color: rgb(227, 0, 0);">PrintWriter out = null;<br/><br/>
+    try {<br/>
+        System.out.println(&quot;Entering try statement&quot;);<br/>
+        out = new PrintWriter(new FileWriter(&quot;OutFile.txt&quot;));<br/></span></b>        for (int i = 0; i &lt; SIZE; i++)<br/>
+            out.println(&quot;Value at: &quot; + i + &quot; = &quot; + list.get(i));<br/>
+                             <br/>
+    } catch (IndexOutOfBoundsException e) {<br/>
+        System.err.println(&quot;Caught IndexOutOfBoundsException: &quot;<br/>
+                          + e.getMessage());<br/>
+                               <br/>
+    } <b><span style="color: rgb(227, 0, 0);">catch (IOException e) {<br/>
+        System.err.println(&quot;Caught IOException: &quot; + e.getMessage());<br/>
+    } finally {<br/></span></b>        <span style="color: rgb(227, 0, 0);"><b>if (out != null) {</b></span><br/>
+            System.out.println(&quot;Closing PrintWriter&quot;);<br/>
+            out.close();<br/>
+        }<br/>
+        <span style="color: rgb(227, 0, 0);"><b>else {</b><br/>
+            <b>System.out.println(&quot;PrintWriter not open&quot;);</b><br/>
+        <b>}</b><br/></span>    }</div><div>}</div></div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><b><span style="font-size: 19px;">场景2：try代码块正常退出</span></b></span></div><div><br/></div><div>在这个场景中，try代码块中的语句全部执行成功没有抛出任何异常。直接跳过执行try代码块，把控制转移到finally代码块。因为一切顺利，所以PrintWriter被打开了，当控制到达finally代码块，将会关闭PrintWriter。再次说明，当finally代码块执行完，将继续执行finally代码块后面的代码。</div><div><br/></div><div>当ListOfNumbers程序不发生异常的时候，将输出：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Entering try statement</div><div>Closing PrintWriter</div></div><div><br/></div><div>在这种场景下，下面的红色粗体代码部分将被执行：</div><div><br/></div><div
+            style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>public void writeList() {<br/>
+    <span style="color: rgb(227, 0, 0);"><b>PrintWriter out = null;<br/>
+    try {<br/>
+        System.out.println(&quot;Entering try statement&quot;);<br/>
+        out = new PrintWriter(new FileWriter(&quot;OutFile.txt&quot;));<br/>
+        for (int i = 0; i &lt; SIZE; i++)<br/>
+            out.println(&quot;Value at: &quot; + i + &quot; = &quot; + list.get(i));<br/>
+                 <br/>
+    }</b></span> catch (IndexOutOfBoundsException e) {<br/>
+        System.err.println(&quot;Caught IndexOutOfBoundsException: &quot;<br/>
+                          + e.getMessage());<br/><br/>
+    } catch (IOException e) {<br/>
+        System.err.println(&quot;Caught IOException: &quot; + e.getMessage());<br/>
+                               <br/>
+    } <b><span style="color: rgb(227, 0, 0);">finally {<br/>
+        if (out != null) {<br/>
+            System.out.println(&quot;Closing PrintWriter&quot;);<br/>
+            out.close();<br/>
+        }<br/></span></b>         else {<br/>
+            System.out.println(&quot;PrintWriter not open&quot;);<br/>
+        }<br/>
+    }</div><div>}</div></div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/putItTogether.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/tryResourceClose.html">try-with-resource</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/declaring.html">声明异常</a>
+    </div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

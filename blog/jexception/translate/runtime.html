@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 非检查异常之争议</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：6 非检查异常之争议</li>
+</ol>
+
+<h1>6 非检查异常之争议</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>因为Java编程语言不强制要求方法去捕获或声明非检查异常（RuntimeException，Error和它们的子类），程序员可能会只编写那种只抛出非检查异常的代码，或者让他们自己定义的异常全部继承于RuntimeException。这些短视的做法都可以让程序员写出不受编译期错误打扰的代码，而且不用声明或捕获任何异常。尽管对于程序员来说很方便，它回避了捕获或声明的强制要求，但是却会给程序的使用者造成麻烦。</div><div><br/></div><div>为什么设计者决定强制要求一个方法一定要声明那些在方法范围内可能会抛出的未被捕获的检查异常？方法中任何可能抛出的异常，都是这个方法的公开编程接口的一部分。调用方法的人必须要知道这个方法可能会抛出什么异常，进而可以决定怎么处理它们。异常是方法的公开编程接口的一部分，就跟方法的参数和返回值一样。</div><div><br/></div><div>下一个问题可能就是：“既然方法中包含可能会抛出的异常那么好，让方法的API可以更加文档化，那为什么不把运行时异常也一起声明了？”运行时异常代表了由于编码问题带来的问题，所以，API的客户端代码不能合理地恢复或处理它们。这样的异常包括算术异常，比如除数为0；指针异常，比如通过一个空引用访问对象；还有索引异常，比如通过一个过大或过小的索引访问一个数组。</div><div><br/></div><div>运行时异常可能发生在程序的任何地方，而且种类繁多。把运行时异常加在每一个方法的声明从句里面，会让代码变得不清晰。所以，编译期并不要求你抛出或捕获运行时异常（当然你想这么做也行）。</div><div><br/></div><div>一个很常见的实践就是，当用户调用一个方法的方式不正确时，这个方法就抛出运行时异常。例如，一个方法可以检查它的其中一个参数是否错误地传入了null。如果一个参数是null，这个方法可能会抛出NullPointerException（一种非检查异常）。</div><div><br/></div><div>一般来说，如果只是因为你不想被一大串的方法声明所烦扰，不要因此抛出运行时异常或者创建RuntimeException的子类。</div><div><br/></div><div>这是最基本的指导原则：如果客户端可以合理地预期从一个异常中恢复，就让这个异常是检查异常。如果客户端不能从一个异常中恢复做任何事，就让这个异常是非检查异常。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/creating.html">创建异常类</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/advantages.html">优势</a>
+    </div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

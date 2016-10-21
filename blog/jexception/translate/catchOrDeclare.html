@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 异常捕获和异常声明</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：2 异常捕获和异常声明</li>
+</ol>
+
+<h1>2 异常捕获和异常声明</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>健全的Java语言代码必须依赖于捕获异常（Catch）或声明异常（Specify Requirement）。可能抛出确定性异常（应该是检查异常）的代码必须封装成下面两种情况之一：</div><ul><li>一个捕获异常的try语句。try必须给异常提供一个处理器，正如 <a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/handling.html"
+            style="text-decoration: underline; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Catching and Handling Exceptions</a> 描述的一样。</li><li>方法签名里面声明抛出异常。这个方法必须提供一个throws从句，把所有要抛出的异常列出来正如 <a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/declaring.html"
+            style="text-decoration: none; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Specifying the Exceptions Thrown by a Method</a> 描述的一样。</li></ul><div><br/></div><div>代码如果无法提供必要的捕获异常或声明异常，编译将不通过。</div><div><br/></div><div>不是所有的异常都要求捕获或声明。为了理解这一点，我们需要了解一下三种基本的异常种类，只有其中一种需要捕获或声明。</div><div><br/></div><div><span
+            style="color: rgb(20, 113, 145);"><b><span style="font-size: 19px;">三种异常</span></b></span></div><div><br/></div><div>第一种异常是<b>检查异常</b>（checked exception）。这些都是一个书写良好的程序可以预料和恢复的异常条件。例如，假如一个应用程序要求用户输入一个文件名称，然后把这个文件名称传入 <span
+            style="color: rgb(0, 0, 0); font-family: Monaco, Courier, &quot;Courier New&quot;; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">java.io.FileReader</span> 的构造器作为入参，以此打开这个文件。正常情况下，用户会提供一个存在的文件名，文件可读，所以 <code
+            style="font-family: Monaco, Courier, &quot;Courier New&quot;; color: rgb(0, 0, 0); font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">FileReader</code> 对象创建成功，所以程序执行过程一切正常。但是有时候用户会提供不存在的文件名称，然后这个构造器就会抛出 <span
+            style="color: rgb(0, 0, 0); font-family: Monaco, Courier, &quot;Courier New&quot;; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">java.io.FileNotFoundException</span> 异常。一个书写良好的程序会捕获这个异常，并把这个错误通知给用户，可能会提示他提供一个正确的文件名。</div><div><br/></div><div>检查异常必须要有捕获或声明。除了实现 <code
+            style="font-family: Monaco, Courier, &quot;Courier New&quot;; color: rgb(0, 0, 0); font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Error</code><span
+            style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">, </span><code
+            style="font-family: Monaco, Courier, &quot;Courier New&quot;; color: rgb(0, 0, 0); font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">RuntimeException及其</code>子类的异常，其余的异常全是检查异常。</div><div><br/></div><div>第二种异常是<b>错误</b>（error）。这些都是源于程序外部的异常条件，并且程序自身通常不能预料和恢复它们。例如，假如程序能根据输入的文件名打开文件，但是因为硬件或系统故障不能读取文件。这个不成功的读取过程将会抛出 <span
+            style="color: rgb(0, 0, 0); font-family: Monaco, Courier, &quot;Courier New&quot;; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">java.io.IOError</span> 错误。程序可以选择捕获这个异常，并且通知用户发生的问题——但是如果程序只是打印堆栈跟踪（ <span
+            style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">stack trace</span>）并且退出，也是有意义的。</div><div><br/></div><div>错误不要求一定要捕获或声明。错误是实现了Error及其子类的那部分异常。</div><div><br/></div><div>第三种异常是<b>运行时异常</b>（runtime exception）。这些都是源于程序内部的异常条件，并且程序自身通常不能预料和恢复它们。这通常意味着程序有BUG，比如逻辑错误或调用了错误的API。例如，考虑前面所说的把一个文件名传给 <code
+            style="font-family: Monaco, Courier, &quot;Courier New&quot;; color: rgb(0, 0, 0); font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">FileReader</code> 构造器的那个程序，如果把null传给了构造器并引发了一个逻辑错误，构造器将抛出 <span
+            style="color: rgb(0, 0, 0); font-family: Monaco, Courier, &quot;Courier New&quot;; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">NullPointerException</span> 异常。应用程序可以捕获这个异常，但是消除引发这个异常的BUG会更加有意义。</div><div><br/></div><div>运行时异常不一定要求捕获或声明。运行时异常是实现了RuntimeException及其子类的那部分异常。</div><div><br/></div><div>错误和运行时异常统称为非检查异常（unchecked exception）。</div><div><br/></div><div><span
+            style="font-size: 19px;"><b><span style="color: rgb(20, 113, 145);">绕过异常捕获或异常声明</span></b></span></div><div><br/></div><div>有些程序员认为，在异常处理机制中，只有严重的缺陷才要求异常捕获或异常声明。并且为了绕过捕获或声明，直接用非检查异常代替检查异常。一般情况下，这是不推荐的做法。 <span
+            style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html"
+            style="text-decoration: underline; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Unchecked Exceptions — The Controversy</a><span
+            style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span> 章节介绍了在什么情况下适合用非检查异常。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/catchOrDeclare.html">原文地址</a></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：<a href="/leaforheart.github.io/blog/jexception/translate/definition.html">异常是什么</a>
+    </div>
+    <div class="article-next">下一篇：<a href="/leaforheart.github.io/blog/jexception/translate/handling.html">捕获并处理</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>

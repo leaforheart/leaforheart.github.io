@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/leaforheart.github.io/image/myico.jpg">
+
+    <title>leaforbook - 异常是什么？</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/leaforheart.github.io/css/starter.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/leaforheart.github.io/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/leaforheart.github.io/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="/leaforheart.github.io/js/jquery-3.1.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap core JavaScript================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/leaforheart.github.io/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#home-bar').bind('click', function () {
+                $('#home-bar').addClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#about-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').addClass('active');
+                $('#contact-bar').removeClass('active');
+            })
+            $('#contact-bar').bind('click', function () {
+                $('#home-bar').removeClass('active');
+                $('#about-bar').removeClass('active');
+                $('#contact-bar').addClass('active');
+            })
+        })
+    </script>
+</head>
+
+<body>
+<img src="/leaforheart.github.io/image/logo.jpg" width="0" height="0">
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/leaforheart.github.io/index.html"><img
+                    src="/leaforheart.github.io/image/logo.png" width="50%"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home-bar"><a href="/leaforheart.github.io/index.html" class="navbar-link">Home</a></li>
+                <li id="about-bar"><a href="/leaforheart.github.io/about.html" class="navbar-link">About</a></li>
+                <li id="contact-bar"><a href="/leaforheart.github.io/contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<ol class="breadcrumb">
+    <li><a href="/leaforheart.github.io/index.html">Home</a></li>
+    <li><a href="/leaforheart.github.io/blog/index.html">技术博客</a></li>
+    <li><a href="/leaforheart.github.io/blog/jexception/index.html">Java 异常</a></li>
+    <li class="active">翻译：1 异常是什么？</li>
+</ol>
+
+<h1>1 异常是什么？</h1>
+<div class="article-subtitle"><p>译者：<a href="/leaforheart.github.io/about.html">肖一林</a> 2016年10月21日</p></div>
+
+<div class="article-text">
+    <span><div>异常这个术语是“异常事件”这个词语的简称。</div><div><br/></div><table
+            style="-evernote-table:true;border-collapse:collapse;table-layout:fixed;margin-left:0px;width:100%;"><tbody><tr><td
+            style="border-style:solid;border-width:1px;border-color:rgb(211,211,211);padding:10px;margin:0px;width:99.9236641221374%;"><div>定义：异常是一个事件，发生在程序的执行期间，破坏了程序指令的正常流程。</div></td></tr></tbody></table><div><br/></div><div>当一个方法出现了错误，该方法创建一个对象，并把它提交给运行时系统。这个对象，就叫做异常对象，包含了错误信息，包括了它的类型以及错误发生时程序的状态。创建一个异常对象，并把它提交给运行时系统就叫做<b>抛出异常</b>。</div><div><br/></div><div>当一个方法抛出一个异常，运行时系统试图发现某物去处理它。处理这个异常的“某物”有可能是调用了错误发生处的方法的有序方法列表中的任一方法。这个方法列表被称为<b>调用栈</b>（call stack），见下图：</div><div><br/></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/jexception/image/1.png" type="image/png"
+                                            style="height: auto;"/></div><div
+            style="text-align: center">The call stack</div><div><br/></div><div><br/></div><div>运行时系统搜索调用栈中包含可以处理这个异常的代码块的方法。这个代码块叫做<b>异常处理器</b>。这个搜索从错误发生的那个方法开始，并在调用栈中以调用顺序相反的顺序进行搜索。当一个适当的处理器被发现，运行时系统就把这个异常交给这个处理器。如果抛出的异常对象的类型和处理器可以处理的类型相匹配，异常处理器就会认为是合适的。</div><div><br/></div><div>异常处理器的挑选称之为<b>捕获异常</b>。如果运行时系统穷尽了调用栈中的所有方法，都没有找到合适的异常处理器，就像下图所示，运行时系统将终止（因此程序也会跟着终止）。</div><div><br/></div><div
+            style="text-align: center"><img src="/leaforheart.github.io/blog/jexception/image/2.png" type="image/png" style="height: auto;"/></div><div
+            style="text-align: center">在调用栈中搜索异常处理器</div><div><br/></div><div><br/></div><div><br/></div><div>使用异常管理错误比起传统的错误管理技术有不少的优势，你可以从<a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/advantages.html"
+            style="text-decoration: underline; color: rgb(58, 135, 207); font-family: Arial, Helvetica, sans-serif; font-size: 12.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
+            target="_top">Advantages of Exceptions</a>章节中获取更多相关信息。</div><div><br/></div><div><br/></div><div><hr/></div><div><br/></div><div><br/></div><div><a
+            href="https://docs.oracle.com/javase/tutorial/essential/exceptions/definition.html">原文地址</a></div><div><br/></div><div><br/></div></span>
+</div>
+
+<div class="article-next-back">
+    <div class="article-back">上一篇：没有了
+    </div>
+    <div class="article-next">下一篇：<a
+            href="/leaforheart.github.io/blog/jexception/translate/catchOrDeclare.html">捕获和声明</a></div>
+</div>
+
+<link href="/leaforheart.github.io/css/article.css" rel="stylesheet">
+
+</body>
+</html>
